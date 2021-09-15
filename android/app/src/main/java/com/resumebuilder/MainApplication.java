@@ -4,12 +4,17 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+// import io.realm.react.RealmReactPackage; // add this import
+
+
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -19,6 +24,14 @@ public class MainApplication extends Application implements ReactApplication {
         public boolean getUseDeveloperSupport() {
           return BuildConfig.DEBUG;
         }
+
+        // @Override
+        // protected List<ReactPackage> getPackages() {
+        //     return Arrays.<ReactPackage>asList(
+        //         new MainReactPackage(),
+        //         new RealmReactPackage() // add this line
+        //     );
+        // }
 
         @Override
         protected List<ReactPackage> getPackages() {
