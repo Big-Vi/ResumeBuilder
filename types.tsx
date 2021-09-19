@@ -27,9 +27,12 @@ export type RootStackScreenProps<Screen extends keyof RootStackParamList> = Nati
 export type RootTabParamList = {
   Resume: undefined;
   CoverLetter: undefined;
+  WelcomeView: undefined;
+  Projects: undefined;
+  TaskList: { user: string, projectPartition: string };
 };
 
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> = CompositeScreenProps<
-  BottomTabScreenProps<RootTabParamList, Screen>,
+  BottomTabScreenProps<RootTabParamList, 'Resume'>,
   NativeStackScreenProps<RootStackParamList>
 >;

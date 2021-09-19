@@ -2,19 +2,19 @@ import * as React from 'react';
 import { StyleSheet, View, Text, Button } from 'react-native';
 
 import EditScreenInfo from '../components/EditScreenInfo';
+import { RootTabScreenProps } from '../../types';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import { RootTabScreenProps } from '../types';
 
-export default function CoverLetterScreen({ navigation }: RootTabScreenProps<'CoverLetter'>) {
+export default function ResumeScreen({ navigation }: RootTabScreenProps<'Resume'>) {
   return (
     <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>CoverLetter Screen</Text>
+      <Text>Resume Scrn</Text>
       <Button
-        title="Add cover letter"
+        title="Add resume"
         onPress={() => navigation.navigate('CoverLetter')}
       />
     </SafeAreaView>
-  );
+  );  
 }
 
 const styles = StyleSheet.create({
