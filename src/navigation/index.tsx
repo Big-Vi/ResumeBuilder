@@ -7,16 +7,12 @@ import NotFoundScreen from '../screens/NotFoundScreen';
 import ModalScreen from '../screens/ModalScreen';
 import ResumeScreen from '../screens/ResumeScreen';
 
-import CoverLetterScreen from '../screens/CoverLetterScreen';
 import { Pressable } from 'react-native'
 import * as React from 'react'
 import { WelcomeView } from "../screens/WelcomeView";
-import { TasksProvider } from "../../providers/TasksProvider";
 import { CoverLetterProvider } from "../../providers/CoverLetterProvider";
 import { Logout } from "../components/Logout";
-import { ProjectsView } from "../../views/ProjectsView";
-import { TasksView } from "../../views/TasksView";
-import { CoverLetterView } from "../../views/CoverLetterView";
+import { CoverLetterScreen } from "@screens/CoverLetterScreen";
 
 export default function Navigation() {
     return (
@@ -28,7 +24,6 @@ export default function Navigation() {
   
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-const Realm = require('realm');
 function RootNavigator() {
   return (
     <Stack.Navigator>
@@ -66,28 +61,6 @@ function BottomTabNavigator() {
       })}
       >
       <BottomTab.Screen
-          name="Projects"
-          component={ProjectsView}
-          // headerBackTitle="log out"
-          options={{
-            title: "ProjectsView",
-            headerLeft: function Header() {
-              return <Logout />;
-            }
-          }}
-        />
-      <BottomTab.Screen name="TaskList">
-        {(props) => {
-          const { navigation, route } = props;
-          const { user, projectPartition } = route.params;
-          return (
-            <TasksProvider user={user} projectPartition={projectPartition}>
-              <TasksView navigation={navigation} route={route} />
-            </TasksProvider>
-          );
-        }}
-      </BottomTab.Screen>
-      <BottomTab.Screen
         name="WelcomeView"
         component={WelcomeView}
         options={{ title: "Task Tracker" }}
@@ -96,35 +69,22 @@ function BottomTabNavigator() {
         name="Resume"
         component={ResumeScreen}
         options={({ navigation }: RootTabScreenProps<'Resume'>) => ({
-          title: 'Resume'
+          title: 'Resume',
+          headerLeft: function Header() {
+            return <Logout />;
+          }
         })}
       />
-      <BottomTab.Screen name="CoverLetter">
+      <BottomTab.Screen name="CoverLetter"> 
         {(props) => {
           const { navigation, route } = props;
           return (
             <CoverLetterProvider>
-              <CoverLetterView navigation={navigation} />
+              <CoverLetterScreen navigation={navigation} />
             </CoverLetterProvider>
           );
         }}
       </BottomTab.Screen>
-      {/* <BottomTab.Screen
-        name="CoverLetter"
-        component={CoverLetterScreen}
-        options={({ navigation }: RootTabScreenProps<'CoverLetter'>) => ({
-          title: 'Cover Letter',
-          headerRight: () => (
-            <Pressable
-              onPress={() => navigation.navigate('Modal')}
-              style={({ pressed }) => ({
-                opacity: pressed ? 0.5 : 1,
-            })}>
-              <Ionicons name="add" size={20} color="blue" />
-            </Pressable>
-          ),
-        })}
-      /> */}
     </BottomTab.Navigator>
   );
 }

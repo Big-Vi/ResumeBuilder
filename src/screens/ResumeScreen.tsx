@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { StyleSheet, View, Text, Button } from 'react-native';
 
-import EditScreenInfo from '../components/EditScreenInfo';
 import { RootTabScreenProps } from '../../types';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 

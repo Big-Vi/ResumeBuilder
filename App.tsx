@@ -6,18 +6,18 @@
  * https://github.com/react-native-community/react-native-template-typescript
  *
  * @format
- */
-{/* <script src="http://localhost:8097"></script> */}
+ */  
+{/* <script src="http://localhost:8097"></script>  */}
 import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Navigation from './src/navigation';
-import { AuthProvider } from "./providers/AuthProvider";
+import { AuthProvider } from "@providers/AuthProvider";
 
 const App = () => {
   return (
     <AuthProvider>
       <SafeAreaProvider>
-          <Navigation/>
+          <Navigation/> 
       </SafeAreaProvider>
     </AuthProvider>
   );

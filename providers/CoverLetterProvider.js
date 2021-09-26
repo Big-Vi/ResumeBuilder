@@ -1,7 +1,8 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import Realm from "realm";
-import { CoverLetter } from "../schemas";
 import { useAuth } from "./AuthProvider";
+import { CoverLetter } from "../schemas";
+import { ObjectId } from "bson";
 
 const CoverLetterContext = React.createContext(null);
 
@@ -15,13 +16,13 @@ const CoverLetterProvider = ({ children }) => {
   const realmRef = useRef(null);
 
   useEffect(() => {
+    
     // Enables offline-first: opens a local realm immediately without waiting 
     // for the download of a synchronized realm to be completed.
     const OpenRealmBehaviorConfiguration = {
       type: 'openImmediately',
     };
     const config = {
-      schema: [CoverLetter.schema],
       sync: {
         user: user,
         partitionValue: `user=${user.id}`,
@@ -30,15 +31,14 @@ const CoverLetterProvider = ({ children }) => {
       },
     };
     // open a realm for this particular project
-    Realm.open(config).then((projectRealm) => {
-      realmRef.current = projectRealm;
-
-      const syncCoverLetter = projectRealm.objects("CoverLetter");
-      let sortedCoverLetter = syncCoverLetter.sorted("name");
-      setCoverLetter([...sortedCoverLetter]);
-      sortedCoverLetter.addListener(() => {
-        setCoverLetter([...sortedCoverLetter]);
-      });
+     Realm.open(config).then((projectRealm) => {
+        realmRef.current = projectRealm;
+        const syncCoverLetter = projectRealm.objects("CoverLetter").sorted("name");
+        let sortedCoverLetter = syncCoverLetter;
+        setCoverLetter(sortedCoverLetter); 
+        sortedCoverLetter.addListener(() => {
+          setCoverLetter(sortedCoverLetter);
+        });
     });
 
     return () => {
@@ -49,39 +49,44 @@ const CoverLetterProvider = ({ children }) => {
         realmRef.current = null;
         setCoverLetter([]);
       }
-    };
+    }; 
   }, [user]);
 
-  const createCoverLetter = (newCoverLetterName) => {
+  const createCoverLetter = (newCoverLetterFields) => {
     const projectRealm = realmRef.current;
     projectRealm.write(() => {
       // Create a new task in the same partition -- that is, in the same project.
       projectRealm.create(
         "CoverLetter",
         new CoverLetter({
-          name: newCoverLetterName || "New CoverLetter",
-          partition: user.id,
+          name: newCoverLetterFields.newCoverLetterName || "New CoverLetter",
+          salutation: newCoverLetterFields.newCoverLetterSalutation,
+          intro: newCoverLetterFields.newCoverLetterIntro,
+          body: newCoverLetterFields.newCoverLetterBody,
+          closing: newCoverLetterFields.newCoverLetterClosing,
+          signature: newCoverLetterFields.newCoverLetterSignature,
+          partition: `user=${user.id}`,
         })
       );
     });
   };
 
-  const setCoverLetterStatus = (cl, status) => {
-    // One advantage of centralizing the realm functionality in this provider is
-    // that we can check to make sure a valid status was passed in here.
-    if (
-      ![
-        CoverLetter.STATUS_OPEN,
-        CoverLetter.STATUS_IN_PROGRESS,
-        CoverLetter.STATUS_COMPLETE,
-      ].includes(status)
-    ) {
-      throw new Error(`Invalid status: ${status}`);
-    }
-    const projectRealm = realmRef.current;
+  const findCoverLetter = (id) => {
+    const realm = realmRef.current;
+    const coverLetter = realm.objects("CoverLetter").filtered(`_id = oid(${id})`);
+    return coverLetter
+  }
 
+  const updateCoverLetter = (CoverLetter, coverLetterFields) => {
+    const projectRealm = realmRef.current;
     projectRealm.write(() => {
-      cl.status = status;
+      console.log(CoverLetter[0])
+      CoverLetter[0].name = coverLetterFields.newCoverLetterName
+      CoverLetter[0].salutation = coverLetterFields.newCoverLetterSalutation
+      CoverLetter[0].intro = coverLetterFields.newCoverLetterIntro
+      CoverLetter[0].body = coverLetterFields.newCoverLetterBody
+      CoverLetter[0].closing = coverLetterFields.newCoverLetterClosing
+      CoverLetter[0].signature = coverLetterFields.newCoverLetterSignature
     });
   };
 
@@ -90,7 +95,7 @@ const CoverLetterProvider = ({ children }) => {
     const projectRealm = realmRef.current;
     projectRealm.write(() => {
       projectRealm.delete(cl);
-      setCoverLetter([...projectRealm.objects("CoverLetter").sorted("name")]);
+      setCoverLetter(projectRealm.objects("CoverLetter").sorted("name"));
     });
   };
 
@@ -101,9 +106,10 @@ const CoverLetterProvider = ({ children }) => {
     <CoverLetterContext.Provider
       value={{
         createCoverLetter,
+        findCoverLetter,
+        updateCoverLetter,
         deleteCoverLetter,
-        setCoverLetterStatus,
-        coverLetters,
+        coverLetters
       }}
     >
       {children}

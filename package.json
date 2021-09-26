@@ -7,7 +7,9 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
+    "postinstall": "rndebugger-open",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "start-packager": "env REACT_DEBUGGER=\"$([ -d '/Applications/React Native Debugger.app' ] && echo \"open 'rndebugger://set-debugger-loc?host=localhost&port=8081' --args\")\" node node_modules/react-native/local-cli/cli.js start"
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.11",
@@ -18,10 +20,12 @@
     "prop-types": "^15.7.2",
     "react": "17.0.2",
     "react-devtools": "^4.18.0",
+    "react-hook-form": "^7.15.4",
     "react-native": "0.65.1",
     "react-native-elements": "^3.4.2",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-get-random-values": "^1.7.0",
+    "react-native-popup-menu": "^0.15.11",
     "react-native-reanimated": "^2.2.1",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.7.2",
@@ -36,9 +40,10 @@
     "@types/react-native": "^0.64.5",
     "@types/react-test-renderer": "^16.9.2",
     "babel-jest": "^26.6.3",
+    "babel-plugin-module-resolver": "^4.1.0",
     "eslint": "^7.14.0",
     "jest": "^26.6.3",
-    "metro-react-native-babel-preset": "^0.66.0",
+    "metro-react-native-babel-preset": "^0.66.2",
     "react-native-codegen": "^0.0.7",
     "react-test-renderer": "17.0.2",
     "typescript": "^3.8.3"

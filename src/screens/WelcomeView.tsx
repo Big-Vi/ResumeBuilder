@@ -19,7 +19,6 @@ export function WelcomeView({ navigation }: RootTabScreenProps<'WelcomeView'>) {
   // The onPressSignIn method calls AuthProvider.signIn with the
   // email/password in state.
   const onPressSignIn = async () => {
-    console.log("Press sign in");
     try {
       await signIn(email, password);
     } catch (error) {

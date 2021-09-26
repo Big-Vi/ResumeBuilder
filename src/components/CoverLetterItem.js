@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { ListItem, Text } from "react-native-elements";
-import { useCoverLetters } from "../../providers/CoverLetterProvider";
-import { ActionSheet } from "./ActionSheet";
+import { useCoverLetters } from "@providers/CoverLetterProvider";
 import { CoverLetter } from "../../schemas";
+import { TouchableOpacity } from "react-native";
+import { ActionSheet } from "@components/ActionSheet";
 
 import styles from "../../stylesheet";
 
-export function CoverLetterItem({ cl }) {
+export function CoverLetterItem({ cl, editCoverLetterItem }) {
   const [actionSheetVisible, setActionSheetVisible] = useState(false);
-
-  const { deleteCoverLetter, setCoverLetterStatus } = useCoverLetters();
+  const { deleteCoverLetter } = useCoverLetters();
   const actions = [
     {
       title: "Delete",
@@ -17,50 +17,23 @@ export function CoverLetterItem({ cl }) {
         deleteCoverLetter(cl);
       },
     },
+    {
+      title: "Edit",
+      action: () => {
+        editCoverLetterItem(cl._id);
+      },
+    },
   ];
-
-  // For each possible status other than the current status, make an action to
-  // move the task into that status. Rather than creating a generic method to
-  // avoid repetition, we split each status to separate each case in the code
-  // below for demonstration purposes.
-  if (cl.status !== "" && cl.status !== CoverLetter.STATUS_OPEN) {
-    actions.push({
-      title: "Mark Open",
-      action: () => {
-        setCoverLetterStatus(cl, CoverLetter.STATUS_OPEN);
-      },
-    });
-  }
-  if (cl.status !== CoverLetter.STATUS_IN_PROGRESS) {
-    actions.push({
-      title: "Mark In Progress",
-      action: () => {
-        setCoverLetterStatus(cl, CoverLetter.STATUS_IN_PROGRESS);
-      },
-    });
-  }
-  if (cl.status !== CoverLetter.STATUS_COMPLETE) {
-    actions.push({
-      title: "Mark Complete",
-      action: () => {
-        setCoverLetterStatus(cl, CoverLetter.STATUS_COMPLETE);
-      },
-    });
-  }
-
+  
   return (
     <>
-      <ActionSheet
+    <ActionSheet
         visible={actionSheetVisible}
-        closeOverlay={() => {
-          if (cl.status) {
-            setActionSheetVisible(false);
-          }
-        }}
+        closeOverlay={() => {setActionSheetVisible(false);}}
         actions={actions}
       />
       <ListItem 
-        key={cl.id} 
+        key={cl._id} 
         onPress={() => {
           setActionSheetVisible(true);
         }}
@@ -70,13 +43,6 @@ export function CoverLetterItem({ cl }) {
             {cl.name}
             </ListItem.Title>
         </ListItem.Content>
-        {
-          cl.status === CoverLetter.STATUS_COMPLETE ? (
-            <Text>&#10004; {/* checkmark */}</Text>
-          ) : cl.status === CoverLetter.STATUS_IN_PROGRESS ? (
-            <Text>In Progress</Text>
-          ) : null
-        }
       </ListItem>
     </>
   );
