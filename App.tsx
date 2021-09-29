@@ -11,14 +11,18 @@
 import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Navigation from './src/navigation';
-import { AuthProvider } from "@providers/AuthProvider";
+import { AuthProvider } from "./providers/AuthProvider";
+import { Provider } from 'react-redux'
+import { store } from './src/state/store'
 
 const App = () => {
   return (
     <AuthProvider>
+        <Provider store={store}>
       <SafeAreaProvider>
           <Navigation/> 
       </SafeAreaProvider>
+      </Provider>
     </AuthProvider>
   );
 };

@@ -6,6 +6,7 @@
     "paths": {
       "@providers/*": ["./providers/*"],
       "@components/*": ["./src/components/*"],
+      "@navigation/*": ["./src/navigation"]
     },
     "types": ["node"],
     "module": "commonjs",                     /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'. */

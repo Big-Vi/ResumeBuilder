@@ -72,7 +72,7 @@ export function EditCoverLetter({ updateCoverLetter, modalVisibleState, clickedC
           <Button
             title="Save"
             onPress={() => {
-              setModalVisible(false);
+              setModalVisible(!modalVisible);
               updateCoverLetter(clickedCL, newCoverLetterFields);
               setParentState()
             }}

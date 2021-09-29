@@ -16,7 +16,11 @@
     "@react-navigation/bottom-tabs": "^6.0.5",
     "@react-navigation/native": "^6.0.2",
     "@react-navigation/native-stack": "^6.1.0",
+    "@types/react": "^17.0.24",
+    "@types/react-redux": "^7.1.18",
+    "@types/redux-thunk": "^2.1.0",
     "bson": "^4.4.0",
+    "module-alias": "^2.2.2",
     "prop-types": "^15.7.2",
     "react": "17.0.2",
     "react-devtools": "^4.18.0",
@@ -25,15 +29,21 @@
     "react-native-elements": "^3.4.2",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-get-random-values": "^1.7.0",
+    "react-native-html-to-pdf": "^0.10.0",
     "react-native-popup-menu": "^0.15.11",
     "react-native-reanimated": "^2.2.1",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.7.2",
     "react-native-vector-icons": "^8.1.0",
-    "realm": "^10.8.0"
+    "react-redux": "^7.2.5",
+    "realm": "^10.8.0",
+    "redux": "^4.1.1",
+    "redux-devtools-extension": "^2.13.9",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
+    "@babel/plugin-proposal-export-namespace-from": "^7.14.5",
     "@babel/runtime": "^7.12.5",
     "@react-native-community/eslint-config": "^2.0.0",
     "@types/jest": "^26.0.23",
@@ -61,5 +71,9 @@
       "json",
       "node"
     ]
+  },
+  "_moduleAliases": {
+    "@providers": "dist/rest/providers",
+    "@components": "dist/components"
   }
 }

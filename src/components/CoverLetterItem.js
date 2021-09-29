@@ -7,7 +7,7 @@ import { ActionSheet } from "@components/ActionSheet";
 
 import styles from "../../stylesheet";
 
-export function CoverLetterItem({ cl, editCoverLetterItem }) {
+export function CoverLetterItem({ cl, editCoverLetterItem, previewCoverLetterItem }) {
   const [actionSheetVisible, setActionSheetVisible] = useState(false);
   const { deleteCoverLetter } = useCoverLetters();
   const actions = [
@@ -21,6 +21,12 @@ export function CoverLetterItem({ cl, editCoverLetterItem }) {
       title: "Edit",
       action: () => {
         editCoverLetterItem(cl._id);
+      },
+    },
+    {
+      title: "Preview",
+      action: () => {
+        previewCoverLetterItem(cl._id);
       },
     },
   ];
