@@ -1,19 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, TextInput, Button, Alert } from "react-native";
-import { useAuth } from "../../providers/AuthProvider";
-import styles from "../../stylesheet";
-import { RootTabScreenProps } from '../../types';
+import React, {useEffect, useState} from 'react';
+import {View, Text, TextInput, Button, Alert} from 'react-native';
+import {useAuth} from '../../providers/AuthProvider';
+import styles from '../../stylesheet';
+import {RootTabScreenProps} from '../../types';
 
-export function WelcomeView({ navigation }: RootTabScreenProps<'WelcomeView'>) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const { user, signUp, signIn } = useAuth();
+export function WelcomeView({navigation}: RootTabScreenProps<'WelcomeView'>) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const {user, signUp, signIn} = useAuth();
 
   useEffect(() => {
     // If there is a user logged in, go to the Projects page.
     if (user != null) {
-      navigation.navigate("Resume");
+      navigation.navigate('Resume');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   // The onPressSignIn method calls AuthProvider.signIn with the
@@ -51,7 +52,7 @@ export function WelcomeView({ navigation }: RootTabScreenProps<'WelcomeView'>) {
       </View>
       <View style={styles.inputContainer}>
         <TextInput
-          onChangeText={(text) => setPassword(text)}
+          onChangeText={text => setPassword(text)}
           value={password}
           placeholder="password"
           style={styles.inputStyle}

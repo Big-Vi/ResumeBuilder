@@ -1,6 +1,6 @@
-import React, { useContext, useState, useEffect, useRef } from "react";
-import Realm from "realm";
-import { getRealmApp } from "../getRealmApp";
+import React, {useContext, useState, useEffect, useRef} from 'react';
+import Realm from 'realm';
+import {getRealmApp} from '../getRealmApp';
 
 // Access the Realm App.
 const app = getRealmApp();
@@ -8,15 +8,14 @@ const app = getRealmApp();
 // Create a new Context object that will be provided to descendants of
 // the AuthProvider.
 const AuthContext = React.createContext(null);
-import { CoverLetter } from "../schemas";
+import {CoverLetter} from '../schemas';
 
 // The AuthProvider is responsible for user management and provides the
 // AuthContext value to its descendants. Components under an AuthProvider can
 // use the useAuth() hook to access the auth value.
-const AuthProvider = ({ children }) => {
+const AuthProvider = ({children}) => {
   const [user, setUser] = useState(app.currentUser);
   const realmRef = useRef(null);
-  const [projectData, setProjectData] = useState([]);
 
   useEffect(() => {
     if (!user) {
@@ -33,7 +32,7 @@ const AuthProvider = ({ children }) => {
 
     // Open a realm with the logged in user's partition value in order
     // to get the projects that the logged in user is a member of
-    Realm.open(config).then((userRealm) => {
+    Realm.open(config).then(userRealm => {
       realmRef.current = userRealm;
     });
 
@@ -69,7 +68,7 @@ const AuthProvider = ({ children }) => {
       return;
     }
     user.logOut();
-    setUser(null); 
+    setUser(null);
   };
 
   return (
@@ -79,8 +78,7 @@ const AuthProvider = ({ children }) => {
         signIn,
         signOut,
         user,
-      }}
-    >
+      }}>
       {children}
     </AuthContext.Provider>
   );
@@ -91,9 +89,9 @@ const AuthProvider = ({ children }) => {
 const useAuth = () => {
   const auth = useContext(AuthContext);
   if (auth == null) {
-    throw new Error("useAuth() called outside of a AuthProvider?");
+    throw new Error('useAuth() called outside of a AuthProvider?');
   }
   return auth;
 };
 
-export { AuthProvider, useAuth };
+export {AuthProvider, useAuth};

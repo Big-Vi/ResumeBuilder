@@ -1,14 +1,13 @@
-import React, { useContext, useState, useEffect, useRef } from "react";
-import Realm from "realm";
-import { useAuth } from "./AuthProvider";
-import { CoverLetter } from "../schemas";
-import { ObjectId } from "bson";
+import React, {useContext, useState, useEffect, useRef} from 'react';
+import Realm from 'realm';
+import {useAuth} from './AuthProvider';
+import {CoverLetter} from '../schemas';
 
 const CoverLetterContext = React.createContext(null);
 
-const CoverLetterProvider = ({ children }) => {
+const CoverLetterProvider = ({children}) => {
   const [coverLetters, setCoverLetter] = useState([]);
-  const { user } = useAuth();
+  const {user} = useAuth();
 
   // Use a Ref to store the realm rather than the state because it is not
   // directly rendered, so updating it should not trigger a re-render as using
@@ -16,8 +15,7 @@ const CoverLetterProvider = ({ children }) => {
   const realmRef = useRef(null);
 
   useEffect(() => {
-    
-    // Enables offline-first: opens a local realm immediately without waiting 
+    // Enables offline-first: opens a local realm immediately without waiting
     // for the download of a synchronized realm to be completed.
     const OpenRealmBehaviorConfiguration = {
       type: 'openImmediately',
@@ -31,14 +29,16 @@ const CoverLetterProvider = ({ children }) => {
       },
     };
     // open a realm for this particular project
-     Realm.open(config).then((projectRealm) => {
-        realmRef.current = projectRealm;
-        const syncCoverLetter = projectRealm.objects("CoverLetter").sorted("name");
-        let sortedCoverLetter = syncCoverLetter;
-        setCoverLetter(sortedCoverLetter); 
-        sortedCoverLetter.addListener(() => {
-          setCoverLetter(sortedCoverLetter);
-        });
+    Realm.open(config).then(projectRealm => {
+      realmRef.current = projectRealm;
+      const syncCoverLetter = projectRealm
+        .objects('CoverLetter')
+        .sorted('name');
+      let sortedCoverLetter = syncCoverLetter;
+      setCoverLetter(sortedCoverLetter);
+      sortedCoverLetter.addListener(() => {
+        setCoverLetter(sortedCoverLetter);
+      });
     });
 
     return () => {
@@ -49,53 +49,55 @@ const CoverLetterProvider = ({ children }) => {
         realmRef.current = null;
         setCoverLetter([]);
       }
-    }; 
+    };
   }, [user]);
 
-  const createCoverLetter = (newCoverLetterFields) => {
+  const createCoverLetter = newCoverLetterFields => {
     const projectRealm = realmRef.current;
     projectRealm.write(() => {
       // Create a new task in the same partition -- that is, in the same project.
       projectRealm.create(
-        "CoverLetter",
+        'CoverLetter',
         new CoverLetter({
-          name: newCoverLetterFields.newCoverLetterName || "New CoverLetter",
+          name: newCoverLetterFields.newCoverLetterName || 'New CoverLetter',
           salutation: newCoverLetterFields.newCoverLetterSalutation,
           intro: newCoverLetterFields.newCoverLetterIntro,
           body: newCoverLetterFields.newCoverLetterBody,
           closing: newCoverLetterFields.newCoverLetterClosing,
           signature: newCoverLetterFields.newCoverLetterSignature,
           partition: `user=${user.id}`,
-        })
+        }),
       );
     });
   };
 
-  const findCoverLetter = (id) => {
+  const findCoverLetter = id => {
     const realm = realmRef.current;
-    const coverLetter = realm.objects("CoverLetter").filtered(`_id = oid(${id})`);
-    return coverLetter
-  }
+    const coverLetter = realm
+      .objects('CoverLetter')
+      .filtered(`_id = oid(${id})`);
+    return coverLetter;
+  };
 
-  const updateCoverLetter = (CoverLetter, coverLetterFields) => {
+  const updateCoverLetter = (CoverLetterArg, coverLetterFields) => {
     const projectRealm = realmRef.current;
     projectRealm.write(() => {
-      console.log(CoverLetter[0])
-      CoverLetter[0].name = coverLetterFields.newCoverLetterName
-      CoverLetter[0].salutation = coverLetterFields.newCoverLetterSalutation
-      CoverLetter[0].intro = coverLetterFields.newCoverLetterIntro
-      CoverLetter[0].body = coverLetterFields.newCoverLetterBody
-      CoverLetter[0].closing = coverLetterFields.newCoverLetterClosing
-      CoverLetter[0].signature = coverLetterFields.newCoverLetterSignature
+      console.log(CoverLetterArg[0]);
+      CoverLetterArg[0].name = coverLetterFields.newCoverLetterName;
+      CoverLetterArg[0].salutation = coverLetterFields.newCoverLetterSalutation;
+      CoverLetterArg[0].intro = coverLetterFields.newCoverLetterIntro;
+      CoverLetterArg[0].body = coverLetterFields.newCoverLetterBody;
+      CoverLetterArg[0].closing = coverLetterFields.newCoverLetterClosing;
+      CoverLetterArg[0].signature = coverLetterFields.newCoverLetterSignature;
     });
   };
 
   // Define the function for deleting a task.
-  const deleteCoverLetter = (cl) => {
+  const deleteCoverLetter = cl => {
     const projectRealm = realmRef.current;
     projectRealm.write(() => {
       projectRealm.delete(cl);
-      setCoverLetter(projectRealm.objects("CoverLetter").sorted("name"));
+      setCoverLetter(projectRealm.objects('CoverLetter').sorted('name'));
     });
   };
 
@@ -109,9 +111,8 @@ const CoverLetterProvider = ({ children }) => {
         findCoverLetter,
         updateCoverLetter,
         deleteCoverLetter,
-        coverLetters
-      }}
-    >
+        coverLetters,
+      }}>
       {children}
     </CoverLetterContext.Provider>
   );
@@ -123,9 +124,11 @@ const CoverLetterProvider = ({ children }) => {
 const useCoverLetters = () => {
   const coverLetter = useContext(CoverLetterContext);
   if (coverLetter == null) {
-    throw new Error("useCoverLetters() called outside of a CoverLetterProvider?"); // an alert is not placed because this is an error for the developer not the user
+    throw new Error(
+      'useCoverLetters() called outside of a CoverLetterProvider?',
+    ); // an alert is not placed because this is an error for the developer not the user
   }
   return coverLetter;
 };
 
-export { CoverLetterProvider, useCoverLetters };
+export {CoverLetterProvider, useCoverLetters};

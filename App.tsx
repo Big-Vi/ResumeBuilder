@@ -6,22 +6,22 @@
  * https://github.com/react-native-community/react-native-template-typescript
  *
  * @format
- */  
-{/* <script src="http://localhost:8097"></script>  */}
+ */
+
 import React from 'react';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 import Navigation from './src/navigation';
-import { AuthProvider } from "./providers/AuthProvider";
-import { Provider } from 'react-redux'
-import { store } from './src/state/store'
+import {AuthProvider} from './providers/AuthProvider';
+import {Provider} from 'react-redux';
+import {store} from './src/state/store';
 
 const App = () => {
   return (
     <AuthProvider>
-        <Provider store={store}>
-      <SafeAreaProvider>
-          <Navigation/> 
-      </SafeAreaProvider>
+      <Provider store={store}>
+        <SafeAreaProvider>
+          <Navigation />
+        </SafeAreaProvider>
       </Provider>
     </AuthProvider>
   );

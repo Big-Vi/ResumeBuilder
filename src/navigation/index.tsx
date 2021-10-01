@@ -1,54 +1,58 @@
-import { NavigationContainer } from '@react-navigation/native'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../../types';
+import {RootStackParamList, RootTabParamList} from '../../types';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import ModalScreen from '../screens/ModalScreen';
 import ResumeScreen from '../screens/ResumeScreen';
 
-import { Pressable } from 'react-native'
-import * as React from 'react'
-import { WelcomeView } from "../screens/WelcomeView";
-import { CoverLetterProvider } from "../../providers/CoverLetterProvider";
-import { Logout } from "../components/Logout";
-import { CoverLetterScreen } from "@screens/CoverLetterScreen";
+import * as React from 'react';
+import {WelcomeView} from '../screens/WelcomeView';
+import {CoverLetterProvider} from '../../providers/CoverLetterProvider';
+import {Logout} from '../components/Logout';
+import {CoverLetterScreen} from '../screens/CoverLetterScreen';
 
 export default function Navigation() {
-    return (
-      <NavigationContainer>
-        <RootNavigator />
-      </NavigationContainer>
-    );
-  }
-  
+  return (
+    <NavigationContainer>
+      <RootNavigator />
+    </NavigationContainer>
+  );
+}
+
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
-      <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
-      <Stack.Group screenOptions={{ presentation: 'modal' }}> 
+      <Stack.Screen
+        name="Root"
+        component={BottomTabNavigator}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="NotFound"
+        component={NotFoundScreen}
+        options={{title: 'Oops!'}}
+      />
+      <Stack.Group screenOptions={{presentation: 'modal'}}>
         <Stack.Screen name="Modal" component={ModalScreen} />
-      </Stack.Group> 
+      </Stack.Group>
     </Stack.Navigator>
   );
 }
 
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 function BottomTabNavigator() {
-
   return (
     <BottomTab.Navigator
       initialRouteName="Resume"
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color, size }) => {
+      screenOptions={({route}) => ({
+        tabBarIcon: ({focused, color, size}) => {
           let iconName = 'add';
           if (route.name === 'Resume') {
-            iconName = focused
-              ? 'document'
-              : 'document';
+            iconName = focused ? 'document' : 'document';
           } else if (route.name === 'CoverLetter') {
             iconName = focused ? 'document' : 'document';
           }
@@ -58,26 +62,25 @@ function BottomTabNavigator() {
         },
         tabBarActiveTintColor: 'tomato',
         tabBarInactiveTintColor: 'gray',
-      })}
-      >
+      })}>
       <BottomTab.Screen
         name="WelcomeView"
         component={WelcomeView}
-        options={{ title: "Task Tracker" }}
+        options={{title: 'Task Tracker'}}
       />
       <BottomTab.Screen
         name="Resume"
         component={ResumeScreen}
-        options={({ navigation }: RootTabScreenProps<'Resume'>) => ({
+        options={() => ({
           title: 'Resume',
           headerLeft: function Header() {
             return <Logout />;
-          }
+          },
         })}
       />
-      <BottomTab.Screen name="CoverLetter"> 
-        {(props) => {
-          const { navigation, route } = props;
+      <BottomTab.Screen name="CoverLetter">
+        {props => {
+          const {navigation} = props;
           return (
             <CoverLetterProvider>
               <CoverLetterScreen navigation={navigation} />

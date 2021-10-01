@@ -1,4 +1,4 @@
-import { ObjectId } from "bson";
+import {ObjectId} from 'bson';
 
 class CoverLetter {
   /**
@@ -29,23 +29,23 @@ class CoverLetter {
     this.status = status;
   }
 
-  static STATUS_OPEN = "Open";
-  static STATUS_IN_PROGRESS = "InProgress";
-  static STATUS_COMPLETE = "Complete";
+  static STATUS_OPEN = 'Open';
+  static STATUS_IN_PROGRESS = 'InProgress';
+  static STATUS_COMPLETE = 'Complete';
   static schema = {
-    name: "CoverLetter",
+    name: 'CoverLetter',
     properties: {
-      _id: "objectId",
-      name: "string",
-      salutation: "string",
-      intro: "string",
-      body: "string",
-      closing: "string",
-      signature: "string",
-      status: "string",
+      _id: 'objectId',
+      name: 'string',
+      salutation: 'string',
+      intro: 'string',
+      body: 'string',
+      closing: 'string',
+      signature: 'string',
+      status: 'string',
     },
-    primaryKey: "_id",
+    primaryKey: '_id',
   };
 }
 
-export { CoverLetter };
+export {CoverLetter};
