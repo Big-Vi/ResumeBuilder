@@ -1,64 +1,60 @@
 import React, {useState} from 'react';
 import {ListItem} from 'react-native-elements';
-import {useCoverLetters} from '../../providers/CoverLetterProvider';
+import {useResume} from '../../../providers/ResumeProvider';
 import {ActionSheet} from './ActionSheet';
 import {useDispatch} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {actionCreators} from '../state';
+import {actionCreators} from '../../state';
 
 interface IProps {
-  cl: {
+  resume: {
     _id: string;
     name: string;
-    salutation: string;
-    intro: string;
-    body: string;
-    closing: string;
-    signature: string;
+    personalStatement: string;
   };
+  navigation: any;
 }
 
-export const CoverLetterItem: React.FC<IProps> = ({cl}) => {
-  const {findCoverLetter} = useCoverLetters();
+export const ResumeItem: React.FC<IProps> = ({navigation, resume}) => {
+  const {findResume, deleteResume} = useResume();
   const [actionSheetVisible, setActionSheetVisible] = useState(false);
-  const {deleteCoverLetter} = useCoverLetters();
   const actions = [
     {
       title: 'Delete',
       action: () => {
-        deleteCoverLetter(cl);
+        deleteResume(resume);
       },
     },
     {
       title: 'Edit',
       action: () => {
-        editCoverLetterItem(cl._id);
+        editResumeItem(resume._id);
       },
     },
     {
       title: 'Preview',
       action: () => {
-        previewCoverLetterItem(cl._id);
+        previewResumeItem(resume._id);
       },
     },
   ];
 
   const dispatch = useDispatch();
-  const {setEditState, setPreviewState, setClickedCL} = bindActionCreators(
-    actionCreators,
-    dispatch,
-  );
+  const {setClickedResume, setResumeName, setResumePersonalStatement} =
+    bindActionCreators(actionCreators, dispatch);
 
-  const editCoverLetterItem = (id: string) => {
-    const CL = findCoverLetter(id[1]);
-    setClickedCL(CL);
-    setEditState(true);
+  const editResumeItem = (id: string) => {
+    const RESUME = findResume(id[1]);
+    setClickedResume(RESUME);
+    setResumeName(RESUME[0].name);
+    setResumePersonalStatement(RESUME[0].personalStatement);
+    navigation.navigate('NewResume');
   };
 
-  const previewCoverLetterItem = (id: string) => {
-    const CL = findCoverLetter(id[1]);
-    setClickedCL(CL);
-    setPreviewState(true);
+  const previewResumeItem = (id: string) => {
+    const RESUME = findResume(id[1]);
+    setClickedResume(RESUME);
+    navigation.navigate('PreviewResume');
   };
 
   return (
@@ -71,13 +67,13 @@ export const CoverLetterItem: React.FC<IProps> = ({cl}) => {
         actions={actions}
       />
       <ListItem
-        key={cl._id}
+        key={resume._id}
         onPress={() => {
           setActionSheetVisible(true);
         }}
         bottomDivider>
         <ListItem.Content>
-          <ListItem.Title>{cl.name}</ListItem.Title>
+          <ListItem.Title>{resume.name}</ListItem.Title>
         </ListItem.Content>
       </ListItem>
     </>

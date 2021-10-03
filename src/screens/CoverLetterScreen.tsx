@@ -2,10 +2,10 @@ import React, {useEffect} from 'react';
 import {View} from 'react-native';
 import {RootTabScreenProps} from '../../types';
 import {useCoverLetters} from '../../providers/CoverLetterProvider';
-import {CoverLetterItem} from '../components/CoverLetterItem';
-import {AddCoverLetter} from '../components/AddCoverLetter';
-import {EditCoverLetter} from '../components/EditCoverLetter';
-import {PreviewCoverLetter} from '../components/PreviewCoverLetter';
+import {CoverLetterItem} from '../components/CoverLetter/CoverLetterItem';
+import {AddCoverLetter} from '../components/CoverLetter/AddCoverLetter';
+import {EditCoverLetter} from '../components/CoverLetter/EditCoverLetter';
+import {PreviewCoverLetter} from '../components/CoverLetter/PreviewCoverLetter';
 import {useSelector} from 'react-redux';
 import {State} from '../state';
 

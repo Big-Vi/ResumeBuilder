@@ -53,10 +53,10 @@ const CoverLetterProvider = ({children}) => {
   }, [user]);
 
   const createCoverLetter = newCoverLetterFields => {
-    const projectRealm = realmRef.current;
-    projectRealm.write(() => {
+    const realm = realmRef.current;
+    realm.write(() => {
       // Create a new task in the same partition -- that is, in the same project.
-      projectRealm.create(
+      realm.create(
         'CoverLetter',
         new CoverLetter({
           name: newCoverLetterFields.newCoverLetterName || 'New CoverLetter',
@@ -68,6 +68,9 @@ const CoverLetterProvider = ({children}) => {
           partition: `user=${user.id}`,
         }),
       );
+      const syncCoverLetter = realm.objects('CoverLetter').sorted('name');
+      let sortedCoverLetter = syncCoverLetter;
+      setCoverLetter(sortedCoverLetter);
     });
   };
 

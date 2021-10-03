@@ -11,15 +11,13 @@ import {
 } from 'react-native';
 import {useDispatch} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {actionCreators} from '../state';
-import {useCoverLetters} from '../../providers/CoverLetterProvider';
+import {actionCreators} from '../../state';
 
 // The AddTask is a button for adding tasks. When the button is pressed, an
 // overlay shows up to request user input for the new task name. When the
 // "Create" button on the overlay is pressed, the overlay closes and the new
 // task is created in the realm.
-export function EditCoverLetter({modalVisibleState, clickedCL}) {
-  const {updateCoverLetter} = useCoverLetters();
+export function AddCoverLetter({createCoverLetter, modalVisibleState}) {
   const [newCoverLetterFields] = useState({
     newCoverLetterName: '',
     newCoverLetterSalutation: '',
@@ -28,12 +26,12 @@ export function EditCoverLetter({modalVisibleState, clickedCL}) {
     newCoverLetterClosing: '',
     newCoverLetterSignature: '',
   });
-  const [modalVisible, setModalVisible] = useState(modalVisibleState);
   const dispatch = useDispatch();
   const {setEditState, setPreviewState} = bindActionCreators(
     actionCreators,
     dispatch,
   );
+  const [modalVisible, setModalVisible] = useState(modalVisibleState);
   const setParentState = () => {
     setEditState(false);
     setPreviewState(false);
@@ -50,16 +48,13 @@ export function EditCoverLetter({modalVisibleState, clickedCL}) {
         }}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text>{clickedCL[0].name}</Text>
+            <Text>New CL</Text>
             <Input
               placeholder="New Cover Letter Name"
               onChangeText={text =>
                 (newCoverLetterFields.newCoverLetterName = text)
               }
               autoFocus={true}
-              defaultValue={
-                (newCoverLetterFields.newCoverLetterName = clickedCL[0].name)
-              }
             />
             <Input
               placeholder="Salutation"
@@ -67,10 +62,6 @@ export function EditCoverLetter({modalVisibleState, clickedCL}) {
                 (newCoverLetterFields.newCoverLetterSalutation = text)
               }
               autoFocus={true}
-              defaultValue={
-                (newCoverLetterFields.newCoverLetterSalutation =
-                  clickedCL[0].salutation)
-              }
             />
             <TextInput
               multiline
@@ -79,9 +70,6 @@ export function EditCoverLetter({modalVisibleState, clickedCL}) {
                 (newCoverLetterFields.newCoverLetterIntro = text)
               }
               style={styles.inputText}
-              defaultValue={
-                (newCoverLetterFields.newCoverLetterIntro = clickedCL[0].intro)
-              }
             />
             <TextInput
               multiline
@@ -90,9 +78,6 @@ export function EditCoverLetter({modalVisibleState, clickedCL}) {
                 (newCoverLetterFields.newCoverLetterBody = text)
               }
               style={styles.inputText}
-              defaultValue={
-                (newCoverLetterFields.newCoverLetterBody = clickedCL[0].body)
-              }
             />
             <TextInput
               multiline
@@ -101,10 +86,6 @@ export function EditCoverLetter({modalVisibleState, clickedCL}) {
                 (newCoverLetterFields.newCoverLetterClosing = text)
               }
               style={styles.inputText}
-              defaultValue={
-                (newCoverLetterFields.newCoverLetterClosing =
-                  clickedCL[0].closing)
-              }
             />
             <Input
               placeholder="Signature"
@@ -112,16 +93,12 @@ export function EditCoverLetter({modalVisibleState, clickedCL}) {
                 (newCoverLetterFields.newCoverLetterSignature = text)
               }
               autoFocus={true}
-              defaultValue={
-                (newCoverLetterFields.newCoverLetterSignature =
-                  clickedCL[0].signature)
-              }
             />
             <Button
-              title="Save"
+              title="Create"
               onPress={() => {
+                createCoverLetter(newCoverLetterFields);
                 setModalVisible(!modalVisible);
-                updateCoverLetter(clickedCL, newCoverLetterFields);
                 setParentState();
               }}
             />
@@ -136,6 +113,9 @@ export function EditCoverLetter({modalVisibleState, clickedCL}) {
           </View>
         </View>
       </Modal>
+      <Pressable style={[styles.button]} onPress={() => setModalVisible(true)}>
+        <Text>&#x2b;</Text>
+      </Pressable>
     </View>
   );
 }

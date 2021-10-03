@@ -18,6 +18,11 @@ declare global {
 
 export type RootStackParamList = {
   Root: NavigatorScreenParams<RootTabParamList> | undefined;
+  Resume: undefined;
+  NewResume: undefined;
+  PreviewResume: undefined;
+  PersonalInfo: undefined;
+  Settings: undefined;
   Modal: undefined;
   NotFound: undefined;
 };
@@ -27,14 +32,15 @@ export type RootStackScreenProps<Screen extends keyof RootStackParamList> =
 
 export type RootTabParamList = {
   Resume: undefined;
+  NewResume: undefined;
+  PreviewResume: undefined;
+  PersonalInfo: undefined;
   CoverLetter: undefined;
   WelcomeView: undefined;
-  Projects: undefined;
-  TaskList: {user: string; projectPartition: string};
 };
 
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> =
   CompositeScreenProps<
-    BottomTabScreenProps<RootTabParamList, 'Resume'>,
+    BottomTabScreenProps<RootTabParamList, Screen>,
     NativeStackScreenProps<RootStackParamList>
   >;

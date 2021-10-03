@@ -6,12 +6,16 @@ import {RootStackParamList, RootTabParamList} from '../../types';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import ModalScreen from '../screens/ModalScreen';
 import ResumeScreen from '../screens/ResumeScreen';
-
+import NewResumeScreen from '../screens/NewResumeScreen';
+// import {View, Button, Text, Pressable} from 'react-native';
 import * as React from 'react';
 import {WelcomeView} from '../screens/WelcomeView';
 import {CoverLetterProvider} from '../../providers/CoverLetterProvider';
-import {Logout} from '../components/Logout';
+import {ResumeProvider} from '../../providers/ResumeProvider';
+// import {Logout} from '../components/Logout';
 import {CoverLetterScreen} from '../screens/CoverLetterScreen';
+import PersonalInfo from '../components/Resume/ResumeItems/PersonalInfo';
+import PreviewResume from '../components/Resume/PreviewResume';
 
 export default function Navigation() {
   return (
@@ -22,7 +26,36 @@ export default function Navigation() {
 }
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
+const ResumeStack = createNativeStackNavigator<RootStackParamList>();
 
+function ResumeStackScreen({navigation}) {
+  return (
+    <ResumeStack.Navigator>
+      <ResumeStack.Screen name="Resume">
+        {props => {
+          const {navigation, route} = props;
+          return (
+            <ResumeProvider>
+              <ResumeScreen navigation={navigation} route={route} />
+            </ResumeProvider>
+          );
+        }}
+      </ResumeStack.Screen>
+      <ResumeStack.Screen name="NewResume" component={NewResumeScreen} />
+      <ResumeStack.Screen name="PreviewResume" component={PreviewResume} />
+      <ResumeStack.Screen name="PersonalInfo">
+        {props => {
+          const {navigation, route} = props;
+          return (
+            <ResumeProvider>
+              <PersonalInfo navigation={navigation} route={route} />
+            </ResumeProvider>
+          );
+        }}
+      </ResumeStack.Screen>
+    </ResumeStack.Navigator>
+  );
+}
 function RootNavigator() {
   return (
     <Stack.Navigator>
@@ -70,20 +103,32 @@ function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="Resume"
-        component={ResumeScreen}
+        component={ResumeStackScreen}
+        options={{headerShown: false}}
+      />
+      {/* <BottomTab.Screen
+        name="Resume"
         options={() => ({
           title: 'Resume',
           headerLeft: function Header() {
             return <Logout />;
           },
-        })}
-      />
+        })}>
+        {props => {
+          const {navigation, route} = props;
+          return (
+            <ResumeProvider>
+              <ResumeScreen navigation={navigation} route={route} />
+            </ResumeProvider>
+          );
+        }}
+      </BottomTab.Screen> */}
       <BottomTab.Screen name="CoverLetter">
         {props => {
-          const {navigation} = props;
+          const {navigation, route} = props;
           return (
             <CoverLetterProvider>
-              <CoverLetterScreen navigation={navigation} />
+              <CoverLetterScreen navigation={navigation} route={route} />
             </CoverLetterProvider>
           );
         }}

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import {useCoverLetters} from '../../providers/CoverLetterProvider';
-import {AddCoverLetter} from '../components/AddCoverLetter';
+import {AddCoverLetter} from '../components/CoverLetter/AddCoverLetter';
 
 export default function ModalScreen() {
   const {createCoverLetter} = useCoverLetters();

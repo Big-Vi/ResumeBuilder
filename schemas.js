@@ -48,4 +48,58 @@ class CoverLetter {
   };
 }
 
-export {CoverLetter};
+class Resume {
+  /**
+   *
+   * @param {string} name The name of the CoverLetter
+   * @param {string status The status of the task. Default value is "Open"
+   * @param {ObjectId} id The ObjectId to create this task with
+   */
+  constructor({
+    name,
+    personalStatement,
+    qualifications,
+    experiences,
+    partition,
+    id = new ObjectId(),
+  }) {
+    this._partition = partition;
+    this._id = id;
+    this.name = name;
+    this.personalStatement = personalStatement;
+    this.qualifications = qualifications;
+    this.experiences = experiences;
+  }
+
+  static schema = {
+    name: 'Resume',
+    properties: {
+      _id: 'objectId',
+      name: 'string',
+      personalStatement: 'string',
+      qualifications: {
+        bsonType: 'array',
+        items: {
+          bsonType: 'object',
+          properties: {
+            title: 'string',
+            institute: 'string',
+          },
+        },
+      },
+      experiences: {
+        bsonType: 'array',
+        items: {
+          bsonType: 'object',
+          properties: {
+            title: 'string',
+            employer: 'string',
+          },
+        },
+      },
+    },
+    primaryKey: '_id',
+  };
+}
+
+export {CoverLetter, Resume};

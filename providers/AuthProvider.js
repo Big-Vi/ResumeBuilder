@@ -8,7 +8,7 @@ const app = getRealmApp();
 // Create a new Context object that will be provided to descendants of
 // the AuthProvider.
 const AuthContext = React.createContext(null);
-import {CoverLetter} from '../schemas';
+import {CoverLetter, Resume} from '../schemas';
 
 // The AuthProvider is responsible for user management and provides the
 // AuthContext value to its descendants. Components under an AuthProvider can
@@ -23,7 +23,7 @@ const AuthProvider = ({children}) => {
     }
 
     const config = {
-      schema: [CoverLetter.schema],
+      schema: [CoverLetter.schema, Resume.schema],
       sync: {
         user,
         partitionValue: `user=${user.id}`,
