@@ -20,7 +20,7 @@ import {actionCreators} from '../../state';
 export function PreviewCoverLetter({modalVisibleState, clickedCL}) {
   const createPDF = async () => {
     let options = {
-      html: '<h1>PDF TEST</h1>',
+      html: '<h1>TESTing</h1>',
       fileName: 'test',
       directory: 'Documents',
     };

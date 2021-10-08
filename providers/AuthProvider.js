@@ -60,6 +60,11 @@ const AuthProvider = ({children}) => {
     await app.emailPasswordAuth.registerUser(email, password);
   };
 
+  const resetPassword = async (email, password, []) => {
+    console.log(email);
+    await app.emailPasswordAuth.callResetPasswordFunction(email, password, []);
+  };
+
   // The signOut function calls the logOut function on the currently
   // logged in user
   const signOut = () => {
@@ -77,6 +82,7 @@ const AuthProvider = ({children}) => {
         signUp,
         signIn,
         signOut,
+        resetPassword,
         user,
       }}>
       {children}

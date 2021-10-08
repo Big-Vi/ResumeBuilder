@@ -5,6 +5,7 @@ import {ActionSheet} from './ActionSheet';
 import {useDispatch} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {actionCreators} from '../../state';
+import {ObjectId} from 'bson';
 
 interface IProps {
   resume: {
@@ -28,13 +29,13 @@ export const ResumeItem: React.FC<IProps> = ({navigation, resume}) => {
     {
       title: 'Edit',
       action: () => {
-        editResumeItem(resume._id);
+        editResumeItem(resume);
       },
     },
     {
       title: 'Preview',
       action: () => {
-        previewResumeItem(resume._id);
+        previewResumeItem(resume);
       },
     },
   ];
@@ -43,16 +44,17 @@ export const ResumeItem: React.FC<IProps> = ({navigation, resume}) => {
   const {setClickedResume, setResumeName, setResumePersonalStatement} =
     bindActionCreators(actionCreators, dispatch);
 
-  const editResumeItem = (id: string) => {
-    const RESUME = findResume(id[1]);
+  const editResumeItem = resume => {
+    // console.log(id);
+    const RESUME = findResume(resume);
     setClickedResume(RESUME);
     setResumeName(RESUME[0].name);
     setResumePersonalStatement(RESUME[0].personalStatement);
     navigation.navigate('NewResume');
   };
 
-  const previewResumeItem = (id: string) => {
-    const RESUME = findResume(id[1]);
+  const previewResumeItem = resume => {
+    const RESUME = findResume(resume);
     setClickedResume(RESUME);
     navigation.navigate('PreviewResume');
   };
@@ -67,7 +69,7 @@ export const ResumeItem: React.FC<IProps> = ({navigation, resume}) => {
         actions={actions}
       />
       <ListItem
-        key={resume._id}
+        key={resume._id[1]}
         onPress={() => {
           setActionSheetVisible(true);
         }}

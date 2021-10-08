@@ -9,7 +9,6 @@ const ResumeContext = React.createContext(null);
 const ResumeProvider = ({children}) => {
   const [resumes, setResume] = useState([]);
   const {user} = useAuth();
-
   // Use a Ref to store the realm rather than the state because it is not
   // directly rendered, so updating it should not trigger a re-render as using
   // state would.
@@ -18,6 +17,9 @@ const ResumeProvider = ({children}) => {
   useEffect(() => {
     // Enables offline-first: opens a local realm immediately without waiting
     // for the download of a synchronized realm to be completed.
+    if (!user) {
+      return;
+    }
     const OpenRealmBehaviorConfiguration = {
       type: 'openImmediately',
     };
@@ -69,20 +71,21 @@ const ResumeProvider = ({children}) => {
     });
   };
 
-  const findResume = id => {
+  const findResume = resumeItem => {
     const realm = realmRef.current;
-    const resume = realm.objects('Resume').filtered(`_id = oid(${id})`);
+    const resume = realm
+      .objects('Resume')
+      .filtered(`_id = oid(${resumeItem._id})`);
     return resume;
   };
 
   const updateResume = (resumeArg, resumeFields) => {
     const realm = realmRef.current;
-    console.log('l');
     realm.write(() => {
       realm.create(
         'Resume',
         {
-          _id: ObjectId(resumeArg[0]._id[1]),
+          _id: ObjectId(resumeArg[0]._id),
           name: resumeFields.name,
           personalStatement: resumeFields.personalStatement,
           partition: `user=${user.id}`,

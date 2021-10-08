@@ -32,13 +32,13 @@ export const CoverLetterItem: React.FC<IProps> = ({cl}) => {
     {
       title: 'Edit',
       action: () => {
-        editCoverLetterItem(cl._id);
+        editCoverLetterItem(cl);
       },
     },
     {
       title: 'Preview',
       action: () => {
-        previewCoverLetterItem(cl._id);
+        previewCoverLetterItem(cl);
       },
     },
   ];
@@ -49,14 +49,14 @@ export const CoverLetterItem: React.FC<IProps> = ({cl}) => {
     dispatch,
   );
 
-  const editCoverLetterItem = (id: string) => {
-    const CL = findCoverLetter(id[1]);
+  const editCoverLetterItem = cl => {
+    const CL = findCoverLetter(cl);
     setClickedCL(CL);
     setEditState(true);
   };
 
-  const previewCoverLetterItem = (id: string) => {
-    const CL = findCoverLetter(id[1]);
+  const previewCoverLetterItem = cl => {
+    const CL = findCoverLetter(cl);
     setClickedCL(CL);
     setPreviewState(true);
   };

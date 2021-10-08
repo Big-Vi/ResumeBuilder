@@ -7,15 +7,15 @@ import NotFoundScreen from '../screens/NotFoundScreen';
 import ModalScreen from '../screens/ModalScreen';
 import ResumeScreen from '../screens/ResumeScreen';
 import NewResumeScreen from '../screens/NewResumeScreen';
-// import {View, Button, Text, Pressable} from 'react-native';
 import * as React from 'react';
-import {WelcomeView} from '../screens/WelcomeView';
+import {AuthView} from '../screens/AuthView';
 import {CoverLetterProvider} from '../../providers/CoverLetterProvider';
 import {ResumeProvider} from '../../providers/ResumeProvider';
-// import {Logout} from '../components/Logout';
+import {Logout} from '../components/Logout';
 import {CoverLetterScreen} from '../screens/CoverLetterScreen';
 import PersonalInfo from '../components/Resume/ResumeItems/PersonalInfo';
 import PreviewResume from '../components/Resume/PreviewResume';
+import {useAuth} from '../../providers/AuthProvider';
 
 export default function Navigation() {
   return (
@@ -28,10 +28,16 @@ export default function Navigation() {
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const ResumeStack = createNativeStackNavigator<RootStackParamList>();
 
-function ResumeStackScreen({navigation}) {
+function ResumeStackScreen() {
   return (
     <ResumeStack.Navigator>
-      <ResumeStack.Screen name="Resume">
+      <ResumeStack.Screen
+        name="ResumeStack"
+        options={() => ({
+          headerLeft: function Header() {
+            return <Logout />;
+          },
+        })}>
         {props => {
           const {navigation, route} = props;
           return (
@@ -57,13 +63,22 @@ function ResumeStackScreen({navigation}) {
   );
 }
 function RootNavigator() {
+  const {user} = useAuth();
   return (
     <Stack.Navigator>
-      <Stack.Screen
-        name="Root"
-        component={BottomTabNavigator}
-        options={{headerShown: false}}
-      />
+      {user ? (
+        <Stack.Screen
+          name="Root"
+          component={BottomTabNavigator}
+          options={{headerShown: false}}
+        />
+      ) : (
+        <Stack.Screen
+          name="AuthView"
+          component={AuthView}
+          options={{title: 'Auth', headerShown: false}}
+        />
+      )}
       <Stack.Screen
         name="NotFound"
         component={NotFoundScreen}
@@ -80,7 +95,7 @@ const BottomTab = createBottomTabNavigator<RootTabParamList>();
 function BottomTabNavigator() {
   return (
     <BottomTab.Navigator
-      initialRouteName="Resume"
+      initialRouteName="AuthView"
       screenOptions={({route}) => ({
         tabBarIcon: ({focused, color, size}) => {
           let iconName = 'add';
@@ -89,7 +104,6 @@ function BottomTabNavigator() {
           } else if (route.name === 'CoverLetter') {
             iconName = focused ? 'document' : 'document';
           }
-
           // You can return any component that you like here!
           return <Ionicons name={iconName} size={size} color={color} />;
         },
@@ -97,33 +111,20 @@ function BottomTabNavigator() {
         tabBarInactiveTintColor: 'gray',
       })}>
       <BottomTab.Screen
-        name="WelcomeView"
-        component={WelcomeView}
-        options={{title: 'Task Tracker'}}
-      />
-      <BottomTab.Screen
         name="Resume"
         component={ResumeStackScreen}
-        options={{headerShown: false}}
-      />
-      {/* <BottomTab.Screen
-        name="Resume"
         options={() => ({
-          title: 'Resume',
+          headerShown: false,
+        })}
+      />
+      <BottomTab.Screen
+        name="CoverLetter"
+        options={() => ({
+          // headerShown: false,
           headerLeft: function Header() {
             return <Logout />;
           },
         })}>
-        {props => {
-          const {navigation, route} = props;
-          return (
-            <ResumeProvider>
-              <ResumeScreen navigation={navigation} route={route} />
-            </ResumeProvider>
-          );
-        }}
-      </BottomTab.Screen> */}
-      <BottomTab.Screen name="CoverLetter">
         {props => {
           const {navigation, route} = props;
           return (

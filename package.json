@@ -28,6 +28,7 @@
     "react-devtools": "^4.18.0",
     "react-hook-form": "^7.15.4",
     "react-native": "0.65.1",
+    "react-native-cert-pinner": "^0.4.1",
     "react-native-elements": "^3.4.2",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-get-random-values": "^1.7.0",
@@ -42,6 +43,7 @@
     "redux": "^4.1.1",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.3.0",
+    "tailwind-react-native-classnames": "^1.5.1",
     "ts-jest": "^27.0.5"
   },
   "devDependencies": {

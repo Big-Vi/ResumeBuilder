@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ResumeBuilder.ipa</key>
+	<array>
+		<dict>
+			<key>architectures</key>
+			<array>
+				<string>arm64</string>
+			</array>
+			<key>buildNumber</key>
+			<string>1</string>
+			<key>certificate</key>
+			<dict>
+				<key>SHA1</key>
+				<string>94278552F3DD90942728104A28CB73C94805427A</string>
+				<key>dateExpires</key>
+				<string>29/09/22</string>
+				<key>type</key>
+				<string>Apple Development</string>
+			</dict>
+			<key>embeddedBinaries</key>
+			<array>
+				<dict>
+					<key>architectures</key>
+					<array>
+						<string>arm64</string>
+					</array>
+					<key>buildNumber</key>
+					<string>1</string>
+					<key>certificate</key>
+					<dict>
+						<key>SHA1</key>
+						<string>94278552F3DD90942728104A28CB73C94805427A</string>
+						<key>dateExpires</key>
+						<string>29/09/22</string>
+						<key>type</key>
+						<string>Apple Development</string>
+					</dict>
+					<key>name</key>
+					<string>OpenSSL.framework</string>
+					<key>team</key>
+					<dict>
+						<key>id</key>
+						<string>7TR2NKYR3P</string>
+						<key>name</key>
+						<string>Vignesh Murugan</string>
+					</dict>
+					<key>versionNumber</key>
+					<string>1.1.180</string>
+				</dict>
+			</array>
+			<key>entitlements</key>
+			<dict>
+				<key>application-identifier</key>
+				<string>7TR2NKYR3P.com.rowtram.ResumeBuilder</string>
+				<key>com.apple.developer.team-identifier</key>
+				<string>7TR2NKYR3P</string>
+				<key>get-task-allow</key>
+				<true/>
+				<key>keychain-access-groups</key>
+				<array>
+					<string>7TR2NKYR3P.com.rowtram.ResumeBuilder</string>
+				</array>
+			</dict>
+			<key>name</key>
+			<string>ResumeBuilder.app</string>
+			<key>profile</key>
+			<dict>
+				<key>UUID</key>
+				<string>485d8d05-e76b-43f1-b966-034ee08edb0a</string>
+				<key>dateExpires</key>
+				<string>8/10/22</string>
+				<key>name</key>
+				<string>iOS Team Provisioning Profile: *</string>
+			</dict>
+			<key>team</key>
+			<dict>
+				<key>id</key>
+				<string>7TR2NKYR3P</string>
+				<key>name</key>
+				<string>Vignesh Murugan</string>
+			</dict>
+			<key>versionNumber</key>
+			<string>1.0</string>
+		</dict>
+	</array>
+</dict>
+</plist>

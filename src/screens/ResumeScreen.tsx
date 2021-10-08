@@ -8,6 +8,7 @@ export default function ResumeScreen({
   navigation,
 }: RootTabScreenProps<'Resume'>) {
   const {resumes, createResume} = useResume();
+  // console.log(resumes[0]);
   useEffect(() => {
     navigation.setOptions({
       headerRight: function Header() {
@@ -33,7 +34,7 @@ export default function ResumeScreen({
       {resumes.map((resume: any) =>
         resume ? (
           <ResumeItem
-            key={`${resume._id}`}
+            key={`${resume._id[1]}`}
             resume={resume}
             navigation={navigation}
           />

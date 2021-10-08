@@ -17,7 +17,7 @@ export function Logout() {
             style: 'destructive',
             onPress: () => {
               signOut();
-              navigation.navigate('Resume');
+              navigation.navigate('AuthView');
             },
           },
           {text: 'Cancel', style: 'cancel'},

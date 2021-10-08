@@ -17,6 +17,9 @@ const CoverLetterProvider = ({children}) => {
   useEffect(() => {
     // Enables offline-first: opens a local realm immediately without waiting
     // for the download of a synchronized realm to be completed.
+    if (!user) {
+      return;
+    }
     const OpenRealmBehaviorConfiguration = {
       type: 'openImmediately',
     };
@@ -74,18 +77,17 @@ const CoverLetterProvider = ({children}) => {
     });
   };
 
-  const findCoverLetter = id => {
+  const findCoverLetter = cl => {
     const realm = realmRef.current;
     const coverLetter = realm
       .objects('CoverLetter')
-      .filtered(`_id = oid(${id})`);
+      .filtered(`_id = oid(${cl._id})`);
     return coverLetter;
   };
 
   const updateCoverLetter = (CoverLetterArg, coverLetterFields) => {
     const projectRealm = realmRef.current;
     projectRealm.write(() => {
-      console.log(CoverLetterArg[0]);
       CoverLetterArg[0].name = coverLetterFields.newCoverLetterName;
       CoverLetterArg[0].salutation = coverLetterFields.newCoverLetterSalutation;
       CoverLetterArg[0].intro = coverLetterFields.newCoverLetterIntro;
