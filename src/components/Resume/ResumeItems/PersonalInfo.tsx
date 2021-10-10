@@ -8,6 +8,8 @@ import {useSelector} from 'react-redux';
 import {State} from '../../../state';
 import {RootTabScreenProps} from '../../../../types';
 import {useResume} from '../../../../providers/ResumeProvider';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import tw from 'tailwind-react-native-classnames';
 
 export default function PersonalInfo({
   navigation,
@@ -23,94 +25,70 @@ export default function PersonalInfo({
   );
   const formInputs = useSelector((state: State) => state.ResumeReducer);
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerLeft: function Header() {
-        return (
-          <Text
-            onPress={() => {
-              navigation.goBack();
-              if (
-                clickedResume[0].name !== formInputs.name ||
-                clickedResume[0].personalStatement !==
-                  formInputs.personalStatement
-              ) {
-                updateResume(clickedResume, formInputs);
-              }
-            }}>
-            Back
-          </Text>
-        );
-      },
-      title: 'PersonalInfo',
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formInputs]);
+  // useEffect(() => {
+  //   navigation.setOptions({
+  //     headerLeft: function Header() {
+  //       return (
+  //         <Text
+  //           style={tw.style('flex', 'items-center', 'justify-center')}
+  //           onPress={() => {
+  //             navigation.goBack();
+  //             if (
+  //               clickedResume[0].name !== formInputs.name ||
+  //               clickedResume[0].personalStatement !==
+  //                 formInputs.personalStatement
+  //             ) {
+  //               updateResume(clickedResume, formInputs);
+  //             }
+  //           }}>
+  //           <Ionicons name="arrow-back" size={26} color="black" />
+  //         </Text>
+  //       );
+  //     },
+  //     title: 'Personal Info',
+  //   });
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [formInputs]);
 
   return (
-    <>
-      <Input
-        placeholder="New Resume"
-        onChangeText={text => setResumeName(text)}
-        autoFocus={true}
-        defaultValue={clickedResume[0].name}
-      />
-      <TextInput
-        multiline
-        numberOfLines={10}
-        onChangeText={text => setResumePersonalStatement(text)}
-        style={styles.inputText}
-        defaultValue={clickedResume[0].personalStatement}
-      />
-    </>
+    <View style={tw.style('mt-16', 'px-4')}>
+      <View style={tw.style('flex', 'flex-row', 'justify-center')}>
+        <Text
+          style={{
+            position: 'absolute',
+            left: 0,
+            transform: [{translateY: -6}],
+          }}
+          onPress={() => {
+            navigation.goBack();
+            if (
+              clickedResume[0].name !== formInputs.name ||
+              clickedResume[0].personalStatement !==
+                formInputs.personalStatement
+            ) {
+              updateResume(clickedResume, formInputs);
+            }
+          }}>
+          <Ionicons name="arrow-back" size={26} color="black" />
+        </Text>
+        <Text>Personal Info</Text>
+      </View>
+      <View style={tw.style('mt-8')}>
+        <Input
+          // style={tw.style('border-b', 'border-gray-500')}
+          placeholder="New Resume"
+          onChangeText={text => setResumeName(text)}
+          autoFocus={true}
+          defaultValue={clickedResume[0].name}
+        />
+        <TextInput
+          style={tw.style('border-b', 'border-gray-500')}
+          multiline
+          numberOfLines={10}
+          onChangeText={text => setResumePersonalStatement(text)}
+          defaultValue={clickedResume[0].personalStatement}
+        />
+      </View>
+    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  inputText: {
-    height: 80,
-    margin: 12,
-    borderBottomColor: '#000000',
-    borderBottomWidth: 1,
-    width: '90%',
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
-  },
-  modalView: {
-    margin: 20,
-    width: '90%',
-    height: '90%',
-    backgroundColor: 'white',
-    borderRadius: 5,
-    padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  button: {
-    padding: 10,
-    elevation: 2,
-  },
-  buttonClose: {
-    backgroundColor: '#2196F3',
-  },
-  textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: 'center',
-  },
-});

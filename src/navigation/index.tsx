@@ -1,21 +1,23 @@
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import {RootStackParamList, RootTabParamList} from '../../types';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import ModalScreen from '../screens/ModalScreen';
 import ResumeScreen from '../screens/ResumeScreen';
+import SettingsScreen from '../screens/SettingsScreen';
 import NewResumeScreen from '../screens/NewResumeScreen';
 import * as React from 'react';
 import {AuthView} from '../screens/AuthView';
 import {CoverLetterProvider} from '../../providers/CoverLetterProvider';
 import {ResumeProvider} from '../../providers/ResumeProvider';
-import {Logout} from '../components/Logout';
 import {CoverLetterScreen} from '../screens/CoverLetterScreen';
 import PersonalInfo from '../components/Resume/ResumeItems/PersonalInfo';
 import PreviewResume from '../components/Resume/PreviewResume';
 import {useAuth} from '../../providers/AuthProvider';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import tw from '../../lib/tailwind';
+import {Text, View, TouchableOpacity, ScrollView} from 'react-native';
 
 export default function Navigation() {
   return (
@@ -34,9 +36,7 @@ function ResumeStackScreen() {
       <ResumeStack.Screen
         name="ResumeStack"
         options={() => ({
-          headerLeft: function Header() {
-            return <Logout />;
-          },
+          headerShown: false,
         })}>
         {props => {
           const {navigation, route} = props;
@@ -47,9 +47,20 @@ function ResumeStackScreen() {
           );
         }}
       </ResumeStack.Screen>
-      <ResumeStack.Screen name="NewResume" component={NewResumeScreen} />
+      <ResumeStack.Screen
+        name="NewResume"
+        component={NewResumeScreen}
+        options={() => ({
+          title: '',
+          headerShown: false,
+        })}
+      />
       <ResumeStack.Screen name="PreviewResume" component={PreviewResume} />
-      <ResumeStack.Screen name="PersonalInfo">
+      <ResumeStack.Screen
+        name="PersonalInfo"
+        options={() => ({
+          headerShown: false,
+        })}>
         {props => {
           const {navigation, route} = props;
           return (
@@ -91,25 +102,97 @@ function RootNavigator() {
   );
 }
 
+function MyTabBar({state, descriptors, navigation}) {
+  return (
+    <View
+      style={tw.style('flex', 'flex-row', 'h-28', 'z-0', 'bg-white', 'pb-4')}>
+      {state.routes.map((route, index) => {
+        const {options} = descriptors[route.key];
+        const label =
+          options.tabBarLabel !== undefined
+            ? options.tabBarLabel
+            : options.title !== undefined
+            ? options.title
+            : route.name;
+
+        const isFocused = state.index === index;
+
+        const onPress = () => {
+          const event = navigation.emit({
+            type: 'tabPress',
+            target: route.key,
+          });
+
+          if (!isFocused && !event.defaultPrevented) {
+            navigation.navigate(route.name);
+          }
+        };
+
+        const onLongPress = () => {
+          navigation.emit({
+            type: 'tabLongPress',
+            target: route.key,
+          });
+        };
+
+        return (
+          <TouchableOpacity
+            key={route.key}
+            accessibilityRole="button"
+            activeOpacity={1}
+            accessibilityState={isFocused ? {selected: true} : {}}
+            accessibilityLabel={options.tabBarAccessibilityLabel}
+            testID={options.tabBarTestID}
+            onPress={onPress}
+            onLongPress={onLongPress}
+            style={tw.style(
+              'flex',
+              'flex-col',
+              'w-1/3',
+              'items-center',
+              'justify-center',
+            )}>
+            {route.name === 'Resume' ? (
+              <Ionicons
+                name="newspaper-outline"
+                size={26}
+                color={isFocused ? 'red' : 'black'}
+              />
+            ) : route.name === 'CoverLetter' ? (
+              <Ionicons
+                name="reader-outline"
+                size={26}
+                color={isFocused ? 'red' : 'black'}
+              />
+            ) : route.name === 'Settings' ? (
+              <Ionicons
+                name="settings"
+                size={26}
+                color={isFocused ? 'red' : 'black'}
+              />
+            ) : (
+              ''
+            )}
+            <Text
+              style={tw.style('text-sm', {
+                color: isFocused ? 'red' : '#222',
+                // fontFamily: 'Montserrat-Regular',
+              })}>
+              {label}
+            </Text>
+          </TouchableOpacity>
+        );
+      })}
+    </View>
+  );
+}
+
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 function BottomTabNavigator() {
   return (
     <BottomTab.Navigator
-      initialRouteName="AuthView"
-      screenOptions={({route}) => ({
-        tabBarIcon: ({focused, color, size}) => {
-          let iconName = 'add';
-          if (route.name === 'Resume') {
-            iconName = focused ? 'document' : 'document';
-          } else if (route.name === 'CoverLetter') {
-            iconName = focused ? 'document' : 'document';
-          }
-          // You can return any component that you like here!
-          return <Ionicons name={iconName} size={size} color={color} />;
-        },
-        tabBarActiveTintColor: 'tomato',
-        tabBarInactiveTintColor: 'gray',
-      })}>
+      tabBar={props => <MyTabBar {...props} />}
+      initialRouteName="AuthView">
       <BottomTab.Screen
         name="Resume"
         component={ResumeStackScreen}
@@ -120,10 +203,7 @@ function BottomTabNavigator() {
       <BottomTab.Screen
         name="CoverLetter"
         options={() => ({
-          // headerShown: false,
-          headerLeft: function Header() {
-            return <Logout />;
-          },
+          headerShown: false,
         })}>
         {props => {
           const {navigation, route} = props;
@@ -134,6 +214,13 @@ function BottomTabNavigator() {
           );
         }}
       </BottomTab.Screen>
+      <BottomTab.Screen
+        name="Settings"
+        component={SettingsScreen}
+        options={() => ({
+          headerShown: false,
+        })}
+      />
     </BottomTab.Navigator>
   );
 }

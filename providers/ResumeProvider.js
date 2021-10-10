@@ -75,7 +75,7 @@ const ResumeProvider = ({children}) => {
     const realm = realmRef.current;
     const resume = realm
       .objects('Resume')
-      .filtered(`_id = oid(${resumeItem._id})`);
+      .filtered(`_id = oid(${resumeItem._id[1]})`);
     return resume;
   };
 
@@ -85,7 +85,7 @@ const ResumeProvider = ({children}) => {
       realm.create(
         'Resume',
         {
-          _id: ObjectId(resumeArg[0]._id),
+          _id: ObjectId(resumeArg[0]._id[1]),
           name: resumeFields.name,
           personalStatement: resumeFields.personalStatement,
           partition: `user=${user.id}`,

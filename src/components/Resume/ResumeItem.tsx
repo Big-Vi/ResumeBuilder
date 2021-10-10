@@ -5,7 +5,8 @@ import {ActionSheet} from './ActionSheet';
 import {useDispatch} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {actionCreators} from '../../state';
-import {ObjectId} from 'bson';
+import tw from '../../../lib/tailwind';
+import {View, Text, Pressable} from 'react-native';
 
 interface IProps {
   resume: {
@@ -50,7 +51,9 @@ export const ResumeItem: React.FC<IProps> = ({navigation, resume}) => {
     setClickedResume(RESUME);
     setResumeName(RESUME[0].name);
     setResumePersonalStatement(RESUME[0].personalStatement);
-    navigation.navigate('NewResume');
+    navigation.navigate('NewResume', {
+      name: RESUME[0].name,
+    });
   };
 
   const previewResumeItem = resume => {
@@ -68,16 +71,21 @@ export const ResumeItem: React.FC<IProps> = ({navigation, resume}) => {
         }}
         actions={actions}
       />
-      <ListItem
+      <Pressable
+        style={tw.style(
+          'h-48',
+          'bg-white',
+          'justify-center',
+          'flex',
+          'mb-4',
+          'items-center',
+        )}
         key={resume._id[1]}
         onPress={() => {
           setActionSheetVisible(true);
-        }}
-        bottomDivider>
-        <ListItem.Content>
-          <ListItem.Title>{resume.name}</ListItem.Title>
-        </ListItem.Content>
-      </ListItem>
+        }}>
+        <Text>{resume.name}</Text>
+      </Pressable>
     </>
   );
 };

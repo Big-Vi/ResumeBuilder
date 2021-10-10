@@ -44,11 +44,9 @@ export function AddResume({createResume, modalVisibleState, navigation}) {
           Alert.alert('Modal has been closed.');
           setModalVisible(!modalVisible);
         }}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.slideButton} onPress={() => console.log('l')}>
-              Peronal Info
-            </Text>
+        <View>
+          <View>
+            <Text onPress={() => console.log('l')}>Peronal Info</Text>
             <PersonalInfo />
             <Button
               title="Create"
@@ -59,7 +57,6 @@ export function AddResume({createResume, modalVisibleState, navigation}) {
               }}
             />
             <Pressable
-              style={[styles.button, styles.buttonClose]}
               onPress={() => {
                 setModalVisible(!modalVisible);
                 setParentState();
@@ -69,64 +66,9 @@ export function AddResume({createResume, modalVisibleState, navigation}) {
           </View>
         </View>
       </Modal>
-      <Pressable style={[styles.button]} onPress={() => setModalVisible(true)}>
+      <Pressable onPress={() => setModalVisible(true)}>
         <Text>&#x2b;</Text>
       </Pressable>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  inputText: {
-    height: 80,
-    margin: 12,
-    borderBottomColor: '#000000',
-    borderBottomWidth: 1,
-    width: '90%',
-  },
-  slideButton: {
-    width: '90%',
-    padding: 15,
-    backgroundColor: 'black',
-    color: 'white',
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
-  },
-  modalView: {
-    margin: 20,
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'white',
-    borderRadius: 5,
-    padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  button: {
-    padding: 10,
-    elevation: 2,
-  },
-  buttonClose: {
-    backgroundColor: '#2196F3',
-  },
-  textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: 'center',
-  },
-});

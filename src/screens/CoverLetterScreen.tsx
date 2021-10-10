@@ -8,6 +8,7 @@ import {EditCoverLetter} from '../components/CoverLetter/EditCoverLetter';
 import {PreviewCoverLetter} from '../components/CoverLetter/PreviewCoverLetter';
 import {useSelector} from 'react-redux';
 import {State} from '../state';
+import tw from '../../lib/tailwind';
 
 export function CoverLetterScreen({
   navigation,
@@ -20,23 +21,10 @@ export function CoverLetterScreen({
   );
   const clickedCL = useSelector((state: State) => state.userReducer.clickedCL);
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerRight: function Header() {
-        return (
-          <AddCoverLetter
-            createCoverLetter={createCoverLetter}
-            modalVisibleState={false}
-          />
-        );
-      },
-      title: 'Cover Letter',
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   return (
-    <View>
+    <View
+    // style={tw.style('h-full')}
+    >
       {editState && clickedCL ? (
         <EditCoverLetter modalVisibleState={true} clickedCL={clickedCL} />
       ) : previewState && clickedCL ? (
@@ -46,6 +34,12 @@ export function CoverLetterScreen({
           cl ? <CoverLetterItem key={`${cl._id}`} cl={cl} /> : null,
         )
       )}
+      <View style={tw.style('absolute', 'right-8', 'bottom-8')}>
+        <AddCoverLetter
+          createCoverLetter={createCoverLetter}
+          modalVisibleState={false}
+        />
+      </View>
     </View>
   );
 }

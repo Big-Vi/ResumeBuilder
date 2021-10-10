@@ -39,6 +39,7 @@ export type RootTabParamList = {
   PersonalInfo: undefined;
   CoverLetter: undefined;
   AuthView: undefined;
+  Settings: undefined;
 };
 
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> =

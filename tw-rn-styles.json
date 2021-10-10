@@ -5114,6 +5114,9 @@
   "border-r-8": {
     "borderRightWidth": 8
   },
+  "border-r-15": {
+    "borderRightWidth": 15
+  },
   "border-r": {
     "borderRightWidth": 1
   },
@@ -7100,18 +7103,22 @@
   "text-justify": {
     "textAlign": "justify"
   },
-  "font-sans": {
-    "fontFamily": "ui-sans-serif"
+  "font-mont-regular": {
+    "fontFamily": "Montserrat-Regular"
   },
-  "font-serif": {
-    "fontFamily": "ui-serif"
+  "font-mont-bold": {
+    "fontFamily": "Montserrat-Bold"
   },
-  "font-mono": {
-    "fontFamily": "ui-monospace"
+  "font-mont-semi": {
+    "fontFamily": "Montserrat-SemiBold"
   },
   "text-xs": {
     "fontSize": 12,
     "lineHeight": 16
+  },
+  "text-xxs": {
+    "fontSize": 10,
+    "lineHeight": 14
   },
   "text-sm": {
     "fontSize": 14,

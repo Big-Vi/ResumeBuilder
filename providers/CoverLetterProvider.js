@@ -81,7 +81,7 @@ const CoverLetterProvider = ({children}) => {
     const realm = realmRef.current;
     const coverLetter = realm
       .objects('CoverLetter')
-      .filtered(`_id = oid(${cl._id})`);
+      .filtered(`_id = oid(${cl._id[1]})`);
     return coverLetter;
   };
 

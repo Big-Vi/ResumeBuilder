@@ -1,15 +1,16 @@
 import * as React from 'react';
-import {Button, Alert} from 'react-native';
+import {Text, Alert, Pressable} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useAuth} from '../../providers/AuthProvider';
+import tw from '../../lib/tailwind';
 
 export function Logout() {
   const navigation = useNavigation();
   const {signOut} = useAuth();
 
   return (
-    <Button
-      title="Log Out"
+    <Pressable
+      style={tw.style('text-xs')}
       onPress={() => {
         Alert.alert('Log Out', null, [
           {
@@ -22,7 +23,8 @@ export function Logout() {
           },
           {text: 'Cancel', style: 'cancel'},
         ]);
-      }}
-    />
+      }}>
+      <Text>Log Out</Text>
+    </Pressable>
   );
 }

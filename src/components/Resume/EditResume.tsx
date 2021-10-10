@@ -100,7 +100,6 @@ const styles = StyleSheet.create({
     width: '90%',
   },
   centeredView: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 22,
