@@ -56,8 +56,13 @@ class Resume {
    * @param {ObjectId} id The ObjectId to create this task with
    */
   constructor({
+    resumeTitle,
     name,
     personalStatement,
+    email,
+    mobile,
+    visaStatus,
+    location,
     qualifications,
     experiences,
     partition,
@@ -65,8 +70,13 @@ class Resume {
   }) {
     this._partition = partition;
     this._id = id;
+    this.resumeTitle = resumeTitle;
     this.name = name;
     this.personalStatement = personalStatement;
+    this.email = email;
+    this.mobile = mobile;
+    this.visaStatus = visaStatus;
+    this.location = location;
     this.qualifications = qualifications;
     this.experiences = experiences;
   }
@@ -75,8 +85,13 @@ class Resume {
     name: 'Resume',
     properties: {
       _id: 'objectId',
+      resumeTitle: 'string',
       name: 'string',
       personalStatement: 'string',
+      email: 'string',
+      mobile: 'string',
+      location: 'string',
+      visaStatus: 'string',
       qualifications: {
         bsonType: 'array',
         items: {

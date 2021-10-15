@@ -47,10 +47,55 @@ export const setClickedResume = (payload: []) => {
   };
 };
 
+export const setResumeTitle = (payload: string) => {
+  return (dispatch: Dispatch<Action>) => {
+    dispatch({
+      type: ActionType.SET_RESUME_TITLE_STATE,
+      payload: payload,
+    });
+  };
+};
+
 export const setResumeName = (payload: string) => {
   return (dispatch: Dispatch<Action>) => {
     dispatch({
       type: ActionType.SET_RESUME_NAME_STATE,
+      payload: payload,
+    });
+  };
+};
+
+export const setResumeEmail = (payload: string) => {
+  return (dispatch: Dispatch<Action>) => {
+    dispatch({
+      type: ActionType.SET_RESUME_EMAIL_STATE,
+      payload: payload,
+    });
+  };
+};
+
+export const setResumeMobile = (payload: string) => {
+  return (dispatch: Dispatch<Action>) => {
+    dispatch({
+      type: ActionType.SET_RESUME_MOBILE_STATE,
+      payload: payload,
+    });
+  };
+};
+
+export const setResumeVisa = (payload: string) => {
+  return (dispatch: Dispatch<Action>) => {
+    dispatch({
+      type: ActionType.SET_RESUME_VISA_STATE,
+      payload: payload,
+    });
+  };
+};
+
+export const setResumeLocation = (payload: string) => {
+  return (dispatch: Dispatch<Action>) => {
+    dispatch({
+      type: ActionType.SET_RESUME_LOCATION_STATE,
       payload: payload,
     });
   };

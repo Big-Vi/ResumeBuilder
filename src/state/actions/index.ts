@@ -20,8 +20,28 @@ interface ClickedResumeAction {
   type: ActionType.SET_CLICKED_RESUME_STATE;
   payload: [];
 }
+interface ResumeTitleAction {
+  type: ActionType.SET_RESUME_TITLE_STATE;
+  payload: string;
+}
 interface ResumeNameAction {
   type: ActionType.SET_RESUME_NAME_STATE;
+  payload: string;
+}
+interface ResumeEmailAction {
+  type: ActionType.SET_RESUME_EMAIL_STATE;
+  payload: string;
+}
+interface ResumeMobileAction {
+  type: ActionType.SET_RESUME_MOBILE_STATE;
+  payload: string;
+}
+interface ResumeVisaAction {
+  type: ActionType.SET_RESUME_VISA_STATE;
+  payload: string;
+}
+interface ResumeLocationAction {
+  type: ActionType.SET_RESUME_LOCATION_STATE;
   payload: string;
 }
 interface ResumePersonalStatmentAction {
@@ -35,5 +55,10 @@ export type Action =
   | PreviewStateAction
   | ClickedCLAction
   | ClickedResumeAction
+  | ResumeTitleAction
   | ResumeNameAction
+  | ResumeEmailAction
+  | ResumeMobileAction
+  | ResumeLocationAction
+  | ResumeVisaAction
   | ResumePersonalStatmentAction;

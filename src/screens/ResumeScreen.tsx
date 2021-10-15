@@ -53,8 +53,13 @@ export default function ResumeScreen({
           )}
           onPress={() => {
             createResume({
-              newResumeName: 'New resume',
-              newResumePersonalStatement: 'Hardworking bloke',
+              resumeTitle: 'New resume',
+              name: 'Vignesh',
+              personalStatement: 'Hardworking',
+              email: 'jon@gmail.com',
+              mobile: '0342344234',
+              visaStatus: 'Citizen',
+              location: 'New york',
             });
             // navigation.navigate('NewResume');
           }}>

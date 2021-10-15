@@ -5,12 +5,11 @@
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
-    "start": "react-native start",
     "test": "jest",
     "cypress": "cypress run",
     "cypress:open": "cypress open",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "start-packager": "env REACT_DEBUGGER=\"$([ -d '/Applications/React Native Debugger.app' ] && echo \"open 'rndebugger://set-debugger-loc?host=localhost&port=8081' --args\")\" node node_modules/react-native/local-cli/cli.js start"
+    "start": "env REACT_DEBUGGER=\"$([ -d '/Applications/React Native Debugger.app' ] && echo \"open 'rndebugger://set-debugger-loc?host=localhost&port=8081' --args\")\" node node_modules/react-native/local-cli/cli.js start"
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.11",
@@ -22,6 +21,8 @@
     "@types/react-redux": "^7.1.18",
     "@types/redux-thunk": "^2.1.0",
     "bson": "^4.4.0",
+    "expo-print": "^10.2.1",
+    "expo-sharing": "^9.2.1",
     "module-alias": "^2.2.2",
     "prop-types": "^15.7.2",
     "react": "17.0.2",

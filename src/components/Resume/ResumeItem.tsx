@@ -7,11 +7,12 @@ import {bindActionCreators} from 'redux';
 import {actionCreators} from '../../state';
 import tw from '../../../lib/tailwind';
 import {View, Text, Pressable} from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 interface IProps {
   resume: {
     _id: string;
-    name: string;
+    resumeTitle: string;
     personalStatement: string;
   };
   navigation: any;
@@ -42,17 +43,29 @@ export const ResumeItem: React.FC<IProps> = ({navigation, resume}) => {
   ];
 
   const dispatch = useDispatch();
-  const {setClickedResume, setResumeName, setResumePersonalStatement} =
-    bindActionCreators(actionCreators, dispatch);
+  const {
+    setClickedResume,
+    setResumeTitle,
+    setResumeEmail,
+    setResumeMobile,
+    setResumeVisa,
+    setResumeLocation,
+    setResumeName,
+    setResumePersonalStatement,
+  } = bindActionCreators(actionCreators, dispatch);
 
   const editResumeItem = resume => {
-    // console.log(id);
     const RESUME = findResume(resume);
     setClickedResume(RESUME);
+    setResumeTitle(RESUME[0].resumeTitle);
     setResumeName(RESUME[0].name);
+    setResumeEmail(RESUME[0].email);
+    setResumeMobile(RESUME[0].mobile);
+    setResumeVisa(RESUME[0].visaStatus);
+    setResumeLocation(RESUME[0].location);
     setResumePersonalStatement(RESUME[0].personalStatement);
     navigation.navigate('NewResume', {
-      name: RESUME[0].name,
+      resumeTitle: RESUME[0].resumeTitle,
     });
   };
 
@@ -84,7 +97,7 @@ export const ResumeItem: React.FC<IProps> = ({navigation, resume}) => {
         onPress={() => {
           setActionSheetVisible(true);
         }}>
-        <Text>{resume.name}</Text>
+        <Text>{resume.resumeTitle}</Text>
       </Pressable>
     </>
   );

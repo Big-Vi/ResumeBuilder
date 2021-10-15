@@ -49,12 +49,19 @@ function ResumeStackScreen() {
       </ResumeStack.Screen>
       <ResumeStack.Screen
         name="NewResume"
-        component={NewResumeScreen}
         options={() => ({
           title: '',
           headerShown: false,
-        })}
-      />
+        })}>
+        {props => {
+          const {navigation, route} = props;
+          return (
+            <ResumeProvider>
+              <NewResumeScreen navigation={navigation} route={route} />
+            </ResumeProvider>
+          );
+        }}
+      </ResumeStack.Screen>
       <ResumeStack.Screen name="PreviewResume" component={PreviewResume} />
       <ResumeStack.Screen
         name="PersonalInfo"

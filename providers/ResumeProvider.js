@@ -60,8 +60,13 @@ const ResumeProvider = ({children}) => {
       realm.create(
         'Resume',
         new Resume({
-          name: newResumeFields.newResumeName || 'New Resume',
-          personalStatement: newResumeFields.newResumePersonalStatement,
+          resumeTitle: newResumeFields.resumeTitle || 'New Resume',
+          name: newResumeFields.name,
+          personalStatement: newResumeFields.personalStatement,
+          email: newResumeFields.email,
+          mobile: newResumeFields.mobile,
+          visaStatus: newResumeFields.visaStatus,
+          location: newResumeFields.location,
           partition: `user=${user.id}`,
         }),
       );
@@ -81,13 +86,19 @@ const ResumeProvider = ({children}) => {
 
   const updateResume = (resumeArg, resumeFields) => {
     const realm = realmRef.current;
+    console.log(resumeFields);
     realm.write(() => {
       realm.create(
         'Resume',
         {
           _id: ObjectId(resumeArg[0]._id[1]),
+          resumeTitle: resumeFields.resumeTitle,
           name: resumeFields.name,
           personalStatement: resumeFields.personalStatement,
+          email: resumeFields.email,
+          mobile: resumeFields.mobile,
+          visaStatus: resumeFields.visaStatus,
+          location: resumeFields.location,
           partition: `user=${user.id}`,
         },
         'modified',
