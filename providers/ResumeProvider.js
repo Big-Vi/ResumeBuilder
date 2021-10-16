@@ -80,7 +80,7 @@ const ResumeProvider = ({children}) => {
     const realm = realmRef.current;
     const resume = realm
       .objects('Resume')
-      .filtered(`_id = oid(${resumeItem._id[1]})`);
+      .filtered(`_id = oid(${resumeItem._id})`);
     return resume;
   };
 
@@ -91,7 +91,7 @@ const ResumeProvider = ({children}) => {
       realm.create(
         'Resume',
         {
-          _id: ObjectId(resumeArg[0]._id[1]),
+          _id: ObjectId(resumeArg[0]._id),
           resumeTitle: resumeFields.resumeTitle,
           name: resumeFields.name,
           personalStatement: resumeFields.personalStatement,
