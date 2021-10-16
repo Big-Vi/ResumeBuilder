@@ -1,20 +1,20 @@
 import React, {useState} from 'react';
 import {
-  Alert,
-  Modal,
   StyleSheet,
   Text,
   Pressable,
   View,
   Platform,
+  Share,
   Dimensions,
   TouchableHighlight,
 } from 'react-native';
 import {State} from '../../state';
 import {RootTabScreenProps} from '../../../types';
 import {useSelector} from 'react-redux';
-import * as Print from 'expo-print';
-import * as Sharing from 'expo-sharing';
+import {WebView} from 'react-native-webview';
+let RNFS = require('react-native-fs');
+import RNHTMLtoPDF from 'react-native-html-to-pdf';
 
 // The AddTask is a button for adding tasks. When the button is pressed, an
 // overlay shows up to request user input for the new task name. When the
@@ -48,25 +48,51 @@ export default function PreviewResume({
     </body>
     </html>
   `;
-  const createAndSavePDF = async html => {
+
+  const onShare = async url => {
     try {
-      const {uri} = await Print.printToFileAsync({html});
-      if (Platform.OS === 'ios') {
-        await Sharing.shareAsync(uri);
-      } else {
-        const permission = await MediaLibrary.requestPermissionsAsync();
-        if (permission.granted) {
-          await MediaLibrary.createAssetAsync(uri);
+      const result = await Share.share({
+        url: url,
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
         }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+        console.log('ll');
       }
     } catch (error) {
-      console.error(error);
+      // alert(error.message);
     }
   };
 
+  const createPDF = async () => {
+    let options = {
+      html: '<h1>PDF TEST Sample</h1>',
+      fileName: 'test',
+      directory: 'Documents',
+    };
+
+    let file = await RNHTMLtoPDF.convert(options);
+    await onShare(file.filePath);
+  };
+
   return (
-    <View>
-      <View>
+    <>
+      <WebView
+        source={{
+          uri: 'https://en.unesco.org/inclusivepolicylab/sites/default/files/dummy-pdf_2.pdf',
+        }}
+      />
+      <TouchableHighlight onPress={createPDF}>
+        <Text>Create PDF</Text>
+      </TouchableHighlight>
+    </>
+  );
+  /* <View>
         <View>
           <Text>To {clickedResume[0].name}</Text>
           <Text>To {clickedResume[0].personalStatement}</Text>
@@ -74,9 +100,7 @@ export default function PreviewResume({
             <Text>Create PDF</Text>
           </TouchableHighlight>
         </View>
-      </View>
-    </View>
-  );
+      </View> */
 }
 
 const styles = StyleSheet.create({
