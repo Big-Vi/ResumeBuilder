@@ -41,6 +41,7 @@
     "react-native-svg": "^12.1.1",
     "react-native-svg-transformer": "^0.14.3",
     "react-native-vector-icons": "^8.1.0",
+    "react-native-view-pdf": "^0.12.0",
     "react-native-webview": "^11.14.1",
     "react-redux": "^7.2.5",
     "realm": "^10.8.0",

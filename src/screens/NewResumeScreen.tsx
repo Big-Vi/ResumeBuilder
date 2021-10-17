@@ -14,7 +14,7 @@ export default function NewResumeScreen({
   navigation,
   route,
 }: RootTabScreenProps<'NewResume'>) {
-  const {updateResume} = useResume();
+  const {updateFilePath} = useResume();
   const {resumeTitle} = route.params;
   const [titleEdit, setTitleEdit] = useState(false);
   const dispatch = useDispatch();
@@ -41,7 +41,7 @@ export default function NewResumeScreen({
           <Pressable
             style={tw.style('button-outer', 'mt-2', 'pl-2')}
             onPress={() => {
-              updateResume(clickedResume, formInputs);
+              updateFilePath(clickedResume, formInputs);
               setTitleEdit(false);
             }}>
             <Text style={tw.style('button-text')}>Save</Text>
@@ -56,7 +56,13 @@ export default function NewResumeScreen({
               left: 0,
               transform: [{translateY: -6}],
             }}
-            onPress={() => navigation.goBack()}>
+            onPress={() => {
+              navigation.navigate('ResumeStack', {
+                screen: 'Resume',
+                pdfview: true,
+                id: clickedResume[0]._id,
+              });
+            }}>
             <Ionicons name="arrow-back" size={26} color="black" />
           </Pressable>
           <View style={tw.style('flex', 'flex-row', 'items-center')}>

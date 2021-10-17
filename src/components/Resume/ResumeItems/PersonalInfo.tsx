@@ -1,6 +1,5 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Text, View, TextInput, StyleSheet} from 'react-native';
-import {Input, Button, Pressable} from 'react-native-elements';
 import {useDispatch} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {useSelector} from 'react-redux';
@@ -27,7 +26,6 @@ export default function PersonalInfo({
     (state: State) => state.ResumeReducer.clickedResume,
   );
   const formInputs = useSelector((state: State) => state.ResumeReducer);
-
   return (
     <View style={tw.style('mt-16', 'px-4')}>
       <View style={tw.style('flex', 'flex-row', 'justify-center')}>
@@ -57,50 +55,45 @@ export default function PersonalInfo({
       </View>
       <View style={tw.style('mt-8')}>
         <Text>Name</Text>
-        <Input
-          style={tw.style('py-4')}
+        <TextInput
+          style={styles.textInput}
           onChangeText={text => setResumeName(text)}
-          autoFocus={true}
+          autoFocus={false}
           defaultValue={clickedResume[0].name}
         />
         <Text>Email</Text>
-        <Input
-          style={tw.style('py-4', 'lowercase')}
+        <TextInput
+          style={styles.textInput}
           onChangeText={text => setResumeEmail(text)}
-          autoFocus={true}
+          autoFocus={false}
           defaultValue={clickedResume[0].email}
         />
         <Text>Phone/Mobile</Text>
-        <Input
-          style={tw.style('py-4')}
+        <TextInput
+          style={styles.textInput}
           onChangeText={text => setResumeMobile(text)}
-          autoFocus={true}
+          autoFocus={false}
           defaultValue={clickedResume[0].mobile}
         />
         <Text>visaStatus</Text>
-        <Input
-          style={tw.style('py-4')}
+        <TextInput
+          style={styles.textInput}
           onChangeText={text => setResumeVisa(text)}
-          autoFocus={true}
+          autoFocus={false}
           defaultValue={clickedResume[0].visaStatus}
         />
         <Text>Location</Text>
-        <Input
-          style={tw.style('py-4')}
+        <TextInput
+          style={styles.textInput}
           onChangeText={text => setResumeLocation(text)}
-          autoFocus={true}
+          autoFocus={false}
           defaultValue={clickedResume[0].location}
         />
         <Text>Personal statement</Text>
         <TextInput
-          style={tw.style(
-            'border-b',
-            'py-4',
-            'border-gray-500',
-            'mx-2',
-            'text-lg',
-          )}
+          style={styles.textInput}
           multiline
+          autoFocus={false}
           numberOfLines={10}
           onChangeText={text => setResumePersonalStatement(text)}
           defaultValue={clickedResume[0].personalStatement}
@@ -109,3 +102,16 @@ export default function PersonalInfo({
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  textInput: {
+    borderBottomWidth: 1,
+    borderBottomColor: '#000',
+    paddingTop: 16,
+    paddingBottom: 4,
+    marginRight: 2,
+    marginLeft: 8,
+    fontSize: 18,
+    marginBottom: 30,
+  },
+});

@@ -66,7 +66,8 @@ class Resume {
     qualifications,
     experiences,
     partition,
-    id = new ObjectId(),
+    id,
+    filePath,
   }) {
     this._partition = partition;
     this._id = id;
@@ -79,6 +80,7 @@ class Resume {
     this.location = location;
     this.qualifications = qualifications;
     this.experiences = experiences;
+    this.filePath = filePath;
   }
 
   static schema = {
@@ -92,6 +94,7 @@ class Resume {
       mobile: 'string',
       location: 'string',
       visaStatus: 'string',
+      filePath: 'string',
       qualifications: {
         bsonType: 'array',
         items: {

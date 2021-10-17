@@ -62,7 +62,16 @@ function ResumeStackScreen() {
           );
         }}
       </ResumeStack.Screen>
-      <ResumeStack.Screen name="PreviewResume" component={PreviewResume} />
+      <ResumeStack.Screen name="PreviewResume">
+        {props => {
+          const {navigation, route} = props;
+          return (
+            <ResumeProvider>
+              <PreviewResume navigation={navigation} route={route} />
+            </ResumeProvider>
+          );
+        }}
+      </ResumeStack.Screen>
       <ResumeStack.Screen
         name="PersonalInfo"
         options={() => ({
@@ -155,13 +164,14 @@ function MyTabBar({state, descriptors, navigation}) {
             style={tw.style(
               'flex',
               'flex-col',
-              'w-1/3',
+              'w-1/2',
               'items-center',
               'justify-center',
             )}>
             {route.name === 'Resume' ? (
               <Ionicons
-                name="newspaper-outline"
+                // name="newspaper-outline"
+                name="reader-outline"
                 size={26}
                 color={isFocused ? 'red' : 'black'}
               />
@@ -207,7 +217,7 @@ function BottomTabNavigator() {
           headerShown: false,
         })}
       />
-      <BottomTab.Screen
+      {/* <BottomTab.Screen
         name="CoverLetter"
         options={() => ({
           headerShown: false,
@@ -220,7 +230,7 @@ function BottomTabNavigator() {
             </CoverLetterProvider>
           );
         }}
-      </BottomTab.Screen>
+      </BottomTab.Screen> */}
       <BottomTab.Screen
         name="Settings"
         component={SettingsScreen}

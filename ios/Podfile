@@ -3,7 +3,8 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 platform :ios, '11.0'
 
-pod 'RNFS', :path => '../node_modules/react-native-fs'
+# pod 'RNFS', :path => '../node_modules/react-native-fs'
+# pod 'RNPDF', :path => '../node_modules/react-native-view-pdf'
 
 target 'ResumeBuilder' do
   config = use_native_modules!
@@ -24,7 +25,7 @@ target 'ResumeBuilder' do
   #
   # Note that if you have use_frameworks! enabled, Flipper will not work and
   # you should disable the next line.
-  use_flipper!()
+  #use_flipper!()
 
   post_install do |installer|
     react_native_post_install(installer)

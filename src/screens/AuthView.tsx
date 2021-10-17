@@ -51,7 +51,7 @@ export function AuthView({navigation}: RootTabScreenProps<'AuthView'>) {
     <View
       style={tw.style(
         'flex',
-        // 'h-full',
+        'h-full',
         'w-full',
         'items-center',
         'justify-center',
@@ -81,11 +81,11 @@ export function AuthView({navigation}: RootTabScreenProps<'AuthView'>) {
         <Pressable style={tw.style('button-outer')} onPress={onPressSignUp}>
           <Text style={tw.style('button-text')}>Sign Up</Text>
         </Pressable>
-        <Pressable
+        {/* <Pressable
           style={tw.style('button-outer', 'mt-2')}
           onPress={onPressResetPassword}>
           <Text style={tw.style('button-text')}>Forgot Password</Text>
-        </Pressable>
+        </Pressable> */}
       </View>
     </View>
   );

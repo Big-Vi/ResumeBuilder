@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {RootTabScreenProps} from '../../types';
-import {View, Text, Button, Pressable, ScrollView} from 'react-native';
+import {View, Text, Pressable, ScrollView} from 'react-native';
 import {useResume} from '../../providers/ResumeProvider';
 import {ResumeItem} from '../components/Resume/ResumeItem';
 import tw from '../../lib/tailwind';
@@ -9,32 +9,37 @@ import ResumeScreenIcon from '../../assets/svg/ResumeScreenIcon.svg';
 
 export default function ResumeScreen({
   navigation,
+  route,
 }: RootTabScreenProps<'Resume'>) {
   const {resumes, createResume} = useResume();
+
+  useEffect(() => {
+    if (route.params?.pdfview) {
+    }
+  }, [route.params]);
+
   return (
     <View>
-      <View
-        style={tw.style('h-full', 'px-4', {
-          'justify-center': resumes.length <= 0,
-          'mt-16': resumes.length > 0,
-        })}>
-        {resumes.length > 0 ? (
-          resumes.map((resume: any) =>
+      {resumes.length > 0 ? (
+        <ScrollView
+          style={tw.style('px-4', {
+            // 'mt-16': resumes.length > 0,
+          })}>
+          {resumes.map((resume: any) =>
             resume ? (
-              <ResumeItem
-                key={`${resume._id[1]}`}
-                resume={resume}
-                navigation={navigation}
-              />
+              <View style={tw.style('mb-20')} key={`${resume._id[1]}`}>
+                <ResumeItem resume={resume} navigation={navigation} />
+              </View>
             ) : null,
-          )
-        ) : (
-          <View style={tw.style('flex', 'justify-center', 'items-center')}>
-            <ResumeScreenIcon width={300} height={200} />
-            <Text style={tw.style('text-center')}>No resume created yet.</Text>
-          </View>
-        )}
-      </View>
+          )}
+        </ScrollView>
+      ) : (
+        <View style={tw.style('flex', 'justify-center', 'items-center')}>
+          <ResumeScreenIcon width={300} height={200} />
+          <Text style={tw.style('text-center')}>No resume created yet.</Text>
+        </View>
+      )}
+
       <View>
         <Pressable
           style={tw.style(
