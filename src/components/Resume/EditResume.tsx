@@ -72,7 +72,7 @@ export function EditResume({modalVisibleState, clickedResume}) {
               title="Save"
               onPress={() => {
                 setModalVisible(!modalVisible);
-                updateResume(clickedResume, newResumeFields);
+                updateResume(clickedResume, formInputs);
                 setParentState();
               }}
             />

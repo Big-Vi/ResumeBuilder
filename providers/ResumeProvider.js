@@ -64,6 +64,7 @@ const ResumeProvider = ({children}) => {
   };
 
   const createResume = newResumeFields => {
+    console.log(newResumeFields);
     const realm = realmRef.current;
     let ID = new ObjectId();
     createPDF(ID, newResumeFields).then(function (data) {
@@ -83,6 +84,7 @@ const ResumeProvider = ({children}) => {
             location: newResumeFields.location,
             partition: `user=${user.id}`,
             filePath: filePath,
+            experiences: newResumeFields.experiences,
           }),
         );
         const syncResume = realm.objects('Resume').sorted('name');
@@ -974,6 +976,7 @@ const ResumeProvider = ({children}) => {
   };
 
   const updateResume = (resumeArg, resumeFields) => {
+    // console.log(resumeFields);
     const realm = realmRef.current;
     createPDF(ObjectId(resumeArg[0]._id[1]), resumeFields);
     realm.write(() => {
@@ -989,6 +992,7 @@ const ResumeProvider = ({children}) => {
           visaStatus: resumeFields.visaStatus,
           location: resumeFields.location,
           partition: `user=${user.id}`,
+          experiences: Object.values(resumeFields.experiences),
         },
         'modified',
       );

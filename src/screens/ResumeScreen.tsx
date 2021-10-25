@@ -6,24 +6,24 @@ import {ResumeItem} from '../components/Resume/ResumeItem';
 import tw from '../../lib/tailwind';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import ResumeScreenIcon from '../../assets/svg/ResumeScreenIcon.svg';
+import uuid from 'react-native-uuid';
 
 export default function ResumeScreen({
   navigation,
-  route,
 }: RootTabScreenProps<'Resume'>) {
   const {resumes, createResume} = useResume();
 
-  useEffect(() => {
-    if (route.params?.pdfview) {
-    }
-  }, [route.params]);
+  // useEffect(() => {
+  //   if (route.params?.pdfview) {
+  //   }
+  // }, [route.params]);
 
   return (
-    <View>
+    <View style={tw.style('h-full')}>
       {resumes.length > 0 ? (
         <ScrollView
           style={tw.style('px-4', {
-            // 'mt-16': resumes.length > 0,
+            'mt-16': resumes.length > 0,
           })}>
           {resumes.map((resume: any) =>
             resume ? (
@@ -34,7 +34,8 @@ export default function ResumeScreen({
           )}
         </ScrollView>
       ) : (
-        <View style={tw.style('flex', 'justify-center', 'items-center')}>
+        <View
+          style={tw.style('flex', 'justify-center', 'items-center', 'h-full')}>
           <ResumeScreenIcon width={300} height={200} />
           <Text style={tw.style('text-center')}>No resume created yet.</Text>
         </View>
@@ -54,7 +55,6 @@ export default function ResumeScreen({
             'items-center',
             'justify-center',
             'rounded-full',
-            {'bottom-40': resumes.length > 0},
           )}
           onPress={() => {
             createResume({
@@ -65,8 +65,29 @@ export default function ResumeScreen({
               mobile: '0342344234',
               visaStatus: 'Citizen',
               location: 'New york',
+              experiences: [
+                {
+                  id: uuid.v4(),
+                  title: 'Full stack developer',
+                  employer: 'Plato',
+                  location: 'CHCH',
+                  fromDate: new Date(),
+                  toDate: new Date(),
+                  currentlyWorking: false,
+                  responsibilities: ['string', 'string'],
+                },
+                {
+                  id: uuid.v4(),
+                  title: 'Full stack developer',
+                  employer: 'Plato',
+                  location: 'CHCH',
+                  fromDate: new Date(),
+                  toDate: new Date(),
+                  currentlyWorking: false,
+                  responsibilities: ['string', 'string'],
+                },
+              ],
             });
-            // navigation.navigate('NewResume');
           }}>
           <Ionicons name="add" size={20} color={'white'} />
         </Pressable>

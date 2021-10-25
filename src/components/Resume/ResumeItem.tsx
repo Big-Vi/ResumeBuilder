@@ -1,14 +1,22 @@
 import React, {useState} from 'react';
-import {ListItem} from 'react-native-elements';
 import {ActionSheet} from './ActionSheet';
 import {useDispatch} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {actionCreators} from '../../state';
 import tw from '../../../lib/tailwind';
 import {View, Text, Pressable} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useResume} from '../../../providers/ResumeProvider';
-import PDFView from 'react-native-view-pdf';
+import {WebView} from 'react-native-webview';
+import {
+  addResumeTitle,
+  addResumeName,
+  addResumeEmail,
+  addResumeMobile,
+  addResumeVisa,
+  addResumeLocation,
+  addResumePersonalStatement,
+  setClickedResume,
+  setExperience,
+} from '../../features/resumeSlice';
 
 interface IProps {
   resume: {
@@ -21,7 +29,7 @@ interface IProps {
 }
 
 export const ResumeItem: React.FC<IProps> = ({navigation, resume}) => {
-  const {deleteResume, findResume} = useResume();
+  const {deleteResume, findResume, returnResumeHTML} = useResume();
   const [actionSheetVisible, setActionSheetVisible] = useState(false);
   const actions = [
     {
@@ -45,41 +53,34 @@ export const ResumeItem: React.FC<IProps> = ({navigation, resume}) => {
   ];
 
   const dispatch = useDispatch();
-  const {
-    setClickedResume,
-    setResumeTitle,
-    setResumeEmail,
-    setResumeMobile,
-    setResumeVisa,
-    setResumeLocation,
-    setResumeName,
-    setResumePersonalStatement,
-  } = bindActionCreators(actionCreators, dispatch);
 
   const editResumeItem = resume => {
     let RESUME = findResume(resume._id[1]);
-    setClickedResume(RESUME);
-    setResumeTitle(RESUME[0].resumeTitle);
-    setResumeName(RESUME[0].name);
-    setResumeEmail(RESUME[0].email);
-    setResumeMobile(RESUME[0].mobile);
-    setResumeVisa(RESUME[0].visaStatus);
-    setResumeLocation(RESUME[0].location);
-    setResumePersonalStatement(RESUME[0].personalStatement);
+    dispatch(setClickedResume(JSON.parse(JSON.stringify(RESUME))));
+    dispatch(addResumeTitle(RESUME[0].resumeTitle));
+    dispatch(addResumeName(RESUME[0].name));
+    dispatch(addResumeEmail(RESUME[0].email));
+    dispatch(addResumeMobile(RESUME[0].mobile));
+    dispatch(addResumeVisa(RESUME[0].visaStatus));
+    dispatch(addResumeLocation(RESUME[0].location));
+    dispatch(addResumePersonalStatement(RESUME[0].personalStatement));
+    let expObject = {};
+    RESUME[0].experiences.map(item => {
+      expObject[item.id] = item;
+    });
+    dispatch(setExperience(JSON.parse(JSON.stringify(expObject))));
     navigation.navigate('NewResume', {
       resumeTitle: RESUME[0].resumeTitle,
     });
   };
 
   const previewResumeItem = resume => {
-    setClickedResume(resume);
+    dispatch(setClickedResume(JSON.parse(JSON.stringify(resume))));
     navigation.navigate('PreviewResume');
   };
 
-  
-
   return (
-    <View style={tw.style({height: 453})}>
+    <View style={tw.style({height: 350})}>
       <ActionSheet
         visible={actionSheetVisible}
         closeOverlay={() => {
@@ -87,12 +88,10 @@ export const ResumeItem: React.FC<IProps> = ({navigation, resume}) => {
         }}
         actions={actions}
       />
-      <PDFView
-        style={{flex: 1}}
-        onError={error => console.log('onError', error)}
-        onLoad={() => console.log('PDF rendered from url')}
-        resource={`${resume.resumeTitle}-${resume._id[1]}.pdf`}
-        resourceType="file"
+      <WebView
+        source={{
+          html: returnResumeHTML(resume),
+        }}
       />
       <Pressable
         style={tw.style(
@@ -105,7 +104,7 @@ export const ResumeItem: React.FC<IProps> = ({navigation, resume}) => {
           'left-0',
           'items-center',
           'bg-transparent',
-          {height: 500},
+          {height: 400},
         )}
         key={resume._id[1]}
         onPress={() => {

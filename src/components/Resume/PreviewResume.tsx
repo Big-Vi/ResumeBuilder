@@ -1,17 +1,17 @@
 import React, {useState, useEffect} from 'react';
 import {Text, Pressable, View, Share} from 'react-native';
-import {State} from '../../state';
 import {RootTabScreenProps} from '../../../types';
 import {useSelector} from 'react-redux';
 import tw from 'tailwind-react-native-classnames';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import PDFView from 'react-native-view-pdf';
+import {RootState} from '../../state/store';
 
 export default function PreviewResume({
   navigation,
 }: RootTabScreenProps<'PreviewResume'>) {
-  const clickedResume = useSelector(
-    (state: State) => state.ResumeReducer.clickedResume,
+  const clickedResume = useSelector((state: RootState) =>
+    state.resume.clickedResume,
   );
 
   useEffect(() => {

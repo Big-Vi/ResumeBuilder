@@ -110,8 +110,21 @@ class Resume {
         items: {
           bsonType: 'object',
           properties: {
+            id: 'string',
             title: 'string',
             employer: 'string',
+            location: 'string',
+            fromDate: 'date',
+            toDate: 'date',
+            currentlyWorking: 'boolean',
+            responsibilities: {
+              bsonType: 'array',
+              items: {
+                properties: {
+                  description: 'string',
+                },
+              },
+            },
           },
         },
       },

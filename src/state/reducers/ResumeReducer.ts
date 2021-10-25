@@ -2,13 +2,14 @@ import {Action} from '../actions/index';
 import {ActionType} from '../action-types/index';
 
 const initialState = {
-  resumeTitle: 'New resume',
-  name: 'Vignesh',
-  personalStatement: 'Hardworking',
-  email: 'jon@gmail.com',
-  mobile: '0342344234',
-  visaStatus: 'Citizen',
-  location: 'New york',
+  resumeTitle: '',
+  name: '',
+  personalStatement: '',
+  email: '',
+  mobile: '',
+  visaStatus: '',
+  location: '',
+  experiences: [],
   clickedResume: [],
 };
 

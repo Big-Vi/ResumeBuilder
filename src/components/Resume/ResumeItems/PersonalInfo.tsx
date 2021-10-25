@@ -1,31 +1,30 @@
 import React from 'react';
 import {Text, View, TextInput, StyleSheet} from 'react-native';
-import {useDispatch} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {useSelector} from 'react-redux';
-import {State, actionCreators} from '../../../state';
+import {useSelector, useDispatch} from 'react-redux';
+import {RootState} from '../../../state/store';
 import {RootTabScreenProps} from '../../../../types';
 import {useResume} from '../../../../providers/ResumeProvider';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import tw from 'tailwind-react-native-classnames';
+import {
+  addResumeName,
+  addResumeEmail,
+  addResumeMobile,
+  addResumeVisa,
+  addResumeLocation,
+  addResumePersonalStatement,
+} from '../../../features/resumeSlice';
 
 export default function PersonalInfo({
   navigation,
 }: RootTabScreenProps<'PersonalInfo'>) {
   const {updateResume} = useResume();
   const dispatch = useDispatch();
-  const {
-    setResumeName,
-    setResumeEmail,
-    setResumeMobile,
-    setResumeVisa,
-    setResumeLocation,
-    setResumePersonalStatement,
-  } = bindActionCreators(actionCreators, dispatch);
-  const clickedResume = useSelector(
-    (state: State) => state.ResumeReducer.clickedResume,
+
+  const clickedResume = useSelector((state: RootState) =>
+    state.resume.clickedResume,
   );
-  const formInputs = useSelector((state: State) => state.ResumeReducer);
+  const formInputs = useSelector((state: RootState) => state.resume);
   return (
     <View style={tw.style('mt-16', 'px-4')}>
       <View style={tw.style('flex', 'flex-row', 'justify-center')}>
@@ -57,35 +56,35 @@ export default function PersonalInfo({
         <Text>Name</Text>
         <TextInput
           style={styles.textInput}
-          onChangeText={text => setResumeName(text)}
+          onChangeText={text => dispatch(addResumeName(text))}
           autoFocus={false}
           defaultValue={clickedResume[0].name}
         />
         <Text>Email</Text>
         <TextInput
           style={styles.textInput}
-          onChangeText={text => setResumeEmail(text)}
+          onChangeText={text => dispatch(addResumeEmail(text))}
           autoFocus={false}
           defaultValue={clickedResume[0].email}
         />
         <Text>Phone/Mobile</Text>
         <TextInput
           style={styles.textInput}
-          onChangeText={text => setResumeMobile(text)}
+          onChangeText={text => dispatch(addResumeMobile(text))}
           autoFocus={false}
           defaultValue={clickedResume[0].mobile}
         />
         <Text>visaStatus</Text>
         <TextInput
           style={styles.textInput}
-          onChangeText={text => setResumeVisa(text)}
+          onChangeText={text => dispatch(addResumeVisa(text))}
           autoFocus={false}
           defaultValue={clickedResume[0].visaStatus}
         />
         <Text>Location</Text>
         <TextInput
           style={styles.textInput}
-          onChangeText={text => setResumeLocation(text)}
+          onChangeText={text => dispatch(addResumeLocation(text))}
           autoFocus={false}
           defaultValue={clickedResume[0].location}
         />
@@ -95,7 +94,7 @@ export default function PersonalInfo({
           multiline
           autoFocus={false}
           numberOfLines={10}
-          onChangeText={text => setResumePersonalStatement(text)}
+          onChangeText={text => dispatch(addResumePersonalStatement(text))}
           defaultValue={clickedResume[0].personalStatement}
         />
       </View>

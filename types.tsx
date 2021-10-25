@@ -24,6 +24,7 @@ export type RootStackParamList = {
   PreviewResume: undefined;
   AuthView: undefined;
   PersonalInfo: undefined;
+  Experiences: undefined;
   Settings: undefined;
   Modal: undefined;
   NotFound: undefined;
@@ -40,6 +41,7 @@ export type RootTabParamList = {
   CoverLetter: undefined;
   AuthView: undefined;
   Settings: undefined;
+  Experiences: undefined;
 };
 
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> =

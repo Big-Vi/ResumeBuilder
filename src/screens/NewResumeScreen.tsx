@@ -4,25 +4,27 @@ import {View, Text, Pressable} from 'react-native';
 import {Input, Overlay} from 'react-native-elements';
 import tw from '../../lib/tailwind';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {useDispatch} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {useSelector} from 'react-redux';
-import {State, actionCreators} from '../state';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../state/store';
 import {useResume} from '../../providers/ResumeProvider';
+import {addResumeTitle, setClickedResume} from '../features/resumeSlice';
 
 export default function NewResumeScreen({
   navigation,
   route,
 }: RootTabScreenProps<'NewResume'>) {
-  const {updateFilePath} = useResume();
-  const {resumeTitle} = route.params;
+  const {updateFilePath, findResume} = useResume();
   const [titleEdit, setTitleEdit] = useState(false);
   const dispatch = useDispatch();
   const clickedResume = useSelector(
-    (state: State) => state.ResumeReducer.clickedResume,
+    (state: RootState) => state.resume.clickedResume,
   );
-  const formInputs = useSelector((state: State) => state.ResumeReducer);
-  const {setResumeTitle} = bindActionCreators(actionCreators, dispatch);
+  const formInputs = useSelector((state: RootState) => state.resume);
+  const updateClickedResume = () => {
+    let RESUME = findResume(clickedResume[0]._id[1]);
+    dispatch(setClickedResume(JSON.parse(JSON.stringify(RESUME))));
+  };
+
   return (
     <>
       <Overlay
@@ -34,7 +36,7 @@ export default function NewResumeScreen({
         <View style={tw.style('py-4')}>
           <Input
             style={tw.style('')}
-            onChangeText={text => setResumeTitle(text)}
+            onChangeText={text => dispatch(addResumeTitle(text))}
             autoFocus={true}
             defaultValue={clickedResume[0].resumeTitle}
           />
@@ -57,11 +59,7 @@ export default function NewResumeScreen({
               transform: [{translateY: -6}],
             }}
             onPress={() => {
-              navigation.navigate('ResumeStack', {
-                screen: 'Resume',
-                pdfview: true,
-                id: clickedResume[0]._id,
-              });
+              navigation.navigate('ResumeStack');
             }}>
             <Ionicons name="arrow-back" size={26} color="black" />
           </Pressable>
@@ -85,8 +83,26 @@ export default function NewResumeScreen({
               'mt-4',
               'pl-4',
             )}
-            onPress={() => navigation.navigate('PersonalInfo')}>
+            onPress={() => {
+              updateClickedResume();
+              navigation.navigate('PersonalInfo');
+            }}>
             <Text>Personal Info</Text>
+          </Pressable>
+          <Pressable
+            style={tw.style(
+              'flex',
+              'justify-center',
+              'h-20',
+              'bg-white',
+              'mt-4',
+              'pl-4',
+            )}
+            onPress={() => {
+              updateClickedResume();
+              navigation.navigate('Experiences');
+            }}>
+            <Text>Experiences</Text>
           </Pressable>
         </View>
       </View>

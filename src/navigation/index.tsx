@@ -9,15 +9,16 @@ import SettingsScreen from '../screens/SettingsScreen';
 import NewResumeScreen from '../screens/NewResumeScreen';
 import * as React from 'react';
 import {AuthView} from '../screens/AuthView';
-import {CoverLetterProvider} from '../../providers/CoverLetterProvider';
+// import {CoverLetterProvider} from '../../providers/CoverLetterProvider';
 import {ResumeProvider} from '../../providers/ResumeProvider';
-import {CoverLetterScreen} from '../screens/CoverLetterScreen';
+// import {CoverLetterScreen} from '../screens/CoverLetterScreen';
 import PersonalInfo from '../components/Resume/ResumeItems/PersonalInfo';
+import Experiences from '../components/Resume/ResumeItems/Experiences';
 import PreviewResume from '../components/Resume/PreviewResume';
 import {useAuth} from '../../providers/AuthProvider';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import tw from '../../lib/tailwind';
-import {Text, View, TouchableOpacity, ScrollView} from 'react-native';
+import {Text, View, TouchableOpacity} from 'react-native';
 
 export default function Navigation() {
   return (
@@ -82,6 +83,20 @@ function ResumeStackScreen() {
           return (
             <ResumeProvider>
               <PersonalInfo navigation={navigation} route={route} />
+            </ResumeProvider>
+          );
+        }}
+      </ResumeStack.Screen>
+      <ResumeStack.Screen
+        name="Experiences"
+        options={() => ({
+          headerShown: false,
+        })}>
+        {props => {
+          const {navigation, route} = props;
+          return (
+            <ResumeProvider>
+              <Experiences navigation={navigation} route={route} />
             </ResumeProvider>
           );
         }}
