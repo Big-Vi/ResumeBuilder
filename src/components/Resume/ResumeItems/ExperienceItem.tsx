@@ -99,48 +99,56 @@ export default function ExperienceItem({experience}) {
             autoFocus={false}
             defaultValue={experience.location}
           />
-          <Text>From date</Text>
-          <Text
-            style={styles.textInput}
-            onPress={() => {
-              setShowFromDate(true);
-            }}>
-            {fromDate.toLocaleDateString()}
-          </Text>
-          <Overlay
-            overlayStyle={{width: '100%', position: 'absolute', bottom: 0}}
-            isVisible={showFromDate}>
-            <View style={tw.style('pb-4')}>
-              <Text onPress={() => setShowFromDate(false)}>Done</Text>
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={fromDate}
-                mode="date"
-                is24Hour={true}
-                display="spinner"
-                onChange={onChangeFromDate}
-              />
+          <View style={tw.style('flex', 'flex-row')}>
+            <View>
+              <Text>From date</Text>
+              <Text
+                style={styles.textInput}
+                onPress={() => {
+                  setShowFromDate(true);
+                }}>
+                {fromDate.toLocaleDateString()}
+              </Text>
+              <Overlay
+                overlayStyle={{width: '100%', position: 'absolute', bottom: 0}}
+                isVisible={showFromDate}>
+                <View style={tw.style('pb-4')}>
+                  <Text onPress={() => setShowFromDate(false)}>Done</Text>
+                  <DateTimePicker
+                    testID="dateTimePicker"
+                    value={fromDate}
+                    mode="date"
+                    is24Hour={true}
+                    display="spinner"
+                    onChange={onChangeFromDate}
+                  />
+                </View>
+              </Overlay>
             </View>
-          </Overlay>
-          <Text>To date</Text>
-          <Text style={styles.textInput} onPress={() => setShowToDate(true)}>
-            {toDate.toLocaleDateString()}
-          </Text>
-          <Overlay
-            overlayStyle={{width: '100%', position: 'absolute', bottom: 0}}
-            isVisible={showToDate}>
-            <View style={tw.style('pb-4')}>
-              <Text onPress={() => setShowToDate(false)}>Done</Text>
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={toDate}
-                mode="date"
-                is24Hour={true}
-                display="spinner"
-                onChange={onChangeToDate}
-              />
+            <View style={tw.style('ml-12')}>
+              <Text>To date</Text>
+              <Text
+                style={styles.textInput}
+                onPress={() => setShowToDate(true)}>
+                {toDate.toLocaleDateString()}
+              </Text>
+              <Overlay
+                overlayStyle={{width: '100%', position: 'absolute', bottom: 0}}
+                isVisible={showToDate}>
+                <View style={tw.style('pb-4')}>
+                  <Text onPress={() => setShowToDate(false)}>Done</Text>
+                  <DateTimePicker
+                    testID="dateTimePicker"
+                    value={toDate}
+                    mode="date"
+                    is24Hour={true}
+                    display="spinner"
+                    onChange={onChangeToDate}
+                  />
+                </View>
+              </Overlay>
             </View>
-          </Overlay>
+          </View>
           <View style={tw.style('flex', 'flex-row', 'items-center')}>
             <CheckBox
               disabled={false}
@@ -149,9 +157,15 @@ export default function ExperienceItem({experience}) {
                 setToggleCheckBox(e);
                 handleChange(e, 'currentlyWorking');
               }}
-              // onValueChange={newValue => setToggleCheckBox(newValue)}
             />
             <Text style={tw.style('ml-4')}>Currently working here?</Text>
+          </View>
+          <View style={tw.style('mt-8')}>
+            <Text>Responsibilities</Text>
+            {experience.responsibilities.length > 0 &&
+              experience.responsibilities.map((item, index) => {
+                return <Text key={index}>{item}</Text>;
+              })}
           </View>
         </CollapseBody>
       </Collapse>

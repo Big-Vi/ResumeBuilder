@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {RootTabScreenProps} from '../../types';
-import {View, Text, Pressable} from 'react-native';
+import {View, Text, Pressable, StyleSheet} from 'react-native';
 import {Input, Overlay} from 'react-native-elements';
 import tw from '../../lib/tailwind';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -8,6 +8,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../state/store';
 import {useResume} from '../../providers/ResumeProvider';
 import {addResumeTitle, setClickedResume} from '../features/resumeSlice';
+import {DraxProvider, DraxView} from 'react-native-drax';
 
 export default function NewResumeScreen({
   navigation,
@@ -105,7 +106,48 @@ export default function NewResumeScreen({
             <Text>Experiences</Text>
           </Pressable>
         </View>
+        <DraxProvider>
+          <View style={styles.container}>
+            <DraxView
+              style={styles.draggable}
+              onDragStart={() => {
+                console.log('start drag');
+              }}
+              payload="world"
+            />
+            <DraxView
+              style={styles.receiver}
+              onReceiveDragEnter={({dragged: {payload}}) => {
+                console.log(`hello ${payload}`);
+              }}
+              onReceiveDragExit={({dragged: {payload}}) => {
+                console.log(`goodbye ${payload}`);
+              }}
+              onReceiveDragDrop={({dragged: {payload}}) => {
+                console.log(`received ${payload}`);
+              }}
+            />
+          </View>
+        </DraxProvider>
       </View>
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  draggable: {
+    width: 100,
+    height: 100,
+    backgroundColor: 'blue',
+  },
+  receiver: {
+    width: 100,
+    height: 100,
+    backgroundColor: 'green',
+  },
+});
