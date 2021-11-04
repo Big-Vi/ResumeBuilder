@@ -160,13 +160,13 @@ export default function ExperienceItem({experience}) {
             />
             <Text style={tw.style('ml-4')}>Currently working here?</Text>
           </View>
-          <View style={tw.style('mt-8')}>
+          {/* <View style={tw.style('mt-8')}>
             <Text>Responsibilities</Text>
             {experience.responsibilities.length > 0 &&
               experience.responsibilities.map((item, index) => {
                 return <Text key={index}>{item}</Text>;
               })}
-          </View>
+          </View> */}
         </CollapseBody>
       </Collapse>
     </View>

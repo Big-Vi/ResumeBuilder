@@ -55,7 +55,7 @@ export const ResumeItem: React.FC<IProps> = ({navigation, resume}) => {
   const dispatch = useDispatch();
 
   const editResumeItem = resume => {
-    let RESUME = findResume(resume._id[1]);
+    let RESUME = findResume(resume);
     dispatch(setClickedResume(JSON.parse(JSON.stringify(RESUME))));
     dispatch(addResumeTitle(RESUME[0].resumeTitle));
     dispatch(addResumeName(RESUME[0].name));

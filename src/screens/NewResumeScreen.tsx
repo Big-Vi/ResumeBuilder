@@ -22,7 +22,7 @@ export default function NewResumeScreen({
   );
   const formInputs = useSelector((state: RootState) => state.resume);
   const updateClickedResume = () => {
-    let RESUME = findResume(clickedResume[0]._id[1]);
+    let RESUME = findResume(clickedResume[0]);
     dispatch(setClickedResume(JSON.parse(JSON.stringify(RESUME))));
   };
 
@@ -106,7 +106,7 @@ export default function NewResumeScreen({
             <Text>Experiences</Text>
           </Pressable>
         </View>
-        <DraxProvider>
+        {/* <DraxProvider>
           <View style={styles.container}>
             <DraxView
               style={styles.draggable}
@@ -128,7 +128,7 @@ export default function NewResumeScreen({
               }}
             />
           </View>
-        </DraxProvider>
+        </DraxProvider> */}
       </View>
     </>
   );

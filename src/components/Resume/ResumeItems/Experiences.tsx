@@ -27,7 +27,7 @@ export default function Experiences({
   const handleDelete = id => {
     dispatch(deleteExperience(id));
     updateResume(clickedResume, store.getState().resume);
-    let RESUME = findResume(clickedResume[0]._id[1]);
+    let RESUME = findResume(clickedResume[0]);
     dispatch(setClickedResume(JSON.parse(JSON.stringify(RESUME))));
   };
 
@@ -46,7 +46,7 @@ export default function Experiences({
     };
     dispatch(addExperience(exp));
     updateResume(clickedResume, store.getState().resume);
-    let RESUME = findResume(clickedResume[0]._id[1]);
+    let RESUME = findResume(clickedResume[0]);
     dispatch(setClickedResume(JSON.parse(JSON.stringify(RESUME))));
   };
 

@@ -94,9 +94,11 @@ const ResumeProvider = ({children}) => {
     });
   };
 
-  const findResume = ID => {
+  const findResume = resumeItem => {
     const realm = realmRef.current;
-    const resume = realm.objects('Resume').filtered(`_id = oid(${ID})`);
+    const resume = realm
+      .objects('Resume')
+      .filtered(`_id = oid(${resumeItem._id})`);
     return resume;
   };
 
@@ -957,15 +959,13 @@ const ResumeProvider = ({children}) => {
 
   const updateFilePath = (resumeArg, resumeFields) => {
     const realm = realmRef.current;
-    createPDF(ObjectId(resumeArg[0]._id[1]), resumeFields).then(function (
-      data,
-    ) {
+    createPDF(ObjectId(resumeArg[0]._id), resumeFields).then(function (data) {
       let filePath = data.filePath;
       realm.write(() => {
         realm.create(
           'Resume',
           {
-            _id: ObjectId(resumeArg[0]._id[1]),
+            _id: ObjectId(resumeArg[0]._id),
             resumeTitle: resumeFields.resumeTitle,
             filePath: filePath,
           },
@@ -978,12 +978,12 @@ const ResumeProvider = ({children}) => {
   const updateResume = (resumeArg, resumeFields) => {
     // console.log(resumeFields);
     const realm = realmRef.current;
-    createPDF(ObjectId(resumeArg[0]._id[1]), resumeFields);
+    createPDF(ObjectId(resumeArg[0]._id), resumeFields);
     realm.write(() => {
       realm.create(
         'Resume',
         {
-          _id: ObjectId(resumeArg[0]._id[1]),
+          _id: ObjectId(resumeArg[0]._id),
           resumeTitle: resumeFields.resumeTitle,
           name: resumeFields.name,
           personalStatement: resumeFields.personalStatement,
