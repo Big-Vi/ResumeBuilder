@@ -16,6 +16,7 @@ import {
   addResumePersonalStatement,
   setClickedResume,
   setExperience,
+  addResumeOrder,
 } from '../../features/resumeSlice';
 
 interface IProps {
@@ -63,6 +64,7 @@ export const ResumeItem: React.FC<IProps> = ({navigation, resume}) => {
     dispatch(addResumeMobile(RESUME[0].mobile));
     dispatch(addResumeVisa(RESUME[0].visaStatus));
     dispatch(addResumeLocation(RESUME[0].location));
+    dispatch(addResumeOrder(JSON.parse(JSON.stringify(RESUME[0].order))));
     dispatch(addResumePersonalStatement(RESUME[0].personalStatement));
     let expObject = {};
     RESUME[0].experiences.map(item => {

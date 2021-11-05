@@ -1,20 +1,25 @@
 import React, {useState} from 'react';
 import {RootTabScreenProps} from '../../types';
-import {View, Text, Pressable, StyleSheet} from 'react-native';
+import {View, Text, Pressable} from 'react-native';
 import {Input, Overlay} from 'react-native-elements';
 import tw from '../../lib/tailwind';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../state/store';
 import {useResume} from '../../providers/ResumeProvider';
-import {addResumeTitle, setClickedResume} from '../features/resumeSlice';
-import {DraxProvider, DraxView} from 'react-native-drax';
+import {
+  addResumeTitle,
+  setClickedResume,
+  addResumeOrder,
+} from '../features/resumeSlice';
+import {DraxProvider, DraxList} from 'react-native-drax';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 export default function NewResumeScreen({
   navigation,
   route,
 }: RootTabScreenProps<'NewResume'>) {
-  const {updateFilePath, findResume} = useResume();
+  const {updateFilePath, findResume, updateResume} = useResume();
   const [titleEdit, setTitleEdit] = useState(false);
   const dispatch = useDispatch();
   const clickedResume = useSelector(
@@ -25,6 +30,8 @@ export default function NewResumeScreen({
     let RESUME = findResume(clickedResume[0]);
     dispatch(setClickedResume(JSON.parse(JSON.stringify(RESUME))));
   };
+
+  const [order, setOrder] = React.useState(formInputs.order);
 
   return (
     <>
@@ -60,6 +67,7 @@ export default function NewResumeScreen({
               transform: [{translateY: -6}],
             }}
             onPress={() => {
+              updateResume(clickedResume, formInputs);
               navigation.navigate('ResumeStack');
             }}>
             <Ionicons name="arrow-back" size={26} color="black" />
@@ -74,80 +82,42 @@ export default function NewResumeScreen({
             </Text>
           </View>
         </View>
-        <View style={tw.style()}>
-          <Pressable
-            style={tw.style(
-              'flex',
-              'justify-center',
-              'h-20',
-              'bg-white',
-              'mt-4',
-              'pl-4',
-            )}
-            onPress={() => {
-              updateClickedResume();
-              navigation.navigate('PersonalInfo');
-            }}>
-            <Text>Personal Info</Text>
-          </Pressable>
-          <Pressable
-            style={tw.style(
-              'flex',
-              'justify-center',
-              'h-20',
-              'bg-white',
-              'mt-4',
-              'pl-4',
-            )}
-            onPress={() => {
-              updateClickedResume();
-              navigation.navigate('Experiences');
-            }}>
-            <Text>Experiences</Text>
-          </Pressable>
-        </View>
-        {/* <DraxProvider>
-          <View style={styles.container}>
-            <DraxView
-              style={styles.draggable}
-              onDragStart={() => {
-                console.log('start drag');
-              }}
-              payload="world"
-            />
-            <DraxView
-              style={styles.receiver}
-              onReceiveDragEnter={({dragged: {payload}}) => {
-                console.log(`hello ${payload}`);
-              }}
-              onReceiveDragExit={({dragged: {payload}}) => {
-                console.log(`goodbye ${payload}`);
-              }}
-              onReceiveDragDrop={({dragged: {payload}}) => {
-                console.log(`received ${payload}`);
-              }}
-            />
-          </View>
-        </DraxProvider> */}
+        <GestureHandlerRootView style={tw.style('h-full', 'w-full')}>
+          <DraxProvider>
+            <View>
+              <DraxList
+                data={order}
+                renderItemContent={({item}) => (
+                  <View>
+                    <Pressable
+                      style={tw.style(
+                        'flex',
+                        'justify-center',
+                        'h-20',
+                        'bg-white',
+                        'mt-4',
+                        'pl-4',
+                      )}
+                      onPress={() => {
+                        updateClickedResume();
+                        navigation.navigate(item);
+                      }}>
+                      <Text>{item}</Text>
+                    </Pressable>
+                  </View>
+                )}
+                onItemReorder={({fromIndex, toIndex}) => {
+                  const newData = order.slice();
+                  newData.splice(toIndex, 0, newData.splice(fromIndex, 1)[0]);
+                  setOrder(newData);
+                  dispatch(addResumeOrder(JSON.parse(JSON.stringify(newData))));
+                }}
+                keyExtractor={item => item}
+              />
+            </View>
+          </DraxProvider>
+        </GestureHandlerRootView>
       </View>
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  draggable: {
-    width: 100,
-    height: 100,
-    backgroundColor: 'blue',
-  },
-  receiver: {
-    width: 100,
-    height: 100,
-    backgroundColor: 'green',
-  },
-});

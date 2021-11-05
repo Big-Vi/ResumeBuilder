@@ -64,7 +64,7 @@ const ResumeProvider = ({children}) => {
   };
 
   const createResume = newResumeFields => {
-    console.log(newResumeFields);
+    // console.log(newResumeFields);
     const realm = realmRef.current;
     let ID = new ObjectId();
     createPDF(ID, newResumeFields).then(function (data) {
@@ -81,6 +81,7 @@ const ResumeProvider = ({children}) => {
             email: newResumeFields.email,
             mobile: newResumeFields.mobile,
             visaStatus: newResumeFields.visaStatus,
+            order: newResumeFields.order,
             location: newResumeFields.location,
             partition: `user=${user.id}`,
             filePath: filePath,
@@ -95,10 +96,11 @@ const ResumeProvider = ({children}) => {
   };
 
   const findResume = resumeItem => {
+    // console.log(resumeItem);
     const realm = realmRef.current;
     const resume = realm
       .objects('Resume')
-      .filtered(`_id = oid(${resumeItem._id})`);
+      .filtered(`_id = oid(${resumeItem._id[1]})`);
     return resume;
   };
 
@@ -959,13 +961,13 @@ const ResumeProvider = ({children}) => {
 
   const updateFilePath = (resumeArg, resumeFields) => {
     const realm = realmRef.current;
-    createPDF(ObjectId(resumeArg[0]._id), resumeFields).then(function (data) {
+    createPDF(ObjectId(resumeArg[0]._id[1]), resumeFields).then(function (data) {
       let filePath = data.filePath;
       realm.write(() => {
         realm.create(
           'Resume',
           {
-            _id: ObjectId(resumeArg[0]._id),
+            _id: ObjectId(resumeArg[0]._id[1]),
             resumeTitle: resumeFields.resumeTitle,
             filePath: filePath,
           },
@@ -978,18 +980,19 @@ const ResumeProvider = ({children}) => {
   const updateResume = (resumeArg, resumeFields) => {
     // console.log(resumeFields);
     const realm = realmRef.current;
-    createPDF(ObjectId(resumeArg[0]._id), resumeFields);
+    createPDF(ObjectId(resumeArg[0]._id[1]), resumeFields);
     realm.write(() => {
       realm.create(
         'Resume',
         {
-          _id: ObjectId(resumeArg[0]._id),
+          _id: ObjectId(resumeArg[0]._id[1]),
           resumeTitle: resumeFields.resumeTitle,
           name: resumeFields.name,
           personalStatement: resumeFields.personalStatement,
           email: resumeFields.email,
           mobile: resumeFields.mobile,
           visaStatus: resumeFields.visaStatus,
+          order: resumeFields.order,
           location: resumeFields.location,
           partition: `user=${user.id}`,
           experiences: Object.values(resumeFields.experiences),

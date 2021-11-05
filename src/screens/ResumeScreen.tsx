@@ -65,6 +65,7 @@ export default function ResumeScreen({
               mobile: '0342344234',
               visaStatus: 'Citizen',
               location: 'New york',
+              order: ['PersonalInfo', 'Experiences'],
               experiences: [
                 {
                   id: uuid.v4(),
@@ -74,17 +75,19 @@ export default function ResumeScreen({
                   fromDate: new Date(),
                   toDate: new Date(),
                   currentlyWorking: false,
-                  responsibilities: ['string', 'string'],
+                  order: 0,
+                  responsibilities: 'string',
                 },
                 {
                   id: uuid.v4(),
                   title: 'Full stack developer',
-                  employer: 'Plato',
+                  employer: 'Intech',
                   location: 'CHCH',
                   fromDate: new Date(),
                   toDate: new Date(),
+                  order: 1,
                   currentlyWorking: false,
-                  responsibilities: ['string', 'string'],
+                  responsibilities: 'string',
                 },
               ],
             });

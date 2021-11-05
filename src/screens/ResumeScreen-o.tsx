@@ -45,7 +45,7 @@ export default function ResumeScreen({
         <PreviewResume modalVisibleState={true} clickedResume={clickedResume} />
       ) : viewState ? (
         resumes.map((resume: any) =>
-          resume ? <ResumeItem key={`${resume._id}`} resume={resume} /> : null,
+          resume ? <ResumeItem key={`${resume._id[1]}`} resume={resume} /> : null,
         )
       ) : (
         ''

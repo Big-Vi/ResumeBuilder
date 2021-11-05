@@ -75,7 +75,7 @@ export default function PreviewResume({
           style={{flex: 1}}
           onError={error => console.log('onError', error)}
           onLoad={() => console.log('PDF rendered from url')}
-          resource={`${clickedResume.resumeTitle}-${clickedResume._id}.pdf`}
+          resource={`${clickedResume.resumeTitle}-${clickedResume._id[1]}.pdf`}
           resourceType="file"
         />
       </View>

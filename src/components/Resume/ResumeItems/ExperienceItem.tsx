@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {Text, View, TextInput, StyleSheet, Platform} from 'react-native';
 import tw from 'tailwind-react-native-classnames';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -12,6 +12,13 @@ import {editExperience} from '../../../features/resumeSlice';
 import {useDispatch} from 'react-redux';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import CheckBox from '@react-native-community/checkbox';
+import {
+  actions,
+  defaultActions,
+  RichEditor,
+  RichToolbar,
+} from 'react-native-pell-rich-editor';
+import HTMLView from 'react-native-htmlview';
 
 export default function ExperienceItem({experience}) {
   const [fromDate, setFromDate] = useState(new Date(experience.fromDate));
@@ -31,7 +38,7 @@ export default function ExperienceItem({experience}) {
     fromDate: experience.fromDate,
     toDate: experience.toDate,
     currentlyWorking: experience.currentlyWorking,
-    responsibilities: [],
+    responsibilities: experience.responsibilities,
   });
   const dispatch = useDispatch();
   const handleChange = (e, name) => {
@@ -56,6 +63,25 @@ export default function ExperienceItem({experience}) {
     dispatch(editExperience(formInputsTemp));
   }, [formInputsTemp]);
   const [expanded, setExpanded] = useState(false);
+
+  const RichText = useRef();
+
+  // this function will be called when the editor has been initialized
+  function editorInitializedCallback() {
+    RichText.current?.registerToolbar(function (items) {
+      // items contain all the actions that are currently active
+      console.log(
+        'Toolbar click, selected items (insert end callback):',
+        items,
+      );
+    });
+  }
+
+  // Callback after height change
+  function handleHeightChange(height) {
+    // console.log("editor height change:", height);
+  }
+
   return (
     <View>
       <Collapse isExpanded={expanded} onToggle={() => setExpanded(!expanded)}>
@@ -77,7 +103,7 @@ export default function ExperienceItem({experience}) {
             )}
           </View>
         </CollapseHeader>
-        <CollapseBody style={tw.style('pt-6')}>
+        <CollapseBody style={tw.style('py-6')}>
           <Text>Job title</Text>
           <TextInput
             style={styles.textInput}
@@ -160,13 +186,35 @@ export default function ExperienceItem({experience}) {
             />
             <Text style={tw.style('ml-4')}>Currently working here?</Text>
           </View>
-          {/* <View style={tw.style('mt-8')}>
-            <Text>Responsibilities</Text>
-            {experience.responsibilities.length > 0 &&
-              experience.responsibilities.map((item, index) => {
-                return <Text key={index}>{item}</Text>;
-              })}
-          </View> */}
+          <View style={tw.style('mb-12', 'mt-8', 'h-80')}>
+            <Text style={tw.style('mb-4')}>Responsibilities</Text>
+            <RichEditor
+              disabled={false}
+              containerStyle={styles.editor}
+              ref={RichText}
+              style={styles.rich}
+              placeholder={'Start Writing Here'}
+              initialContentHTML={experience.responsibilities}
+              onChange={text => handleChange(text, 'responsibilities')}
+              editorInitializedCallback={editorInitializedCallback}
+              onHeightChange={handleHeightChange}
+            />
+            <RichToolbar
+              style={[styles.richBar]}
+              editor={RichText}
+              disabled={false}
+              iconTint={'purple'}
+              selectedIconTint={'pink'}
+              disabledIconTint={'purple'}
+              iconSize={25}
+              actions={[
+                actions.setBold,
+                actions.setItalic,
+                actions.insertBulletsList,
+                actions.insertOrderedList,
+              ]}
+            />
+          </View>
         </CollapseBody>
       </Collapse>
     </View>
@@ -183,5 +231,43 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     fontSize: 18,
     marginBottom: 30,
+  },
+  /* styles for html tags */
+  a: {
+    fontWeight: 'bold',
+    color: 'purple',
+  },
+  div: {
+    fontFamily: 'monospace',
+  },
+  p: {
+    fontSize: 30,
+  },
+  /*******************************/
+  container: {
+    flex: 1,
+    marginTop: 40,
+    backgroundColor: '#F5FCFF',
+  },
+  editor: {
+    backgroundColor: 'black',
+    borderColor: 'black',
+    borderWidth: 1,
+  },
+  rich: {
+    minHeight: 300,
+    flex: 1,
+  },
+  richBar: {
+    height: 50,
+    backgroundColor: '#F5FCFF',
+  },
+  text: {
+    fontWeight: 'bold',
+    fontSize: 20,
+  },
+  tib: {
+    textAlign: 'center',
+    color: '#515156',
   },
 });

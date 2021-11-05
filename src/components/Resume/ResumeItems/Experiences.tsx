@@ -1,5 +1,5 @@
-import React from 'react';
-import {Text, View, Pressable, ScrollView} from 'react-native';
+import React, {useEffect} from 'react';
+import {Text, View, Pressable, StyleSheet} from 'react-native';
 import {useDispatch, useSelector, useStore} from 'react-redux';
 import {RootTabScreenProps} from '../../../../types';
 import {useResume} from '../../../../providers/ResumeProvider';
@@ -10,9 +10,12 @@ import {
   addExperience,
   setClickedResume,
   deleteExperience,
+  setExperience,
 } from '../../../features/resumeSlice';
 import uuid from 'react-native-uuid';
 import ExperienceItem from './ExperienceItem';
+import {DraxProvider, DraxList} from 'react-native-drax';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 export default function Experiences({
   navigation,
@@ -31,6 +34,16 @@ export default function Experiences({
     dispatch(setClickedResume(JSON.parse(JSON.stringify(RESUME))));
   };
 
+  const [experiences, setExperiences] = React.useState([]);
+
+  useEffect(() => {
+    setExperiences(
+      [...clickedResume[0].experiences].sort((a, b) =>
+        a.order > b.order ? 1 : -1,
+      ),
+    );
+  }, [clickedResume[0]]);
+
   const handleCreateExp = () => {
     let idNew = uuid.v4();
     let exp = {};
@@ -41,6 +54,10 @@ export default function Experiences({
       location: 'CHCH',
       fromDate: JSON.stringify(new Date()),
       toDate: JSON.stringify(new Date()),
+      order:
+        clickedResume[0].experiences.length > 0
+          ? clickedResume[0].experiences.length
+          : 0,
       currentlyWorking: false,
       responsibilities: ['string', 'string'],
     };
@@ -66,40 +83,86 @@ export default function Experiences({
           <Ionicons name="arrow-back" size={26} color="black" />
         </Text>
         <Text>Experiences</Text>
+        <Pressable
+          style={tw.style(
+            'absolute',
+            'right-0',
+            'text-lg',
+            'bg-red-500',
+            'w-8',
+            'h-8',
+            'flex',
+            'items-center',
+            'justify-center',
+            'rounded-full',
+          )}
+          onPress={() => {
+            handleCreateExp();
+          }}>
+          <Ionicons name="add" size={20} color={'white'} />
+        </Pressable>
       </View>
-      <ScrollView style={tw.style('mt-8')}>
-        {clickedResume[0].experiences.length > 0 &&
-          clickedResume[0].experiences.map(experience => {
-            return (
-              <View key={experience.id} style={tw.style('mb-8')}>
-                <ExperienceItem experience={experience} />
-                <Text
-                  style={tw.style('text-center', 'text-right', 'mt-1')}
-                  onPress={() => handleDelete(experience.id)}>
-                  <Ionicons name="trash-outline" size={20} color={'black'} />
-                </Text>
-              </View>
-            );
-          })}
-        <View style={tw.style('flex', 'flex-row', 'justify-end')}>
-          <Pressable
-            style={tw.style(
-              'text-lg',
-              'bg-red-500',
-              'w-12',
-              'h-12',
-              'flex',
-              'items-center',
-              'justify-center',
-              'rounded-full',
-            )}
-            onPress={() => {
-              handleCreateExp();
-            }}>
-            <Ionicons name="add" size={20} color={'white'} />
-          </Pressable>
-        </View>
-      </ScrollView>
+      <View style={tw.style('mt-12')}>
+        {experiences.length > 0 && (
+          <View style={tw.style('mb-8')}>
+            <GestureHandlerRootView style={tw.style('h-full', 'w-full')}>
+              <DraxProvider>
+                <View style={styles.container}>
+                  <DraxList
+                    data={experiences}
+                    renderItemContent={({item}) => (
+                      <>
+                        <ExperienceItem experience={item} />
+                        <Text
+                          style={tw.style(
+                            'text-center',
+                            'text-right',
+                            'mt-1',
+                            'mb-6',
+                          )}
+                          onPress={() => handleDelete(item.id)}>
+                          <Ionicons
+                            name="trash-outline"
+                            size={20}
+                            color={'black'}
+                          />
+                        </Text>
+                      </>
+                    )}
+                    onItemReorder={({fromIndex, toIndex}) => {
+                      const newData = experiences.slice();
+                      newData.splice(
+                        toIndex,
+                        0,
+                        newData.splice(fromIndex, 1)[0],
+                      );
+                      setExperiences(newData);
+                      const newExp = newData.map((item, index) => {
+                        let newItem = Object.assign({}, item, {order: index});
+                        return newItem;
+                      });
+                      let expObject = {};
+                      newExp.map(item => {
+                        expObject[item.id] = item;
+                      });
+                      dispatch(
+                        setExperience(JSON.parse(JSON.stringify(expObject))),
+                      );
+                    }}
+                    keyExtractor={item => item}
+                  />
+                </View>
+              </DraxProvider>
+            </GestureHandlerRootView>
+          </View>
+        )}
+      </View>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});

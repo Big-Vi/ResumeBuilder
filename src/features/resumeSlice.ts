@@ -7,8 +7,9 @@ interface Experience {
   location: string;
   fromDate: string;
   toDate: string;
+  order: number;
   currentlyWorking: boolean;
-  responsibilities: string[];
+  responsibilities: string;
 }
 
 interface ResumeState {
@@ -19,6 +20,7 @@ interface ResumeState {
   mobile: string;
   visaStatus: string;
   location: string;
+  order: string[];
   experiences: Experience[];
   clickedResume: [];
 }
@@ -31,6 +33,7 @@ const initialState: ResumeState = {
   mobile: '',
   visaStatus: '',
   location: '',
+  order: [],
   experiences: [],
   clickedResume: [],
 };
@@ -66,7 +69,11 @@ export const resumeSlice = createSlice({
     setExperience: (state, action: PayloadAction<any>) => {
       state.experiences = action.payload;
     },
+    addResumeOrder: (state, action: PayloadAction<any>) => {
+      state.order = action.payload;
+    },
     editExperience: (state, action: PayloadAction<any>) => {
+      console.log(action.payload);
       state.experiences = {
         ...state.experiences,
         [action.payload.id]: {
@@ -82,12 +89,13 @@ export const resumeSlice = createSlice({
             action.payload.toDate.split('"').length > 1
               ? action.payload.toDate.split('"')[1]
               : action.payload.toDate,
+          order: state.experiences[action.payload.id].order,
           currentlyWorking: action.payload.currentlyWorking,
+          responsibilities: action.payload.responsibilities,
         },
       };
     },
     addExperience: (state, action: PayloadAction<any>) => {
-      console.log(action);
       state.experiences = {
         ...state.experiences,
         [action.payload.id]: {
@@ -103,6 +111,7 @@ export const resumeSlice = createSlice({
             action.payload.toDate.split('"').length > 1
               ? action.payload.toDate.split('"')[1]
               : action.payload.toDate,
+          order: action.payload.order,
           currentlyWorking: action.payload.currentlyWorking,
         },
       };
@@ -125,6 +134,7 @@ export const {
   setExperience,
   editExperience,
   addExperience,
+  addResumeOrder,
   deleteExperience,
 } = resumeSlice.actions;
 

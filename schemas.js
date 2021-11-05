@@ -65,6 +65,7 @@ class Resume {
     location,
     qualifications,
     experiences,
+    order,
     partition,
     id,
     filePath,
@@ -78,6 +79,7 @@ class Resume {
     this.mobile = mobile;
     this.visaStatus = visaStatus;
     this.location = location;
+    this.order = order;
     this.qualifications = qualifications;
     this.experiences = experiences;
     this.filePath = filePath;
@@ -95,6 +97,14 @@ class Resume {
       location: 'string',
       visaStatus: 'string',
       filePath: 'string',
+      order: {
+        bsonType: 'array',
+        items: {
+          properties: {
+            title: 'string',
+          },
+        },
+      },
       qualifications: {
         bsonType: 'array',
         items: {
@@ -116,15 +126,9 @@ class Resume {
             location: 'string',
             fromDate: 'date',
             toDate: 'date',
+            order: 'number',
             currentlyWorking: 'boolean',
-            responsibilities: {
-              bsonType: 'array',
-              items: {
-                properties: {
-                  description: 'string',
-                },
-              },
-            },
+            responsibilities: 'string',
           },
         },
       },
