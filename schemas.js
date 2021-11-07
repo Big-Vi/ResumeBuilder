@@ -65,6 +65,7 @@ class Resume {
     location,
     qualifications,
     experiences,
+    skills,
     order,
     partition,
     id,
@@ -82,6 +83,7 @@ class Resume {
     this.order = order;
     this.qualifications = qualifications;
     this.experiences = experiences;
+    this.skills = skills;
     this.filePath = filePath;
   }
 
@@ -105,13 +107,18 @@ class Resume {
           },
         },
       },
+      skills: 'string',
       qualifications: {
         bsonType: 'array',
         items: {
           bsonType: 'object',
           properties: {
+            id: 'string',
             title: 'string',
             institute: 'string',
+            finishedDate: 'date',
+            location: 'string',
+            order: 'number',
           },
         },
       },

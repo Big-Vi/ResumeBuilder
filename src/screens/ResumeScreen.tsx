@@ -65,7 +65,31 @@ export default function ResumeScreen({
               mobile: '0342344234',
               visaStatus: 'Citizen',
               location: 'New york',
-              order: ['PersonalInfo', 'Experiences'],
+              order: [
+                'PersonalInfo',
+                'Experiences',
+                'Qualifications',
+                'Skills',
+              ],
+              skills: '<ul><li>Javascript</li><li>GraphQL</li></ul>',
+              qualifications: [
+                {
+                  id: uuid.v4(),
+                  title: 'Ux & Web developer',
+                  institute: 'Plato',
+                  location: 'CHCH',
+                  finishedDate: new Date(),
+                  order: 0,
+                },
+                {
+                  id: uuid.v4(),
+                  title: 'Web developer',
+                  institute: 'Intech',
+                  location: 'CHCH',
+                  finishedDate: new Date(),
+                  order: 1,
+                },
+              ],
               experiences: [
                 {
                   id: uuid.v4(),

@@ -13,7 +13,7 @@ import {
   setExperience,
 } from '../../../features/resumeSlice';
 import uuid from 'react-native-uuid';
-import ExperienceItem from './ExperienceItem';
+import ExperienceItem from '../ResumeComponents/ExperienceItem';
 import {DraxProvider, DraxList} from 'react-native-drax';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 

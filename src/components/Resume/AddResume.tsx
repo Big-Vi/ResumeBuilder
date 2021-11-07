@@ -12,7 +12,7 @@ import {
 import {useDispatch} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {actionCreators} from '../../state';
-import {PersonalInfo} from './ResumeItems/PersonalInfo';
+import {PersonalInfo} from './ResumeScreens/PersonalInfo';
 
 // The AddTask is a button for adding tasks. When the button is pressed, an
 // overlay shows up to request user input for the new task name. When the

@@ -12,13 +12,7 @@ import {editExperience} from '../../../features/resumeSlice';
 import {useDispatch} from 'react-redux';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import CheckBox from '@react-native-community/checkbox';
-import {
-  actions,
-  defaultActions,
-  RichEditor,
-  RichToolbar,
-} from 'react-native-pell-rich-editor';
-import HTMLView from 'react-native-htmlview';
+import {actions, RichEditor, RichToolbar} from 'react-native-pell-rich-editor';
 
 export default function ExperienceItem({experience}) {
   const [fromDate, setFromDate] = useState(new Date(experience.fromDate));

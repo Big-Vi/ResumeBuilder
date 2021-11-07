@@ -12,6 +12,15 @@ interface Experience {
   responsibilities: string;
 }
 
+interface Qualification {
+  id: number;
+  title: string;
+  institute: string;
+  location: string;
+  finishedDate: string;
+  order: number;
+}
+
 interface ResumeState {
   resumeTitle: string;
   name: string;
@@ -21,7 +30,9 @@ interface ResumeState {
   visaStatus: string;
   location: string;
   order: string[];
+  skills: string;
   experiences: Experience[];
+  qualifications: Qualification[];
   clickedResume: [];
 }
 
@@ -33,8 +44,10 @@ const initialState: ResumeState = {
   mobile: '',
   visaStatus: '',
   location: '',
+  skills: '',
   order: [],
   experiences: [],
+  qualifications: [],
   clickedResume: [],
 };
 
@@ -63,11 +76,17 @@ export const resumeSlice = createSlice({
     addResumePersonalStatement: (state, action: PayloadAction<string>) => {
       state.personalStatement = action.payload;
     },
+    addResumeSkills: (state, action: PayloadAction<string>) => {
+      state.skills = action.payload;
+    },
     setClickedResume: (state, action: PayloadAction<any>) => {
       state.clickedResume = action.payload;
     },
     setExperience: (state, action: PayloadAction<any>) => {
       state.experiences = action.payload;
+    },
+    setQualification: (state, action: PayloadAction<any>) => {
+      state.qualifications = action.payload;
     },
     addResumeOrder: (state, action: PayloadAction<any>) => {
       state.order = action.payload;
@@ -119,6 +138,41 @@ export const resumeSlice = createSlice({
     deleteExperience: (state, action: PayloadAction<any>) => {
       delete state.experiences[action.payload];
     },
+    editQualification: (state, action: PayloadAction<any>) => {
+      state.qualifications = {
+        ...state.qualifications,
+        [action.payload.id]: {
+          id: action.payload.id,
+          title: action.payload.title,
+          institute: action.payload.institute,
+          location: action.payload.location,
+          order: state.qualifications[action.payload.id].order,
+          finishedDate:
+            action.payload.finishedDate.split('"').length > 1
+              ? action.payload.finishedDate.split('"')[1]
+              : action.payload.finishedDate,
+        },
+      };
+    },
+    addQualification: (state, action: PayloadAction<any>) => {
+      state.qualifications = {
+        ...state.qualifications,
+        [action.payload.id]: {
+          id: action.payload.id,
+          title: action.payload.title,
+          institute: action.payload.institute,
+          location: action.payload.location,
+          order: action.payload.order,
+          finishedDate:
+            action.payload.finishedDate.split('"').length > 1
+              ? action.payload.finishedDate.split('"')[1]
+              : action.payload.finishedDate,
+        },
+      };
+    },
+    deleteQualification: (state, action: PayloadAction<any>) => {
+      delete state.qualifications[action.payload];
+    },
   },
 });
 
@@ -132,10 +186,15 @@ export const {
   addResumePersonalStatement,
   setClickedResume,
   setExperience,
+  setQualification,
   editExperience,
+  editQualification,
   addExperience,
+  addQualification,
   addResumeOrder,
   deleteExperience,
+  deleteQualification,
+  addResumeSkills,
 } = resumeSlice.actions;
 
 export default resumeSlice.reducer;

@@ -25,6 +25,8 @@ export type RootStackParamList = {
   AuthView: undefined;
   PersonalInfo: undefined;
   Experiences: undefined;
+  Qualifications: undefined;
+  Skills: undefined;
   Settings: undefined;
   Modal: undefined;
   NotFound: undefined;
@@ -42,6 +44,8 @@ export type RootTabParamList = {
   AuthView: undefined;
   Settings: undefined;
   Experiences: undefined;
+  Qualifications: undefined;
+  Skills: undefined;
 };
 
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> =

@@ -12,8 +12,10 @@ import {AuthView} from '../screens/AuthView';
 // import {CoverLetterProvider} from '../../providers/CoverLetterProvider';
 import {ResumeProvider} from '../../providers/ResumeProvider';
 // import {CoverLetterScreen} from '../screens/CoverLetterScreen';
-import PersonalInfo from '../components/Resume/ResumeItems/PersonalInfo';
-import Experiences from '../components/Resume/ResumeItems/Experiences';
+import PersonalInfo from '../components/Resume/ResumeScreens/PersonalInfo';
+import Experiences from '../components/Resume/ResumeScreens/Experiences';
+import Qualifications from '../components/Resume/ResumeScreens/Qualifications';
+import Skills from '../components/Resume/ResumeScreens/Skills';
 import PreviewResume from '../components/Resume/PreviewResume';
 import {useAuth} from '../../providers/AuthProvider';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -97,6 +99,34 @@ function ResumeStackScreen() {
           return (
             <ResumeProvider>
               <Experiences navigation={navigation} route={route} />
+            </ResumeProvider>
+          );
+        }}
+      </ResumeStack.Screen>
+      <ResumeStack.Screen
+        name="Qualifications"
+        options={() => ({
+          headerShown: false,
+        })}>
+        {props => {
+          const {navigation, route} = props;
+          return (
+            <ResumeProvider>
+              <Qualifications navigation={navigation} route={route} />
+            </ResumeProvider>
+          );
+        }}
+      </ResumeStack.Screen>
+      <ResumeStack.Screen
+        name="Skills"
+        options={() => ({
+          headerShown: false,
+        })}>
+        {props => {
+          const {navigation, route} = props;
+          return (
+            <ResumeProvider>
+              <Skills navigation={navigation} route={route} />
             </ResumeProvider>
           );
         }}
