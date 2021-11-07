@@ -10,8 +10,8 @@ import {RootState} from '../../state/store';
 export default function PreviewResume({
   navigation,
 }: RootTabScreenProps<'PreviewResume'>) {
-  const clickedResume = useSelector((state: RootState) =>
-    state.resume.clickedResume,
+  const clickedResume = useSelector(
+    (state: RootState) => state.resume.clickedResume,
   );
 
   useEffect(() => {
@@ -71,11 +71,12 @@ export default function PreviewResume({
   return (
     <>
       <View style={{flex: 1}}>
+        {/* Change */}
         <PDFView
           style={{flex: 1}}
           onError={error => console.log('onError', error)}
           onLoad={() => console.log('PDF rendered from url')}
-          resource={`${clickedResume.resumeTitle}-${clickedResume._id[1]}.pdf`}
+          resource={`${clickedResume.resumeTitle}-${clickedResume._id}.pdf`}
           resourceType="file"
         />
       </View>

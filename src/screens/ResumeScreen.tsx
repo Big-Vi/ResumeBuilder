@@ -57,6 +57,8 @@ export default function ResumeScreen({
             'rounded-full',
           )}
           onPress={() => {
+            let id1 = uuid.v4(),
+              id2 = uuid.v4();
             createResume({
               resumeTitle: 'New resume',
               name: 'Vignesh',
@@ -72,27 +74,27 @@ export default function ResumeScreen({
                 'Skills',
               ],
               skills: '<ul><li>Javascript</li><li>GraphQL</li></ul>',
-              qualifications: [
-                {
-                  id: uuid.v4(),
+              qualifications: {
+                id1: {
+                  id: id1,
                   title: 'Ux & Web developer',
                   institute: 'Plato',
                   location: 'CHCH',
                   finishedDate: new Date(),
                   order: 0,
                 },
-                {
-                  id: uuid.v4(),
+                id2: {
+                  id: id2,
                   title: 'Web developer',
                   institute: 'Intech',
                   location: 'CHCH',
                   finishedDate: new Date(),
                   order: 1,
                 },
-              ],
-              experiences: [
-                {
-                  id: uuid.v4(),
+              },
+              experiences: {
+                id1: {
+                  id: id1,
                   title: 'Full stack developer',
                   employer: 'Plato',
                   location: 'CHCH',
@@ -102,8 +104,8 @@ export default function ResumeScreen({
                   order: 0,
                   responsibilities: 'string',
                 },
-                {
-                  id: uuid.v4(),
+                id2: {
+                  id: id2,
                   title: 'Full stack developer',
                   employer: 'Intech',
                   location: 'CHCH',
@@ -113,7 +115,7 @@ export default function ResumeScreen({
                   currentlyWorking: false,
                   responsibilities: 'string',
                 },
-              ],
+              },
             });
           }}>
           <Ionicons name="add" size={20} color={'white'} />

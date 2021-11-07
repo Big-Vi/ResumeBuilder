@@ -61,7 +61,6 @@ const ResumeProvider = ({children}) => {
       fileName: `${newResumeFields.resumeTitle}-${ID}`,
       directory: 'Documents',
     };
-    console.log(await RNHTMLtoPDF.convert(options));
     return await RNHTMLtoPDF.convert(options);
   };
 
@@ -72,7 +71,6 @@ const ResumeProvider = ({children}) => {
     createPDF(ID, newResumeFields).then(function (data) {
       let filePath = data.filePath;
       realm.write(() => {
-        // Create a new task in the same partition -- that is, in the same project.
         realm.create(
           'Resume',
           new Resume({
@@ -87,8 +85,8 @@ const ResumeProvider = ({children}) => {
             location: newResumeFields.location,
             partition: `user=${user.id}`,
             filePath: filePath,
-            experiences: newResumeFields.experiences,
-            qualifications: newResumeFields.qualifications,
+            experiences: Object.values(newResumeFields.experiences),
+            qualifications: Object.values(newResumeFields.qualifications),
             skills: newResumeFields.skills,
           }),
         );
@@ -102,9 +100,10 @@ const ResumeProvider = ({children}) => {
   const findResume = resumeItem => {
     // console.log(resumeItem);
     const realm = realmRef.current;
+    // Change
     const resume = realm
       .objects('Resume')
-      .filtered(`_id = oid(${resumeItem._id[1]})`);
+      .filtered(`_id = oid(${resumeItem._id})`);
     return resume;
   };
 
@@ -114,16 +113,14 @@ const ResumeProvider = ({children}) => {
 
   const updateFilePath = (resumeArg, resumeFields) => {
     const realm = realmRef.current;
-    createPDF(ObjectId(resumeArg[0]._id[1]), resumeFields).then(function (
-      data,
-    ) {
+    // Change
+    createPDF(ObjectId(resumeArg[0]._id), resumeFields).then(function (data) {
       let filePath = data.filePath;
-      console.log('kkk');
       realm.write(() => {
         realm.create(
           'Resume',
           {
-            _id: ObjectId(resumeArg[0]._id[1]),
+            _id: ObjectId(resumeArg[0]._id),
             resumeTitle: resumeFields.resumeTitle,
             filePath: filePath,
           },
@@ -136,12 +133,13 @@ const ResumeProvider = ({children}) => {
   const updateResume = (resumeArg, resumeFields) => {
     // console.log(resumeFields);
     const realm = realmRef.current;
-    createPDF(ObjectId(resumeArg[0]._id[1]), resumeFields);
+    // Change
+    createPDF(ObjectId(resumeArg[0]._id), resumeFields);
     realm.write(() => {
       realm.create(
         'Resume',
         {
-          _id: ObjectId(resumeArg[0]._id[1]),
+          _id: ObjectId(resumeArg[0]._id),
           resumeTitle: resumeFields.resumeTitle,
           name: resumeFields.name,
           personalStatement: resumeFields.personalStatement,
