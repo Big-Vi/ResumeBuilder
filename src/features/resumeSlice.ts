@@ -21,6 +21,13 @@ interface Qualification {
   order: number;
 }
 
+interface Customize {
+  template: string;
+  color: string;
+  font: string;
+  lineHeight: string;
+}
+
 interface ResumeState {
   resumeTitle: string;
   name: string;
@@ -30,6 +37,7 @@ interface ResumeState {
   visaStatus: string;
   location: string;
   order: string[];
+  customize: Customize;
   skills: string;
   experiences: Experience[];
   qualifications: Qualification[];
@@ -46,6 +54,7 @@ const initialState: ResumeState = {
   location: '',
   skills: '',
   order: [],
+  customize: {template: '', color: '', font: '', lineHeight: ''},
   experiences: [],
   qualifications: [],
   clickedResume: [],
@@ -66,6 +75,18 @@ export const resumeSlice = createSlice({
     },
     addResumeMobile: (state, action: PayloadAction<string>) => {
       state.mobile = action.payload;
+    },
+    setCustomizeResume: (state, action: PayloadAction<any>) => {
+      state.customize = action.payload;
+    },
+    customizeResume: (state, action: PayloadAction<string>) => {
+      state.customize = {
+        ...state.customize,
+        template: action.payload.template,
+        color: action.payload.color,
+        font: action.payload.font,
+        lineHeight: action.payload.lineHeight,
+      };
     },
     addResumeVisa: (state, action: PayloadAction<string>) => {
       state.visaStatus = action.payload;
@@ -92,7 +113,6 @@ export const resumeSlice = createSlice({
       state.order = action.payload;
     },
     editExperience: (state, action: PayloadAction<any>) => {
-      console.log(action.payload);
       state.experiences = {
         ...state.experiences,
         [action.payload.id]: {
@@ -195,6 +215,8 @@ export const {
   deleteExperience,
   deleteQualification,
   addResumeSkills,
+  setCustomizeResume,
+  customizeResume,
 } = resumeSlice.actions;
 
 export default resumeSlice.reducer;

@@ -1,0 +1,51 @@
+Submit the app for review
+    take screenshots
+    description
+    support url - put together home page with contact details
+fix wysisyg editor - maybe pop up - scroll up or pop up
+pdfview padding issue
+privacy policy page
+move auth to settings
+
+
+Slider intro
+Write unit test
+More Typescript 
+Put together one page website with reset pw - pricing model - basic, adv , pro
+Default resume fill
+Set as default resume info
+Profile
+Settings to top
+More customise options
+Delete account
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Chase the client to update lore Epsom
+Teachable machine - ai in website
+Trick is to setup structure for snap
+Real life photo - simulated
+Nervous times
+Big pi cute - new mesuem 
+Demo from myles
+
+Limitation
+Device capabilities
+
+Leave android device to test
+
+Funny slides

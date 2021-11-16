@@ -1,5 +1,5 @@
 import React, {useRef} from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import {Text, View, StyleSheet, ScrollView} from 'react-native';
 import {useDispatch, useSelector, useStore} from 'react-redux';
 import {RootTabScreenProps} from '../../../../types';
 import {useResume} from '../../../../providers/ResumeProvider';
@@ -54,34 +54,36 @@ export default function Skills({
         </Text>
         <Text>Skills</Text>
       </View>
-      <View style={tw.style('flex', 'flex-col', 'w-full', 'mt-8')}>
-        <RichEditor
-          disabled={false}
-          containerStyle={styles.editor}
-          ref={RichText}
-          style={styles.rich}
-          placeholder={'Start Writing Here'}
-          initialContentHTML={clickedResume[0].skills}
-          onChange={text => dispatch(addResumeSkills(text))}
-          editorInitializedCallback={editorInitializedCallback}
-          onHeightChange={handleHeightChange}
-        />
-        <RichToolbar
-          style={[styles.richBar]}
-          editor={RichText}
-          disabled={false}
-          iconTint={'purple'}
-          selectedIconTint={'pink'}
-          disabledIconTint={'purple'}
-          iconSize={25}
-          actions={[
-            actions.setBold,
-            actions.setItalic,
-            actions.insertBulletsList,
-            actions.insertOrderedList,
-          ]}
-        />
-      </View>
+      <ScrollView>
+        <View style={tw.style('w-full', 'mt-8', 'h-min-80')}>
+          <RichEditor
+            disabled={false}
+            containerStyle={styles.editor}
+            ref={RichText}
+            style={styles.rich}
+            placeholder={'Start Writing Here'}
+            initialContentHTML={clickedResume[0].skills}
+            onChange={text => dispatch(addResumeSkills(text))}
+            editorInitializedCallback={editorInitializedCallback}
+            onHeightChange={handleHeightChange}
+          />
+          <RichToolbar
+            style={[styles.richBar]}
+            editor={RichText}
+            disabled={false}
+            iconTint={'purple'}
+            selectedIconTint={'pink'}
+            disabledIconTint={'purple'}
+            iconSize={25}
+            actions={[
+              actions.setBold,
+              actions.setItalic,
+              actions.insertBulletsList,
+              actions.insertOrderedList,
+            ]}
+          />
+        </View>
+      </ScrollView>
     </View>
   );
 }

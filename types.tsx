@@ -22,7 +22,9 @@ export type RootStackParamList = {
   ResumeStack: undefined;
   NewResume: undefined;
   PreviewResume: undefined;
+  CustomizeResume: undefined;
   AuthView: undefined;
+  ForgotPasswordView: undefined;
   PersonalInfo: undefined;
   Experiences: undefined;
   Qualifications: undefined;
@@ -39,9 +41,11 @@ export type RootTabParamList = {
   Resume: undefined;
   NewResume: undefined;
   PreviewResume: undefined;
+  CustomizeResume: undefined;
   PersonalInfo: undefined;
   CoverLetter: undefined;
   AuthView: undefined;
+  ForgotPasswordView: undefined;
   Settings: undefined;
   Experiences: undefined;
   Qualifications: undefined;

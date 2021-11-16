@@ -4,7 +4,8 @@ import {useAuth} from './AuthProvider';
 import {Resume} from '../schemas';
 import {ObjectId} from 'bson';
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
-import {TwoPage} from '../src/components/Resume/Templates/TwoPage';
+import {Template1} from '../src/components/Resume/Templates/Template1';
+import {Template2} from '../src/components/Resume/Templates/Template2';
 
 const ResumeContext = React.createContext(null);
 
@@ -64,10 +65,15 @@ const ResumeProvider = ({children}) => {
     return await RNHTMLtoPDF.convert(options);
   };
 
-  const createResume = newResumeFields => {
+  const createResume = resumeFields => {
     // console.log(newResumeFields);
     const realm = realmRef.current;
     let ID = new ObjectId();
+    let newResumeFields = {
+      ...resumeFields,
+      experiences: Object.values(resumeFields.experiences),
+      qualifications: Object.values(resumeFields.qualifications),
+    };
     createPDF(ID, newResumeFields).then(function (data) {
       let filePath = data.filePath;
       realm.write(() => {
@@ -82,11 +88,12 @@ const ResumeProvider = ({children}) => {
             mobile: newResumeFields.mobile,
             visaStatus: newResumeFields.visaStatus,
             order: newResumeFields.order,
+            customize: newResumeFields.customize,
             location: newResumeFields.location,
             partition: `user=${user.id}`,
             filePath: filePath,
-            experiences: Object.values(newResumeFields.experiences),
-            qualifications: Object.values(newResumeFields.qualifications),
+            experiences: newResumeFields.experiences,
+            qualifications: newResumeFields.qualifications,
             skills: newResumeFields.skills,
           }),
         );
@@ -108,13 +115,20 @@ const ResumeProvider = ({children}) => {
   };
 
   const returnResumeHTML = resumeItem => {
-    return TwoPage(resumeItem);
+    switch (resumeItem.customize.template) {
+      case 'template1':
+        return Template1(resumeItem);
+      case 'template2':
+        return Template2(resumeItem);
+    }
   };
 
   const updateFilePath = (resumeArg, resumeFields) => {
     const realm = realmRef.current;
     // Change
-    createPDF(ObjectId(resumeArg[0]._id), resumeFields).then(function (data) {
+    createPDF(ObjectId(resumeArg[0]._id), resumeFields).then(function (
+      data,
+    ) {
       let filePath = data.filePath;
       realm.write(() => {
         realm.create(
@@ -133,25 +147,31 @@ const ResumeProvider = ({children}) => {
   const updateResume = (resumeArg, resumeFields) => {
     // console.log(resumeFields);
     const realm = realmRef.current;
+    let newResumeFields = {
+      ...resumeFields,
+      experiences: Object.values(resumeFields.experiences),
+      qualifications: Object.values(resumeFields.qualifications),
+    };
     // Change
-    createPDF(ObjectId(resumeArg[0]._id), resumeFields);
+    createPDF(ObjectId(resumeArg[0]._id), newResumeFields);
     realm.write(() => {
       realm.create(
         'Resume',
         {
           _id: ObjectId(resumeArg[0]._id),
-          resumeTitle: resumeFields.resumeTitle,
-          name: resumeFields.name,
-          personalStatement: resumeFields.personalStatement,
-          email: resumeFields.email,
-          mobile: resumeFields.mobile,
-          visaStatus: resumeFields.visaStatus,
-          order: resumeFields.order,
-          location: resumeFields.location,
+          resumeTitle: newResumeFields.resumeTitle,
+          name: newResumeFields.name,
+          personalStatement: newResumeFields.personalStatement,
+          email: newResumeFields.email,
+          mobile: newResumeFields.mobile,
+          visaStatus: newResumeFields.visaStatus,
+          order: newResumeFields.order,
+          customize: newResumeFields.customize,
+          location: newResumeFields.location,
           partition: `user=${user.id}`,
-          experiences: Object.values(resumeFields.experiences),
-          qualifications: Object.values(resumeFields.qualifications),
-          skills: resumeFields.skills,
+          experiences: newResumeFields.experiences,
+          qualifications: newResumeFields.qualifications,
+          skills: newResumeFields.skills,
         },
         'modified',
       );

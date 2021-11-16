@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import {RootTabScreenProps} from '../../types';
 import {View, Text, Pressable} from 'react-native';
-import {Input, Overlay} from 'react-native-elements';
+import {Input, Overlay, ListItem} from 'react-native-elements';
 import tw from '../../lib/tailwind';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector, useStore} from 'react-redux';
 import {RootState} from '../state/store';
 import {useResume} from '../../providers/ResumeProvider';
 import {
@@ -21,7 +21,9 @@ export default function NewResumeScreen({
 }: RootTabScreenProps<'NewResume'>) {
   const {updateFilePath, findResume, updateResume} = useResume();
   const [titleEdit, setTitleEdit] = useState(false);
+  const [tools, setTools] = useState(false);
   const dispatch = useDispatch();
+  const store = useStore();
   const clickedResume = useSelector(
     (state: RootState) => state.resume.clickedResume,
   );
@@ -58,6 +60,49 @@ export default function NewResumeScreen({
           </Pressable>
         </View>
       </Overlay>
+      <Overlay
+        overlayStyle={{width: '60%', top: 100, right: 40, position: 'absolute'}}
+        isVisible={tools}
+        onBackdropPress={() => {
+          setTools(false);
+        }}>
+        <View>
+          <ListItem
+            onPress={() => {
+              setTools(false);
+              navigation.navigate('CustomizeResume');
+            }}>
+            <ListItem.Content
+              style={tw.style(
+                'flex',
+                'flex-row',
+                'items-center',
+                'justify-start',
+              )}>
+              <Ionicons name="construct-outline" size={20} color="black" />
+              <ListItem.Title style={tw.style('pl-2')}>
+                Customize
+              </ListItem.Title>
+            </ListItem.Content>
+          </ListItem>
+          <ListItem
+            onPress={() => {
+              setTools(false);
+              navigation.navigate('PreviewResume');
+            }}>
+            <ListItem.Content
+              style={tw.style(
+                'flex',
+                'flex-row',
+                'items-center',
+                'justify-start',
+              )}>
+              <Ionicons name="eye-outline" size={20} color="black" />
+              <ListItem.Title style={tw.style('pl-2')}>Preview</ListItem.Title>
+            </ListItem.Content>
+          </ListItem>
+        </View>
+      </Overlay>
       <View style={tw.style('mt-16', 'px-4')}>
         <View style={tw.style('flex', 'flex-row', 'justify-center')}>
           <Pressable
@@ -81,6 +126,18 @@ export default function NewResumeScreen({
               {formInputs.resumeTitle}
             </Text>
           </View>
+          <View
+            style={{
+              position: 'absolute',
+              right: 0,
+            }}>
+            <Text
+              onPress={() => {
+                setTools(true);
+              }}>
+              <Ionicons name="ellipsis-vertical" size={24} color="black" />
+            </Text>
+          </View>
         </View>
         <GestureHandlerRootView style={tw.style('h-full', 'w-full')}>
           <DraxProvider>
@@ -92,17 +149,32 @@ export default function NewResumeScreen({
                     <Pressable
                       style={tw.style(
                         'flex',
-                        'justify-center',
+                        'flex-row',
+                        'items-center',
+                        'justify-between',
                         'h-20',
                         'bg-white',
-                        'mt-4',
-                        'pl-4',
+                        'mt-6',
+                        'px-4',
                       )}
                       onPress={() => {
                         updateClickedResume();
                         navigation.navigate(item);
                       }}>
-                      <Text>{item}</Text>
+                      <View
+                        style={tw.style('flex', 'flex-row', 'items-center')}>
+                        <Ionicons
+                          name="swap-vertical-outline"
+                          size={20}
+                          color="black"
+                        />
+                        <Text style={tw.style('ml-2', 'text-lg')}>{item}</Text>
+                      </View>
+                      <Ionicons
+                        name="arrow-forward-outline"
+                        size={20}
+                        color="black"
+                      />
                     </Pressable>
                   </View>
                 )}
@@ -111,6 +183,7 @@ export default function NewResumeScreen({
                   newData.splice(toIndex, 0, newData.splice(fromIndex, 1)[0]);
                   setOrder(newData);
                   dispatch(addResumeOrder(JSON.parse(JSON.stringify(newData))));
+                  updateResume(clickedResume, store.getState().resume);
                 }}
                 keyExtractor={item => item}
               />

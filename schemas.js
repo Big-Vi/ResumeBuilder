@@ -67,6 +67,7 @@ class Resume {
     experiences,
     skills,
     order,
+    customize,
     partition,
     id,
     filePath,
@@ -81,6 +82,7 @@ class Resume {
     this.visaStatus = visaStatus;
     this.location = location;
     this.order = order;
+    this.customize = customize;
     this.qualifications = qualifications;
     this.experiences = experiences;
     this.skills = skills;
@@ -99,6 +101,17 @@ class Resume {
       location: 'string',
       visaStatus: 'string',
       filePath: 'string',
+      customize: {
+        bsonType: 'array',
+        items: {
+          properties: {
+            template: 'string',
+            font: 'string',
+            color: 'string',
+            lineHeight: 'string',
+          },
+        },
+      },
       order: {
         bsonType: 'array',
         items: {

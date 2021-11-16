@@ -9,6 +9,7 @@ import SettingsScreen from '../screens/SettingsScreen';
 import NewResumeScreen from '../screens/NewResumeScreen';
 import * as React from 'react';
 import {AuthView} from '../screens/AuthView';
+import {ForgotPasswordView} from '../screens/ForgotPasswordView';
 // import {CoverLetterProvider} from '../../providers/CoverLetterProvider';
 import {ResumeProvider} from '../../providers/ResumeProvider';
 // import {CoverLetterScreen} from '../screens/CoverLetterScreen';
@@ -17,6 +18,7 @@ import Experiences from '../components/Resume/ResumeScreens/Experiences';
 import Qualifications from '../components/Resume/ResumeScreens/Qualifications';
 import Skills from '../components/Resume/ResumeScreens/Skills';
 import PreviewResume from '../components/Resume/PreviewResume';
+import CustomizeResume from '../components/Resume/CustomizeResume';
 import {useAuth} from '../../providers/AuthProvider';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import tw from '../../lib/tailwind';
@@ -71,6 +73,16 @@ function ResumeStackScreen() {
           return (
             <ResumeProvider>
               <PreviewResume navigation={navigation} route={route} />
+            </ResumeProvider>
+          );
+        }}
+      </ResumeStack.Screen>
+      <ResumeStack.Screen name="CustomizeResume">
+        {props => {
+          const {navigation, route} = props;
+          return (
+            <ResumeProvider>
+              <CustomizeResume navigation={navigation} route={route} />
             </ResumeProvider>
           );
         }}
@@ -138,23 +150,25 @@ function RootNavigator() {
   const {user} = useAuth();
   return (
     <Stack.Navigator>
-      {user ? (
-        <Stack.Screen
-          name="Root"
-          component={BottomTabNavigator}
-          options={{headerShown: false}}
-        />
-      ) : (
-        <Stack.Screen
-          name="AuthView"
-          component={AuthView}
-          options={{title: 'Auth', headerShown: false}}
-        />
-      )}
+      <Stack.Screen
+        name="Root"
+        component={BottomTabNavigator}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="AuthView"
+        component={AuthView}
+        options={{title: 'Auth', headerShown: false}}
+      />
       <Stack.Screen
         name="NotFound"
         component={NotFoundScreen}
         options={{title: 'Oops!'}}
+      />
+      <Stack.Screen
+        name="ForgotPasswordView"
+        component={ForgotPasswordView}
+        options={{title: 'Forgot Password', headerShown: false}}
       />
       <Stack.Group screenOptions={{presentation: 'modal'}}>
         <Stack.Screen name="Modal" component={ModalScreen} />

@@ -73,7 +73,7 @@ export default function ExperienceItem({experience}) {
 
   // Callback after height change
   function handleHeightChange(height) {
-    // console.log("editor height change:", height);
+    console.log("editor height change:", height);
   }
 
   return (
@@ -180,7 +180,7 @@ export default function ExperienceItem({experience}) {
             />
             <Text style={tw.style('ml-4')}>Currently working here?</Text>
           </View>
-          <View style={tw.style('mb-12', 'mt-8', 'h-80')}>
+          <View style={tw.style('mb-12', 'mt-8', 'h-min-80')}>
             <Text style={tw.style('mb-4')}>Responsibilities</Text>
             <RichEditor
               disabled={false}

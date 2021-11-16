@@ -27,7 +27,7 @@ export default function ResumeScreen({
           })}>
           {resumes.map((resume: any) =>
             resume ? (
-              <View style={tw.style('mb-20')} key={`${resume._id[1]}`}>
+              <View style={tw.style('mb-20')} key={`${resume._id}`}>
                 <ResumeItem resume={resume} navigation={navigation} />
               </View>
             ) : null,
@@ -61,33 +61,41 @@ export default function ResumeScreen({
               id2 = uuid.v4();
             createResume({
               resumeTitle: 'New resume',
-              name: 'Vignesh',
-              personalStatement: 'Hardworking',
+              name: 'Jon doe',
+              personalStatement:
+                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
               email: 'jon@gmail.com',
               mobile: '0342344234',
               visaStatus: 'Citizen',
               location: 'New york',
+              customize: {
+                template: 'template1',
+                font: 'DM Mono',
+                color: 'Black',
+                lineHeight: '16',
+              },
               order: [
                 'PersonalInfo',
                 'Experiences',
                 'Qualifications',
                 'Skills',
               ],
-              skills: '<ul><li>Javascript</li><li>GraphQL</li></ul>',
+              skills:
+                '<ul><li>Skill</li><li>Skill</li><li>Skill</li><li>Skill</li><li>Skill</li><li>Skill</li><li>Skill</li></ul>',
               qualifications: {
                 id1: {
                   id: id1,
-                  title: 'Ux & Web developer',
-                  institute: 'Plato',
-                  location: 'CHCH',
+                  title: 'Qualification',
+                  institute: 'Institute',
+                  location: 'Location',
                   finishedDate: new Date(),
                   order: 0,
                 },
                 id2: {
                   id: id2,
-                  title: 'Web developer',
-                  institute: 'Intech',
-                  location: 'CHCH',
+                  title: 'Qualification',
+                  institute: 'Institute',
+                  location: 'Location',
                   finishedDate: new Date(),
                   order: 1,
                 },
@@ -95,25 +103,27 @@ export default function ResumeScreen({
               experiences: {
                 id1: {
                   id: id1,
-                  title: 'Full stack developer',
-                  employer: 'Plato',
-                  location: 'CHCH',
+                  title: 'Job title',
+                  employer: 'Employer',
+                  location: 'Location',
                   fromDate: new Date(),
                   toDate: new Date(),
                   currentlyWorking: false,
                   order: 0,
-                  responsibilities: 'string',
+                  responsibilities:
+                    '<ul><li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </li><li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </li><li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do incididunt ut labore et dolore magna aliqua. </li><li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do incididunt ut labore et dolore magna aliqua. </li><li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do incididunt ut labore et dolore magna aliqua. </li><li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do incididunt ut labore et dolore magna aliqua. </li></ul>',
                 },
                 id2: {
                   id: id2,
-                  title: 'Full stack developer',
-                  employer: 'Intech',
-                  location: 'CHCH',
+                  title: 'Job title',
+                  employer: 'Employer',
+                  location: 'Location',
                   fromDate: new Date(),
                   toDate: new Date(),
                   order: 1,
                   currentlyWorking: false,
-                  responsibilities: 'string',
+                  responsibilities:
+                    '<ul><li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </li><li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </li><li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do incididunt ut labore et dolore magna aliqua. </li><li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do incididunt ut labore et dolore magna aliqua. </li><li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do incididunt ut labore et dolore magna aliqua. </li><li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do incididunt ut labore et dolore magna aliqua. </li></ul>',
                 },
               },
             });

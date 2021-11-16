@@ -19,6 +19,7 @@ import {
   setQualification,
   addResumeOrder,
   addResumeSkills,
+  setCustomizeResume,
 } from '../../features/resumeSlice';
 
 interface IProps {
@@ -36,21 +37,15 @@ export const ResumeItem: React.FC<IProps> = ({navigation, resume}) => {
   const [actionSheetVisible, setActionSheetVisible] = useState(false);
   const actions = [
     {
-      title: 'Delete',
-      action: () => {
-        deleteResume(resume);
-      },
-    },
-    {
       title: 'Edit',
       action: () => {
         editResumeItem(resume);
       },
     },
     {
-      title: 'Preview',
+      title: 'Delete',
       action: () => {
-        previewResumeItem(resume);
+        deleteResume(resume);
       },
     },
   ];
@@ -79,15 +74,13 @@ export const ResumeItem: React.FC<IProps> = ({navigation, resume}) => {
       quaObject[item.id] = item;
     });
     dispatch(setQualification(JSON.parse(JSON.stringify(quaObject))));
+    dispatch(
+      setCustomizeResume(JSON.parse(JSON.stringify(RESUME[0].customize))),
+    );
 
     navigation.navigate('NewResume', {
       resumeTitle: RESUME[0].resumeTitle,
     });
-  };
-
-  const previewResumeItem = resume => {
-    dispatch(setClickedResume(JSON.parse(JSON.stringify(resume))));
-    navigation.navigate('PreviewResume');
   };
 
   return (
@@ -117,7 +110,7 @@ export const ResumeItem: React.FC<IProps> = ({navigation, resume}) => {
           'bg-transparent',
           {height: 400},
         )}
-        key={resume._id[1]}
+        key={resume._id}
         onPress={() => {
           setActionSheetVisible(true);
         }}>

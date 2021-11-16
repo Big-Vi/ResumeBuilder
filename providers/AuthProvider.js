@@ -62,7 +62,8 @@ const AuthProvider = ({children}) => {
 
   const resetPassword = async (email, password, []) => {
     console.log(email);
-    await app.emailPasswordAuth.callResetPasswordFunction(email, password, []);
+    await app.emailPasswordAuth.sendResetPasswordEmail(email);
+    // await app.emailPasswordAuth.callResetPasswordFunction(email, password, []);
   };
 
   // The signOut function calls the logOut function on the currently

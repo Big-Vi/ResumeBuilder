@@ -10,7 +10,7 @@ export function Logout() {
 
   return (
     <Pressable
-      style={tw.style('text-xs')}
+      style={tw.style('text-lg', 'px-4', 'py-4', 'bg-white', 'w-full', 'mb-4')}
       onPress={() => {
         Alert.alert('Log Out', null, [
           {
@@ -18,13 +18,13 @@ export function Logout() {
             style: 'destructive',
             onPress: () => {
               signOut();
-              navigation.navigate('AuthView');
+              navigation.navigate('ResumeStack');
             },
           },
           {text: 'Cancel', style: 'cancel'},
         ]);
       }}>
-      <Text>Log Out</Text>
+      <Text style={tw.style('text-lg')}>Log Out</Text>
     </Pressable>
   );
 }

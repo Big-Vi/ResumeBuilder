@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {Text, Pressable, View, Share} from 'react-native';
+import React, {useEffect} from 'react';
+import {Pressable, View, Share, StyleSheet} from 'react-native';
 import {RootTabScreenProps} from '../../../types';
 import {useSelector} from 'react-redux';
 import tw from 'tailwind-react-native-classnames';
@@ -20,7 +20,7 @@ export default function PreviewResume({
         return (
           <Pressable
             onPress={() => {
-              navigation.navigate('ResumeStack', {
+              navigation.navigate('NewResume', {
                 screen: 'Resume',
                 pdfview: true,
               });
@@ -31,7 +31,7 @@ export default function PreviewResume({
       },
       headerRight: function Header() {
         return (
-          <Pressable onPress={() => onShare(clickedResume.filePath)}>
+          <Pressable onPress={() => onShare(clickedResume[0].filePath)}>
             <View
               style={tw.style(
                 'flex',
@@ -44,7 +44,7 @@ export default function PreviewResume({
           </Pressable>
         );
       },
-      title: 'Resume',
+      title: clickedResume[0].resumeTitle,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -73,13 +73,19 @@ export default function PreviewResume({
       <View style={{flex: 1}}>
         {/* Change */}
         <PDFView
-          style={{flex: 1}}
+          style={styles.pdfview}
           onError={error => console.log('onError', error)}
           onLoad={() => console.log('PDF rendered from url')}
-          resource={`${clickedResume.resumeTitle}-${clickedResume._id}.pdf`}
+          resource={`${clickedResume[0].resumeTitle}-${clickedResume[0]._id}.pdf`}
           resourceType="file"
         />
       </View>
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  pdfview: {
+    flex: 1,
+  },
+});

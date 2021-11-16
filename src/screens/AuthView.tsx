@@ -4,6 +4,7 @@ import {useAuth} from '../../providers/AuthProvider';
 import styles from '../../stylesheet';
 import {RootTabScreenProps} from '../../types';
 import tw from '../../lib/tailwind';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export function AuthView({navigation}: RootTabScreenProps<'AuthView'>) {
   const [email, setEmail] = useState('');
@@ -48,44 +49,65 @@ export function AuthView({navigation}: RootTabScreenProps<'AuthView'>) {
   };
 
   return (
-    <View
-      style={tw.style(
-        'flex',
-        'h-full',
-        'w-full',
-        'items-center',
-        'justify-center',
-      )}>
-      <View style={tw.style('w-full', 'px-4')}>
-        <TextInput
-          style={tw.style('border', 'py-4', 'px-4', 'mb-4')}
-          onChangeText={setEmail}
-          value={email}
-          placeholder="Email"
-          autoCapitalize="none"
-        />
-        <TextInput
-          style={tw.style('border', 'py-4', 'px-4')}
-          onChangeText={text => setPassword(text)}
-          value={password}
-          placeholder="Password"
-          secureTextEntry
-        />
-      </View>
-      <View style={tw.style('self-start', 'pl-4', 'py-4')}>
-        <Pressable
-          style={tw.style('button-outer', 'mb-2')}
-          onPress={onPressSignIn}>
-          <Text style={tw.style('button-text')}>Sign In</Text>
-        </Pressable>
-        <Pressable style={tw.style('button-outer')} onPress={onPressSignUp}>
-          <Text style={tw.style('button-text')}>Sign Up</Text>
-        </Pressable>
-        {/* <Pressable
-          style={tw.style('button-outer', 'mt-2')}
-          onPress={onPressResetPassword}>
-          <Text style={tw.style('button-text')}>Forgot Password</Text>
-        </Pressable> */}
+    <View>
+      <Pressable
+        style={tw.style(
+          'absolute',
+          'top-20',
+          'ml-4',
+          'z-10',
+          'text-black',
+          'flex',
+          'flex-row',
+          'items-center',
+        )}
+        onPress={() => {
+          navigation.navigate('ResumeStack');
+        }}>
+        <Ionicons name="arrow-back" size={20} color="black" />
+        <Text style={tw.style('ml-2')}>Go back to home</Text>
+      </Pressable>
+      <View
+        style={tw.style(
+          'flex',
+          'h-full',
+          'w-full',
+          'items-center',
+          'justify-center',
+        )}>
+        <View style={tw.style('w-full', 'px-4')}>
+          <TextInput
+            style={tw.style('border', 'py-4', 'px-4', 'mb-4')}
+            onChangeText={setEmail}
+            value={email}
+            placeholder="Email"
+            autoCapitalize="none"
+          />
+          <TextInput
+            style={tw.style('border', 'py-4', 'px-4')}
+            onChangeText={text => setPassword(text)}
+            value={password}
+            placeholder="Password"
+            secureTextEntry
+          />
+        </View>
+        <View style={tw.style('self-start', 'pl-4', 'py-4')}>
+          <Pressable
+            style={tw.style('button-outer', 'mb-2')}
+            onPress={onPressSignIn}>
+            <Text style={tw.style('button-text')}>Sign In</Text>
+          </Pressable>
+          <Pressable style={tw.style('button-outer')} onPress={onPressSignUp}>
+            <Text style={tw.style('button-text')}>Sign Up</Text>
+          </Pressable>
+          <Pressable
+            style={tw.style('button-outer', 'mt-2')}
+            onPress={() => {
+              navigation.navigate('ForgotPasswordView');
+            }}>
+            <Text style={tw.style('button-text')}>Forgot Password</Text>
+          </Pressable>
+        </View>
       </View>
     </View>
   );

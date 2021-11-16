@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, TextInput, StyleSheet} from 'react-native';
+import {Text, View, TextInput, StyleSheet, ScrollView} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {RootState} from '../../../state/store';
 import {RootTabScreenProps} from '../../../../types';
@@ -21,8 +21,8 @@ export default function PersonalInfo({
   const {updateResume} = useResume();
   const dispatch = useDispatch();
 
-  const clickedResume = useSelector((state: RootState) =>
-    state.resume.clickedResume,
+  const clickedResume = useSelector(
+    (state: RootState) => state.resume.clickedResume,
   );
   const formInputs = useSelector((state: RootState) => state.resume);
   return (
@@ -52,7 +52,7 @@ export default function PersonalInfo({
         </Text>
         <Text>Personal Info</Text>
       </View>
-      <View style={tw.style('mt-8')}>
+      <ScrollView style={tw.style('mt-8')}>
         <Text>Name</Text>
         <TextInput
           style={styles.textInput}
@@ -97,7 +97,7 @@ export default function PersonalInfo({
           onChangeText={text => dispatch(addResumePersonalStatement(text))}
           defaultValue={clickedResume[0].personalStatement}
         />
-      </View>
+      </ScrollView>
     </View>
   );
 }
