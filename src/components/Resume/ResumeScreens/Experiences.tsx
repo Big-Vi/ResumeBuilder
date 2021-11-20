@@ -59,7 +59,8 @@ export default function Experiences({
           ? clickedResume[0].experiences.length
           : 0,
       currentlyWorking: false,
-      responsibilities: ['string', 'string'],
+      responsibilities:
+        '<ul><li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </li><li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </li><li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do incididunt ut labore et dolore magna aliqua. </li><li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do incididunt ut labore et dolore magna aliqua. </li><li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do incididunt ut labore et dolore magna aliqua. </li><li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do incididunt ut labore et dolore magna aliqua. </li></ul>',
     };
     dispatch(addExperience(exp));
     updateResume(clickedResume, store.getState().resume);

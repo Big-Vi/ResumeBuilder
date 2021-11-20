@@ -50,23 +50,6 @@ export function AuthView({navigation}: RootTabScreenProps<'AuthView'>) {
 
   return (
     <View>
-      <Pressable
-        style={tw.style(
-          'absolute',
-          'top-20',
-          'ml-4',
-          'z-10',
-          'text-black',
-          'flex',
-          'flex-row',
-          'items-center',
-        )}
-        onPress={() => {
-          navigation.navigate('ResumeStack');
-        }}>
-        <Ionicons name="arrow-back" size={20} color="black" />
-        <Text style={tw.style('ml-2')}>Go back to home</Text>
-      </Pressable>
       <View
         style={tw.style(
           'flex',

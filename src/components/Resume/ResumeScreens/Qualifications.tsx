@@ -52,6 +52,10 @@ export default function Qualifications({
       title: 'Full stack developer',
       institute: 'Plato',
       location: 'CHCH',
+      order:
+        clickedResume[0].qualifications.length > 0
+          ? clickedResume[0].qualifications.length
+          : 0,
       finishedDate: JSON.stringify(new Date()),
     };
     dispatch(addQualification(qua));
