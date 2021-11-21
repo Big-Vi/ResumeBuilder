@@ -60,6 +60,11 @@ export default function CustomizeResume({
       image:
         'https://cdn.sanity.io/images/bz8z0oa1/production/f4f1dac177809cbbb4fb1d3cf57b69cf087b136c-1178x1270.png?w=2000&h=2000&fit=max',
     },
+    {
+      title: 'template3',
+      image:
+        'https://cdn.sanity.io/images/bz8z0oa1/production/20a8cb52847ad61718955dde6daf27913935393e-900x1060.png?w=2000&h=2000&fit=max',
+    },
   ];
 
   useEffect(() => {

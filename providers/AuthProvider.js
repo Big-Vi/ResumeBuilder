@@ -8,7 +8,6 @@ const app = getRealmApp();
 // Create a new Context object that will be provided to descendants of
 // the AuthProvider.
 const AuthContext = React.createContext(null);
-import {CoverLetter, Resume} from '../schemas';
 
 // The AuthProvider is responsible for user management and provides the
 // AuthContext value to its descendants. Components under an AuthProvider can
@@ -21,9 +20,10 @@ const AuthProvider = ({children}) => {
     if (!user) {
       return;
     }
+    console.log('user', user);
 
     const config = {
-      schema: [CoverLetter.schema, Resume.schema],
+      // schema: [CoverLetter.schema, Resume.schema],
       sync: {
         user,
         partitionValue: `user=${user.id}`,
@@ -34,6 +34,18 @@ const AuthProvider = ({children}) => {
     // to get the projects that the logged in user is a member of
     Realm.open(config).then(userRealm => {
       realmRef.current = userRealm;
+      // const users = userRealm.objects('User');
+
+      // users.addListener(() => {
+      // The user custom data object may not have been loaded on
+      // the server side yet when a user is first registered.
+      // if (users.length === 0) {
+      //   setProjectData([myProject]);
+      // } else {
+      //   const { memberOf } = users[0];
+      //   setProjectData([...memberOf]);
+      // }
+      // });
     });
 
     return () => {
@@ -51,6 +63,13 @@ const AuthProvider = ({children}) => {
   const signIn = async (email, password) => {
     const creds = Realm.Credentials.emailPassword(email, password);
     const newUser = await app.logIn(creds);
+    setUser(newUser);
+  };
+
+  const signInAnonymous = async () => {
+    // Create an anonymous credential
+    const credentials = Realm.Credentials.anonymous();
+    const newUser = await app.logIn(credentials);
     setUser(newUser);
   };
 
@@ -84,6 +103,7 @@ const AuthProvider = ({children}) => {
         signIn,
         signOut,
         resetPassword,
+        signInAnonymous,
         user,
       }}>
       {children}

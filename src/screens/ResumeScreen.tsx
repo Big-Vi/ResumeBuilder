@@ -69,6 +69,7 @@ export default function ResumeScreen({
               visaStatus: 'Citizen',
               location: 'New york',
               customize: {
+                id: id1,
                 template: 'template1',
                 font: 'DM Mono',
                 color: 'Black',

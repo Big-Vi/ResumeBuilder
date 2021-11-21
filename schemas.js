@@ -48,6 +48,47 @@ class CoverLetter {
   };
 }
 
+const Customize = {
+  name: 'Customize',
+  primaryKey: 'id',
+  properties: {
+    id: 'string',
+    template: 'string',
+    font: 'string',
+    color: 'string',
+    lineHeight: 'string',
+  },
+};
+
+const Qualification = {
+  name: 'Qualification',
+  primaryKey: 'id',
+  properties: {
+    id: 'string',
+    title: 'string',
+    institute: 'string',
+    finishedDate: 'date',
+    location: 'string',
+    order: 'int',
+  },
+};
+
+const Experience = {
+  name: 'Experience',
+  primaryKey: 'id',
+  properties: {
+    id: 'string',
+    title: 'string',
+    employer: 'string',
+    location: 'string',
+    fromDate: 'date',
+    toDate: 'date',
+    order: 'int',
+    currentlyWorking: 'bool',
+    responsibilities: 'string',
+  },
+};
+
 class Resume {
   /**
    *
@@ -68,11 +109,11 @@ class Resume {
     skills,
     order,
     customize,
-    partition,
+    // partition,
     id,
     filePath,
   }) {
-    this._partition = partition;
+    // this._partition = partition;
     this._id = id;
     this.resumeTitle = resumeTitle;
     this.name = name;
@@ -101,60 +142,64 @@ class Resume {
       location: 'string',
       visaStatus: 'string',
       filePath: 'string',
-      customize: {
-        bsonType: 'array',
-        items: {
-          properties: {
-            template: 'string',
-            font: 'string',
-            color: 'string',
-            lineHeight: 'string',
-          },
-        },
-      },
-      order: {
-        bsonType: 'array',
-        items: {
-          properties: {
-            title: 'string',
-          },
-        },
-      },
+      customize: 'Customize',
+      order: 'string[]',
+      qualifications: {type: 'list', objectType: 'Qualification'},
+      experiences: {type: 'list', objectType: 'Experience'},
+      // customize: {
+      //   bsonType: 'array',
+      //   items: {
+      //     properties: {
+      //       template: 'string',
+      //       font: 'string',
+      //       color: 'string',
+      //       lineHeight: 'string',
+      //     },
+      //   },
+      // },
+      // order: {
+      //   bsonType: 'array',
+      //   items: {
+      //     properties: {
+      //       title: 'string',
+      //     },
+      //   },
+      // },
       skills: 'string',
-      qualifications: {
-        bsonType: 'array',
-        items: {
-          bsonType: 'object',
-          properties: {
-            id: 'string',
-            title: 'string',
-            institute: 'string',
-            finishedDate: 'date',
-            location: 'string',
-            order: 'number',
-          },
-        },
-      },
-      experiences: {
-        bsonType: 'array',
-        items: {
-          bsonType: 'object',
-          properties: {
-            id: 'string',
-            title: 'string',
-            employer: 'string',
-            location: 'string',
-            fromDate: 'date',
-            toDate: 'date',
-            order: 'number',
-            currentlyWorking: 'boolean',
-            responsibilities: 'string',
-          },
-        },
-      },
+      // qualifications: {
+      //   bsonType: 'array',
+      //   items: {
+      //     bsonType: 'object',
+      //     properties: {
+      //       id: 'string',
+      //       title: 'string',
+      //       institute: 'string',
+      //       finishedDate: 'date',
+      //       location: 'string',
+      //       order: 'number',
+      //     },
+      //   },
+      // },
+      // experiences: {
+      //   bsonType: 'array',
+      //   items: {
+      //     bsonType: 'object',
+      //     properties: {
+      //       id: 'string',
+      //       title: 'string',
+      //       employer: 'string',
+      //       location: 'string',
+      //       fromDate: 'date',
+      //       toDate: 'date',
+      //       order: 'number',
+      //       currentlyWorking: 'boolean',
+      //       responsibilities: 'string',
+      //     },
+      //   },
+      // },
     },
     primaryKey: '_id',
   };
 }
 
-export {CoverLetter, Resume};
+export {CoverLetter, Resume, Customize, Qualification, Experience};

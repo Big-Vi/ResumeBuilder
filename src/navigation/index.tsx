@@ -150,29 +150,26 @@ function RootNavigator() {
   const {user} = useAuth();
   return (
     <Stack.Navigator>
-      {user ? (
-        <Stack.Screen
-          name="Root"
-          component={BottomTabNavigator}
-          options={{headerShown: false}}
-        />
-      ) : (
-        <Stack.Screen
-          name="AuthView"
-          component={AuthView}
-          options={{title: 'Auth', headerShown: false}}
-        />
-      )}
+      <Stack.Screen
+        name="Root"
+        component={BottomTabNavigator}
+        options={{headerShown: false}}
+      />
+      {/* <Stack.Screen
+        name="AuthView"
+        component={AuthView}
+        options={{title: 'Auth', headerShown: false}}
+      /> */}
       <Stack.Screen
         name="NotFound"
         component={NotFoundScreen}
         options={{title: 'Oops!'}}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="ForgotPasswordView"
         component={ForgotPasswordView}
         options={{title: 'Forgot Password', headerShown: false}}
-      />
+      /> */}
       <Stack.Group screenOptions={{presentation: 'modal'}}>
         <Stack.Screen name="Modal" component={ModalScreen} />
       </Stack.Group>

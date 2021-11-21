@@ -1,5 +1,13 @@
-import React from 'react';
-import {Text, View, TextInput, StyleSheet, ScrollView} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {
+  Text,
+  Keyboard,
+  KeyboardAvoidingView,
+  View,
+  TextInput,
+  StyleSheet,
+  ScrollView,
+} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {RootState} from '../../../state/store';
 import {RootTabScreenProps} from '../../../../types';
@@ -18,6 +26,7 @@ import {
 export default function PersonalInfo({
   navigation,
 }: RootTabScreenProps<'PersonalInfo'>) {
+  const [keyboardOffset, setKeyboardOffset] = useState(0);
   const {updateResume} = useResume();
   const dispatch = useDispatch();
 
@@ -25,6 +34,27 @@ export default function PersonalInfo({
     (state: RootState) => state.resume.clickedResume,
   );
   const formInputs = useSelector((state: RootState) => state.resume);
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      event => {
+        setKeyboardOffset(event.endCoordinates.height);
+      },
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {
+        setKeyboardOffset(0);
+      },
+    );
+
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
+
   return (
     <View style={tw.style('mt-16', 'px-4')}>
       <View style={tw.style('flex', 'flex-row', 'justify-center')}>
@@ -52,52 +82,57 @@ export default function PersonalInfo({
         </Text>
         <Text>Personal Info</Text>
       </View>
-      <ScrollView style={tw.style('mt-8')}>
-        <Text>Name</Text>
-        <TextInput
-          style={styles.textInput}
-          onChangeText={text => dispatch(addResumeName(text))}
-          autoFocus={false}
-          defaultValue={clickedResume[0].name}
-        />
-        <Text>Email</Text>
-        <TextInput
-          style={styles.textInput}
-          onChangeText={text => dispatch(addResumeEmail(text))}
-          autoFocus={false}
-          defaultValue={clickedResume[0].email}
-        />
-        <Text>Phone/Mobile</Text>
-        <TextInput
-          style={styles.textInput}
-          onChangeText={text => dispatch(addResumeMobile(text))}
-          autoFocus={false}
-          defaultValue={clickedResume[0].mobile}
-        />
-        <Text>visaStatus</Text>
-        <TextInput
-          style={styles.textInput}
-          onChangeText={text => dispatch(addResumeVisa(text))}
-          autoFocus={false}
-          defaultValue={clickedResume[0].visaStatus}
-        />
-        <Text>Location</Text>
-        <TextInput
-          style={styles.textInput}
-          onChangeText={text => dispatch(addResumeLocation(text))}
-          autoFocus={false}
-          defaultValue={clickedResume[0].location}
-        />
-        <Text>Personal statement</Text>
-        <TextInput
-          style={styles.textInput}
-          multiline
-          autoFocus={false}
-          numberOfLines={10}
-          onChangeText={text => dispatch(addResumePersonalStatement(text))}
-          defaultValue={clickedResume[0].personalStatement}
-        />
-      </ScrollView>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <ScrollView style={tw.style('mt-8')}>
+          <Text>Name</Text>
+          <TextInput
+            style={styles.textInput}
+            onChangeText={text => dispatch(addResumeName(text))}
+            autoFocus={false}
+            defaultValue={clickedResume[0].name}
+          />
+          <Text>Email</Text>
+          <TextInput
+            style={styles.textInput}
+            onChangeText={text => dispatch(addResumeEmail(text))}
+            autoFocus={false}
+            defaultValue={clickedResume[0].email}
+          />
+          <Text>Phone/Mobile</Text>
+          <TextInput
+            style={styles.textInput}
+            onChangeText={text => dispatch(addResumeMobile(text))}
+            autoFocus={false}
+            defaultValue={clickedResume[0].mobile}
+          />
+          <Text>visaStatus</Text>
+          <TextInput
+            style={styles.textInput}
+            onChangeText={text => dispatch(addResumeVisa(text))}
+            autoFocus={false}
+            defaultValue={clickedResume[0].visaStatus}
+          />
+          <Text>Location</Text>
+          <TextInput
+            style={styles.textInput}
+            onChangeText={text => dispatch(addResumeLocation(text))}
+            autoFocus={false}
+            defaultValue={clickedResume[0].location}
+          />
+          <Text>Personal statement</Text>
+          <TextInput
+            style={styles.textInput}
+            multiline
+            autoFocus={false}
+            numberOfLines={10}
+            // onSubmitEditing={Keyboard.dismiss}
+            // scrollEnabled={true}
+            onChangeText={text => dispatch(addResumePersonalStatement(text))}
+            defaultValue={clickedResume[0].personalStatement}
+          />
+        </ScrollView>
+      </KeyboardAvoidingView>
     </View>
   );
 }

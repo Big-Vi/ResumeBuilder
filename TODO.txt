@@ -3,28 +3,17 @@ Submit the app for review
     description
     support url - put together home page with contact details
 fix wysisyg editor - maybe pop up - scroll up or pop up
-pdfview padding issue
 privacy policy page
-move auth to settings
+More customise options
+Set as default resume info
+Default resume fill
+Profile
 
 Animations
 Splash screen
 Slider intro
 Write unit test
 More Typescript 
-Put together one page website with reset pw - pricing model - basic, adv , pro
-Default resume fill
-Set as default resume info
-Profile
-Settings to top
-More customise options
-Delete account
-
-
-
-
-
-
 
 
 

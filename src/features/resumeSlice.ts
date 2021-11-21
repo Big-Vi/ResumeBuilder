@@ -141,7 +141,7 @@ export const resumeSlice = createSlice({
           id: action.payload.id,
           title: action.payload.title,
           employer: action.payload.employer,
-          location: action.payload.location, 
+          location: action.payload.location,
           fromDate:
             action.payload.fromDate.split('"').length > 1
               ? action.payload.fromDate.split('"')[1]

@@ -20,10 +20,7 @@ export default function PreviewResume({
         return (
           <Pressable
             onPress={() => {
-              navigation.navigate('NewResume', {
-                screen: 'Resume',
-                pdfview: true,
-              });
+              navigation.goBack();
             }}>
             <Ionicons name="arrow-back" size={26} color="black" />
           </Pressable>
@@ -76,7 +73,7 @@ export default function PreviewResume({
           style={styles.pdfview}
           onError={error => console.log('onError', error)}
           onLoad={() => console.log('PDF rendered from url')}
-          resource={`${clickedResume[0].resumeTitle}-${clickedResume[0]._id}.pdf`}
+          resource={`${clickedResume[0].resumeTitle}-${clickedResume[0]._id[1]}.pdf`}
           resourceType="file"
         />
       </View>

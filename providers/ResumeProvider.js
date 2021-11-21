@@ -1,17 +1,18 @@
 import React, {useContext, useState, useEffect, useRef} from 'react';
 import Realm from 'realm';
-import {useAuth} from './AuthProvider';
-import {Resume} from '../schemas';
+// import {useAuth} from './AuthProvider';
+import {Resume, Customize, Qualification, Experience} from '../schemas';
 import {ObjectId} from 'bson';
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
 import {Template1} from '../src/components/Resume/Templates/Template1';
 import {Template2} from '../src/components/Resume/Templates/Template2';
+import {Template3} from '../src/components/Resume/Templates/Template3';
 
 const ResumeContext = React.createContext(null);
 
 const ResumeProvider = ({children}) => {
   const [resumes, setResume] = useState([]);
-  const {user} = useAuth();
+  // const {user} = useAuth();
   // Use a Ref to store the realm rather than the state because it is not
   // directly rendered, so updating it should not trigger a re-render as using
   // state would.
@@ -20,19 +21,20 @@ const ResumeProvider = ({children}) => {
   useEffect(() => {
     // Enables offline-first: opens a local realm immediately without waiting
     // for the download of a synchronized realm to be completed.
-    if (!user) {
-      return;
-    }
+    // if (!user) {
+    //   return;
+    // }
     const OpenRealmBehaviorConfiguration = {
       type: 'openImmediately',
     };
     const config = {
-      sync: {
-        user: user,
-        partitionValue: `user=${user.id}`,
-        newRealmFileBehavior: OpenRealmBehaviorConfiguration,
-        existingRealmFileBehavior: OpenRealmBehaviorConfiguration,
-      },
+      schema: [Resume.schema, Customize, Qualification, Experience],
+      // sync: {
+      //   user: user,
+      //   partitionValue: `user=${user.id}`,
+      //   newRealmFileBehavior: OpenRealmBehaviorConfiguration,
+      //   existingRealmFileBehavior: OpenRealmBehaviorConfiguration,
+      // },
     };
     // open a realm for this particular project
     Realm.open(config).then(projectRealm => {
@@ -49,18 +51,20 @@ const ResumeProvider = ({children}) => {
       // cleanup function
       const projectRealm = realmRef.current;
       if (projectRealm) {
-        projectRealm.close();
-        realmRef.current = null;
-        setResume([]);
+        // projectRealm.close();
+        // realmRef.current = null;
+        // setResume([]);
       }
     };
-  }, [user]);
+  }, []);
 
   const createPDF = async (ID, newResumeFields) => {
     let options = {
       html: returnResumeHTML(newResumeFields),
       fileName: `${newResumeFields.resumeTitle}-${ID}`,
       directory: 'Documents',
+      padding: 30,
+      bgColor: '#ffffff',
     };
     return await RNHTMLtoPDF.convert(options);
   };
@@ -90,7 +94,7 @@ const ResumeProvider = ({children}) => {
             order: newResumeFields.order,
             customize: newResumeFields.customize,
             location: newResumeFields.location,
-            partition: `user=${user.id}`,
+            // partition: `user=${user.id}`,
             filePath: filePath,
             experiences: newResumeFields.experiences,
             qualifications: newResumeFields.qualifications,
@@ -110,7 +114,7 @@ const ResumeProvider = ({children}) => {
     // Change
     const resume = realm
       .objects('Resume')
-      .filtered(`_id = oid(${resumeItem._id})`);
+      .filtered(`_id = oid(${resumeItem._id[1]})`);
     return resume;
   };
 
@@ -120,13 +124,15 @@ const ResumeProvider = ({children}) => {
         return Template1(resumeItem);
       case 'template2':
         return Template2(resumeItem);
+      case 'template3':
+        return Template3(resumeItem);
     }
   };
 
   const updateFilePath = (resumeArg, resumeFields) => {
     const realm = realmRef.current;
     // Change
-    createPDF(ObjectId(resumeArg[0]._id), resumeFields).then(function (
+    createPDF(ObjectId(resumeArg[0]._id[1]), resumeFields).then(function (
       data,
     ) {
       let filePath = data.filePath;
@@ -134,7 +140,7 @@ const ResumeProvider = ({children}) => {
         realm.create(
           'Resume',
           {
-            _id: ObjectId(resumeArg[0]._id),
+            _id: ObjectId(resumeArg[0]._id[1]),
             resumeTitle: resumeFields.resumeTitle,
             filePath: filePath,
           },
@@ -153,12 +159,12 @@ const ResumeProvider = ({children}) => {
       qualifications: Object.values(resumeFields.qualifications),
     };
     // Change
-    createPDF(ObjectId(resumeArg[0]._id), newResumeFields);
+    createPDF(ObjectId(resumeArg[0]._id[1]), newResumeFields);
     realm.write(() => {
       realm.create(
         'Resume',
         {
-          _id: ObjectId(resumeArg[0]._id),
+          _id: ObjectId(resumeArg[0]._id[1]),
           resumeTitle: newResumeFields.resumeTitle,
           name: newResumeFields.name,
           personalStatement: newResumeFields.personalStatement,
@@ -168,7 +174,7 @@ const ResumeProvider = ({children}) => {
           order: newResumeFields.order,
           customize: newResumeFields.customize,
           location: newResumeFields.location,
-          partition: `user=${user.id}`,
+          // partition: `user=${user.id}`,
           experiences: newResumeFields.experiences,
           qualifications: newResumeFields.qualifications,
           skills: newResumeFields.skills,
