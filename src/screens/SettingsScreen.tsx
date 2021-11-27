@@ -20,7 +20,7 @@ export default function SettingsScreen({
       <View style={tw.style('w-full', 'px-4')}>
         <Pressable
           onPress={() => {
-            handleOpenLink('https://facebook.com');
+            handleOpenLink('https://www.resumeonthefly.com/privacy-policy');
           }}>
           <Text
             style={tw.style('text-lg', 'py-4', 'px-4', 'bg-white', 'w-full')}>

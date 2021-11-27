@@ -1,14 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import {Pressable, View, Image, StyleSheet} from 'react-native';
-import {RootTabScreenProps} from '../../../types';
+import {RootTabScreenProps} from '../../../../types';
 import {useSelector, useStore} from 'react-redux';
 import tw from 'tailwind-react-native-classnames';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {RootState} from '../../state/store';
+import {RootState} from '../../../state/store';
 import Carousel from 'react-native-snap-carousel';
-import {customizeResume} from '../../features/resumeSlice';
+import {customizeResume} from '../../../features/resumeSlice';
 import {useDispatch} from 'react-redux';
-import {useResume} from '../../../providers/ResumeProvider';
+import {useResume} from '../../../../providers/ResumeProvider';
 
 export default function CustomizeResume({
   navigation,

@@ -11,6 +11,7 @@ import {
 import {editQualification} from '../../../features/resumeSlice';
 import {useDispatch} from 'react-redux';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 export default function QualificationItem({qualification}) {
   const [finishedDate, setFinishedDate] = useState(
@@ -83,54 +84,60 @@ export default function QualificationItem({qualification}) {
           </View>
         </CollapseHeader>
         <CollapseBody style={tw.style('py-6')}>
-          <Text>Qualification</Text>
-          <TextInput
-            style={styles.textInput}
-            onChangeText={e => handleChange(e, 'title')}
-            autoFocus={false}
-            defaultValue={qualification.title}
-          />
-          <Text>Institute</Text>
-          <TextInput
-            style={styles.textInput}
-            onChangeText={e => handleChange(e, 'institute')}
-            autoFocus={false}
-            defaultValue={qualification.institute}
-          />
-          <Text>Location</Text>
-          <TextInput
-            style={styles.textInput}
-            onChangeText={e => handleChange(e, 'location')}
-            autoFocus={false}
-            defaultValue={qualification.location}
-          />
-          <View style={tw.style('flex', 'flex-row')}>
-            <View>
-              <Text>Finished date</Text>
-              <Text
-                style={styles.textInput}
-                onPress={() => {
-                  setShowFinishedDate(true);
-                }}>
-                {finishedDate.toLocaleDateString()}
-              </Text>
-              <Overlay
-                overlayStyle={{width: '100%', position: 'absolute', bottom: 0}}
-                isVisible={showFinishedDate}>
-                <View style={tw.style('pb-4')}>
-                  <Text onPress={() => setShowFinishedDate(false)}>Done</Text>
-                  <DateTimePicker
-                    testID="dateTimePicker"
-                    value={finishedDate}
-                    mode="date"
-                    is24Hour={true}
-                    display="spinner"
-                    onChange={onChangeFinishedDate}
-                  />
-                </View>
-              </Overlay>
+          <KeyboardAwareScrollView>
+            <Text>Qualification</Text>
+            <TextInput
+              style={styles.textInput}
+              onChangeText={e => handleChange(e, 'title')}
+              autoFocus={false}
+              defaultValue={qualification.title}
+            />
+            <Text>Institute</Text>
+            <TextInput
+              style={styles.textInput}
+              onChangeText={e => handleChange(e, 'institute')}
+              autoFocus={false}
+              defaultValue={qualification.institute}
+            />
+            <Text>Location</Text>
+            <TextInput
+              style={styles.textInput}
+              onChangeText={e => handleChange(e, 'location')}
+              autoFocus={false}
+              defaultValue={qualification.location}
+            />
+            <View style={tw.style('flex', 'flex-row')}>
+              <View>
+                <Text>Finished date</Text>
+                <Text
+                  style={styles.textInput}
+                  onPress={() => {
+                    setShowFinishedDate(true);
+                  }}>
+                  {finishedDate.toLocaleDateString()}
+                </Text>
+                <Overlay
+                  overlayStyle={{
+                    width: '100%',
+                    position: 'absolute',
+                    bottom: 0,
+                  }}
+                  isVisible={showFinishedDate}>
+                  <View style={tw.style('pb-4')}>
+                    <Text onPress={() => setShowFinishedDate(false)}>Done</Text>
+                    <DateTimePicker
+                      testID="dateTimePicker"
+                      value={finishedDate}
+                      mode="date"
+                      is24Hour={true}
+                      display="spinner"
+                      onChange={onChangeFinishedDate}
+                    />
+                  </View>
+                </Overlay>
+              </View>
             </View>
-          </View>
+          </KeyboardAwareScrollView>
         </CollapseBody>
       </Collapse>
     </View>

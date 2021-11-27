@@ -18,7 +18,7 @@ import Experiences from '../components/Resume/ResumeScreens/Experiences';
 import Qualifications from '../components/Resume/ResumeScreens/Qualifications';
 import Skills from '../components/Resume/ResumeScreens/Skills';
 import PreviewResume from '../components/Resume/PreviewResume';
-import CustomizeResume from '../components/Resume/CustomizeResume';
+import CustomizeResume from '../components/Resume/ResumeScreens/CustomizeResume';
 import {useAuth} from '../../providers/AuthProvider';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import tw from '../../lib/tailwind';

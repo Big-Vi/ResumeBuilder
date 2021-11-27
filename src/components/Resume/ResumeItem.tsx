@@ -42,12 +42,12 @@ export const ResumeItem: React.FC<IProps> = ({navigation, resume}) => {
         editResumeItem(resume);
       },
     },
-    {
-      title: 'Preview',
-      action: () => {
-        navigation.navigate('PreviewResume');
-      },
-    },
+    // {
+    //   title: 'Preview',
+    //   action: () => {
+    //     navigation.navigate('PreviewResume');
+    //   },
+    // },
     {
       title: 'Delete',
       action: () => {
@@ -116,7 +116,7 @@ export const ResumeItem: React.FC<IProps> = ({navigation, resume}) => {
           'bg-transparent',
           {height: 400},
         )}
-        key={resume._id[1]}
+        key={resume._id}
         onPress={() => {
           setActionSheetVisible(true);
         }}>

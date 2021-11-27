@@ -13,6 +13,7 @@ import {useDispatch} from 'react-redux';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import CheckBox from '@react-native-community/checkbox';
 import {actions, RichEditor, RichToolbar} from 'react-native-pell-rich-editor';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 export default function ExperienceItem({experience}) {
   const [fromDate, setFromDate] = useState(new Date(experience.fromDate));
@@ -73,7 +74,7 @@ export default function ExperienceItem({experience}) {
 
   // Callback after height change
   function handleHeightChange(height) {
-    console.log("editor height change:", height);
+    console.log('editor height change:', height);
   }
 
   return (
@@ -180,11 +181,31 @@ export default function ExperienceItem({experience}) {
             />
             <Text style={tw.style('ml-4')}>Currently working here?</Text>
           </View>
-          <View style={tw.style('mb-12', 'mt-8', 'h-min-80')}>
+          <View
+            style={tw.style(
+              'mb-12',
+              'mt-8',
+              'mb-60',
+              'h-60',
+              'flex',
+              'relative',
+            )}>
             <Text style={tw.style('mb-4')}>Responsibilities</Text>
             <RichEditor
               disabled={false}
               containerStyle={styles.editor}
+              editorStyle={{
+                contentCSSText: `
+                font-family: sans-serif; 
+                font-size: 14px; 
+                padding: 0 30px; 
+                line-height: 36px; 
+                display: flex; 
+                flex-direction: column; 
+                min-height: 100px; 
+                position: absolute; 
+                top: 0; right: 0; bottom: 0; left: 0;`,
+              }}
               ref={RichText}
               style={styles.rich}
               placeholder={'Start Writing Here'}

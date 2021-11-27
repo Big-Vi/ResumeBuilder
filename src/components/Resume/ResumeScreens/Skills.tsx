@@ -9,9 +9,7 @@ import {RootState} from '../../../state/store';
 import {addResumeSkills} from '../../../features/resumeSlice';
 import {actions, RichEditor, RichToolbar} from 'react-native-pell-rich-editor';
 
-export default function Skills({
-  navigation,
-}: RootTabScreenProps<'Skills'>) {
+export default function Skills({navigation}: RootTabScreenProps<'Skills'>) {
   const {updateResume} = useResume();
   const dispatch = useDispatch();
   const clickedResume = useSelector(
@@ -55,11 +53,32 @@ export default function Skills({
         <Text>Skills</Text>
       </View>
       <ScrollView>
-        <View style={tw.style('w-full', 'mt-8', 'h-min-80')}>
+        <View
+          style={tw.style(
+            'w-full',
+            'mt-8',
+            'h-min-80',
+            'mb-60',
+            'h-60',
+            'flex',
+            'relative',
+          )}>
           <RichEditor
             disabled={false}
             containerStyle={styles.editor}
             ref={RichText}
+            editorStyle={{
+              contentCSSText: `
+              font-family: sans-serif; 
+              font-size: 14px; 
+              padding: 0 30px; 
+              line-height: 36px; 
+              display: flex; 
+              flex-direction: column; 
+              min-height: 100px; 
+              position: absolute; 
+              top: 0; right: 0; bottom: 0; left: 0;`,
+            }}
             style={styles.rich}
             placeholder={'Start Writing Here'}
             initialContentHTML={clickedResume[0].skills}

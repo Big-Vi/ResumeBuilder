@@ -1,13 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {
-  Text,
-  Keyboard,
-  KeyboardAvoidingView,
-  View,
-  TextInput,
-  StyleSheet,
-  ScrollView,
-} from 'react-native';
+import React from 'react';
+import {Text, View, TextInput, StyleSheet, ScrollView} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {RootState} from '../../../state/store';
 import {RootTabScreenProps} from '../../../../types';
@@ -22,11 +14,11 @@ import {
   addResumeLocation,
   addResumePersonalStatement,
 } from '../../../features/resumeSlice';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 export default function PersonalInfo({
   navigation,
 }: RootTabScreenProps<'PersonalInfo'>) {
-  const [keyboardOffset, setKeyboardOffset] = useState(0);
   const {updateResume} = useResume();
   const dispatch = useDispatch();
 
@@ -34,26 +26,6 @@ export default function PersonalInfo({
     (state: RootState) => state.resume.clickedResume,
   );
   const formInputs = useSelector((state: RootState) => state.resume);
-
-  useEffect(() => {
-    const keyboardDidShowListener = Keyboard.addListener(
-      'keyboardDidShow',
-      event => {
-        setKeyboardOffset(event.endCoordinates.height);
-      },
-    );
-    const keyboardDidHideListener = Keyboard.addListener(
-      'keyboardDidHide',
-      () => {
-        setKeyboardOffset(0);
-      },
-    );
-
-    return () => {
-      keyboardDidShowListener.remove();
-      keyboardDidHideListener.remove();
-    };
-  }, []);
 
   return (
     <View style={tw.style('mt-16', 'px-4')}>
@@ -82,8 +54,7 @@ export default function PersonalInfo({
         </Text>
         <Text>Personal Info</Text>
       </View>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      <KeyboardAwareScrollView>
         <ScrollView style={tw.style('mt-8')}>
           <Text>Name</Text>
           <TextInput
@@ -126,13 +97,11 @@ export default function PersonalInfo({
             multiline
             autoFocus={false}
             numberOfLines={10}
-            // onSubmitEditing={Keyboard.dismiss}
-            // scrollEnabled={true}
             onChangeText={text => dispatch(addResumePersonalStatement(text))}
             defaultValue={clickedResume[0].personalStatement}
           />
         </ScrollView>
-      </KeyboardAvoidingView>
+      </KeyboardAwareScrollView>
     </View>
   );
 }
