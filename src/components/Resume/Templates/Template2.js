@@ -12,7 +12,7 @@ export function Template2(resumeItem) {
       
       p, ul, li {
         font-family: "DM Sans", monospace;
-        line-height: 20px;
+        line-height: 18px;
         padding-bottom: 5px;
       }
       

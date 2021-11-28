@@ -49,9 +49,9 @@ export default function Experiences({
     let exp = {};
     exp = {
       id: idNew,
-      title: 'Full stack developer',
-      employer: 'Plato',
-      location: 'CHCH',
+      title: 'Job title',
+      employer: 'Employer',
+      location: 'Location',
       fromDate: JSON.stringify(new Date()),
       toDate: JSON.stringify(new Date()),
       order:

@@ -49,9 +49,9 @@ export default function Qualifications({
     let qua = {};
     qua = {
       id: idNew,
-      title: 'Full stack developer',
-      institute: 'Plato',
-      location: 'CHCH',
+      title: 'Qualification',
+      institute: 'Institute',
+      location: 'Location',
       order:
         clickedResume[0].qualifications.length > 0
           ? clickedResume[0].qualifications.length

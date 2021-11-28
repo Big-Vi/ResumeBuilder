@@ -83,8 +83,8 @@ export default function QualificationItem({qualification}) {
             )}
           </View>
         </CollapseHeader>
-        <CollapseBody style={tw.style('py-6')}>
-          <KeyboardAwareScrollView>
+        <CollapseBody>
+          <KeyboardAwareScrollView style={tw.style('py-6')}>
             <Text>Qualification</Text>
             <TextInput
               style={styles.textInput}

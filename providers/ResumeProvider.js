@@ -63,7 +63,7 @@ const ResumeProvider = ({children}) => {
       html: returnResumeHTML(newResumeFields),
       fileName: `${newResumeFields.resumeTitle}-${ID}`,
       directory: 'Documents',
-      padding: 30,
+      padding: 40,
       bgColor: '#ffffff',
     };
     return await RNHTMLtoPDF.convert(options);

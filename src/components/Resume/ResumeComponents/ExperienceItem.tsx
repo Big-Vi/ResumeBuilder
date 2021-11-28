@@ -185,7 +185,7 @@ export default function ExperienceItem({experience}) {
             style={tw.style(
               'mb-12',
               'mt-8',
-              'mb-60',
+              'mb-80',
               'h-60',
               'flex',
               'relative',
