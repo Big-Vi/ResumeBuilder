@@ -9,15 +9,29 @@ import {
   CollapseBody,
 } from 'accordion-collapse-react-native';
 import {editQualification} from '../../../features/resumeSlice';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {RootState} from '../../../state/store';
+import {useResume} from '../../../../providers/ResumeProvider';
+import {setClickedResume} from '../../../features/resumeSlice';
 
 export default function QualificationItem({qualification}) {
   const [finishedDate, setFinishedDate] = useState(
     new Date(qualification.finishedDate),
   );
   const [showFinishedDate, setShowFinishedDate] = useState(false);
+
+  const {updateResume, findResume} = useResume();
+
+  const clickedResume = useSelector(
+    (state: RootState) => state.resume.clickedResume,
+  );
+  const updateClickedResume = () => {
+    let RESUME = findResume(clickedResume[0]);
+    dispatch(setClickedResume(JSON.parse(JSON.stringify(RESUME))));
+  };
+  const formInputs = useSelector((state: RootState) => state.resume);
 
   const [formInputsTemp, setFormInputTemp] = useState({
     id: qualification.id,
@@ -64,7 +78,13 @@ export default function QualificationItem({qualification}) {
 
   return (
     <View>
-      <Collapse isExpanded={expanded} onToggle={() => setExpanded(!expanded)}>
+      <Collapse
+        isExpanded={expanded}
+        onToggle={() => {
+          updateResume(clickedResume, formInputs);
+          updateClickedResume();
+          setExpanded(!expanded);
+        }}>
         <CollapseHeader style={tw.style('bg-red-200', 'py-4', 'px-4')}>
           <View
             style={tw.style(

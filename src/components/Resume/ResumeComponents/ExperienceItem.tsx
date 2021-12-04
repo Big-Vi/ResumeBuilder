@@ -9,17 +9,29 @@ import {
   CollapseBody,
 } from 'accordion-collapse-react-native';
 import {editExperience} from '../../../features/resumeSlice';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import CheckBox from '@react-native-community/checkbox';
 import {actions, RichEditor, RichToolbar} from 'react-native-pell-rich-editor';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {RootState} from '../../../state/store';
+import {useResume} from '../../../../providers/ResumeProvider';
+import {setClickedResume} from '../../../features/resumeSlice';
 
 export default function ExperienceItem({experience}) {
   const [fromDate, setFromDate] = useState(new Date(experience.fromDate));
   const [toDate, setToDate] = useState(new Date(experience.toDate));
   const [showFromDate, setShowFromDate] = useState(false);
   const [showToDate, setShowToDate] = useState(false);
+  const {updateResume, findResume} = useResume();
+
+  const clickedResume = useSelector(
+    (state: RootState) => state.resume.clickedResume,
+  );
+  const updateClickedResume = () => {
+    let RESUME = findResume(clickedResume[0]);
+    dispatch(setClickedResume(JSON.parse(JSON.stringify(RESUME))));
+  };
+  const formInputs = useSelector((state: RootState) => state.resume);
 
   const [toggleCheckBox, setToggleCheckBox] = useState(
     experience.currentlyWorking,
@@ -79,7 +91,13 @@ export default function ExperienceItem({experience}) {
 
   return (
     <View>
-      <Collapse isExpanded={expanded} onToggle={() => setExpanded(!expanded)}>
+      <Collapse
+        isExpanded={expanded}
+        onToggle={() => {
+          updateResume(clickedResume, formInputs);
+          updateClickedResume();
+          setExpanded(!expanded);
+        }}>
         <CollapseHeader style={tw.style('bg-red-200', 'py-4', 'px-4')}>
           <View
             style={tw.style(
