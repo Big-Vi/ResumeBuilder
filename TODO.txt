@@ -1,8 +1,3 @@
-Submit the app for review
-    take screenshots
-    description
-    support url - put together home page with contact details
-fix wysisyg editor - maybe pop up - scroll up or pop up
 privacy policy page
 More customise options
 Set as default resume info
@@ -24,18 +19,3 @@ More Typescript
 
 
 
-
-Chase the client to update lore Epsom
-Teachable machine - ai in website
-Trick is to setup structure for snap
-Real life photo - simulated
-Nervous times
-Big pi cute - new mesuem 
-Demo from myles
-
-Limitation
-Device capabilities
-
-Leave android device to test
-
-Funny slides
