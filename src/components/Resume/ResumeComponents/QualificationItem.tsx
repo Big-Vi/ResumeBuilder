@@ -148,6 +148,7 @@ export default function QualificationItem({qualification}) {
                     <DateTimePicker
                       testID="dateTimePicker"
                       value={finishedDate}
+                      textColor="black"
                       mode="date"
                       is24Hour={true}
                       display="spinner"
