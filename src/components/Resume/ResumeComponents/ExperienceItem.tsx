@@ -156,6 +156,7 @@ export default function ExperienceItem({experience}) {
                   <DateTimePicker
                     testID="dateTimePicker"
                     value={fromDate}
+                    textColor="black"
                     mode="date"
                     is24Hour={true}
                     display="spinner"
@@ -179,6 +180,7 @@ export default function ExperienceItem({experience}) {
                   <DateTimePicker
                     testID="dateTimePicker"
                     value={toDate}
+                    textColor="black"
                     mode="date"
                     is24Hour={true}
                     display="spinner"
