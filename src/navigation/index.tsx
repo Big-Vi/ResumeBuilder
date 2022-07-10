@@ -3,16 +3,13 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {RootStackParamList, RootTabParamList} from '../../types';
 import NotFoundScreen from '../screens/NotFoundScreen';
-import ModalScreen from '../screens/ModalScreen';
 import ResumeScreen from '../screens/ResumeScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import NewResumeScreen from '../screens/NewResumeScreen';
 import * as React from 'react';
 import {AuthView} from '../screens/AuthView';
 import {ForgotPasswordView} from '../screens/ForgotPasswordView';
-// import {CoverLetterProvider} from '../../providers/CoverLetterProvider';
 import {ResumeProvider} from '../../providers/ResumeProvider';
-// import {CoverLetterScreen} from '../screens/CoverLetterScreen';
 import PersonalInfo from '../components/Resume/ResumeScreens/PersonalInfo';
 import Experiences from '../components/Resume/ResumeScreens/Experiences';
 import Qualifications from '../components/Resume/ResumeScreens/Qualifications';
@@ -155,24 +152,11 @@ function RootNavigator() {
         component={BottomTabNavigator}
         options={{headerShown: false}}
       />
-      {/* <Stack.Screen
-        name="AuthView"
-        component={AuthView}
-        options={{title: 'Auth', headerShown: false}}
-      /> */}
       <Stack.Screen
         name="NotFound"
         component={NotFoundScreen}
         options={{title: 'Oops!'}}
       />
-      {/* <Stack.Screen
-        name="ForgotPasswordView"
-        component={ForgotPasswordView}
-        options={{title: 'Forgot Password', headerShown: false}}
-      /> */}
-      <Stack.Group screenOptions={{presentation: 'modal'}}>
-        <Stack.Screen name="Modal" component={ModalScreen} />
-      </Stack.Group>
     </Stack.Navigator>
   );
 }
@@ -276,20 +260,6 @@ function BottomTabNavigator() {
           headerShown: false,
         })}
       />
-      {/* <BottomTab.Screen
-        name="CoverLetter"
-        options={() => ({
-          headerShown: false,
-        })}>
-        {props => {
-          const {navigation, route} = props;
-          return (
-            <CoverLetterProvider>
-              <CoverLetterScreen navigation={navigation} route={route} />
-            </CoverLetterProvider>
-          );
-        }}
-      </BottomTab.Screen> */}
       <BottomTab.Screen
         name="Settings"
         component={SettingsScreen}
